@@ -18,6 +18,11 @@ target/
 *.iws
 *.iml
 *.ipr
+.gitignore
+.mvn
+搭建流程.md
+src/main/resources/application-dev.yml
+img
 
 ### NetBeans ###
 /nbproject/private/

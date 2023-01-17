@@ -1,0 +1,33 @@
+{
+  "properties": [
+    {
+      "name": "blog.version",
+      "type": "java.lang.String",
+      "description": "Description for blog.version."
+    },
+    {
+      "name": "blog.author",
+      "type": "java.lang.String",
+      "description": "Description for blog.author."
+    },
+    {
+      "name": "blog.name",
+      "type": "java.lang.String",
+      "description": "Description for blog.name."
+    },
+    {
+      "name": "blog.copyrightYear",
+      "type": "java.lang.String",
+      "description": "Description for blog.copyrightYear."
+    },
+    {
+      "name": "blog.github",
+      "type": "java.lang.String",
+      "description": "Description for blog.github."
+    },
+    {
+      "name": "blog.email",
+      "type": "java.lang.String",
+      "description": "Description for blog.email."
+    }
+  ] }

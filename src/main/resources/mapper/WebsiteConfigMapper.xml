@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="site.day.blog.mapper.WebsiteConfigMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="site.day.blog.pojo.domain.WebsiteConfig">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="intro" property="intro" />
+        <result column="author" property="author" />
+        <result column="url" property="url" />
+        <result column="notice" property="notice" />
+        <result column="github" property="github" />
+        <result column="qq" property="qq" />
+        <result column="beian_id" property="beianId" />
+        <result column="author_avatar" property="authorAvatar" />
+        <result column="user_avatar" property="userAvatar" />
+        <result column="delete" property="delete" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, intro, author, url, notice, github, qq, beian_id, author_avatar, user_avatar, delete, create_time, update_time
+    </sql>
+
+</mapper>

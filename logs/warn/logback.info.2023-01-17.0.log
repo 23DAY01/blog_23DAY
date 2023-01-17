@@ -1,0 +1,14 @@
+2023-01-17 20:32:00.904  WARN 29792 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[site.day.blog]' package. Please check your configuration.
+2023-01-17 20:32:06.011  WARN 29792 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: a29f8e10-72a5-48ed-89a3-2dbbf82a3b4e
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2023-01-17 20:34:57.613  WARN 9372 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[site.day.blog]' package. Please check your configuration.
+2023-01-17 20:35:02.035  WARN 9372 --- [main] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 2a0499c3-adf6-4993-ac19-46e18360af9c
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
