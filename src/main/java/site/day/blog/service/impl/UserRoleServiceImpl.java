@@ -7,12 +7,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
- * <p>
- * 用户角色表 服务实现类
- * </p>
- *
- * @author 23DAY
- * @since 2023-01-17
+ * @Description UserRole服务实现类
+ * @ClassName UserRoleServiceImpl
+ * @Author 23DAY
+ * @Date 2023/01/18 20:44
+ * @Version 1.0
  */
 @Service
 public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> implements UserRoleService {

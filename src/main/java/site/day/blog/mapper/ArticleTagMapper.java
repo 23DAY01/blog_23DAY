@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
  * </p>
  *
  * @author 23DAY
- * @since 2023-01-17
+ * @since 2023/01/18 20:44
  */
 @Mapper
 public interface ArticleTagMapper extends BaseMapper<ArticleTag> {

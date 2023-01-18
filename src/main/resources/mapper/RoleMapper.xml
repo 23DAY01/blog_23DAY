@@ -8,14 +8,14 @@
         <result column="role_name" property="roleName" />
         <result column="role_label" property="roleLabel" />
         <result column="is_disable" property="isDisable" />
-        <result column="delete" property="delete" />
+        <result column="deleted" property="deleted" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, role_name, role_label, is_disable, delete, create_time, update_time
+        id, role_name, role_label, is_disable, deleted, create_time, update_time
     </sql>
 
 </mapper>

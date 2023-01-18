@@ -7,12 +7,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
- * <p>
- * 说说表 服务实现类
- * </p>
- *
- * @author 23DAY
- * @since 2023-01-17
+ * @Description Talk服务实现类
+ * @ClassName TalkServiceImpl
+ * @Author 23DAY
+ * @Date 2023/01/18 20:44
+ * @Version 1.0
  */
 @Service
 public class TalkServiceImpl extends ServiceImpl<TalkMapper, Talk> implements TalkService {

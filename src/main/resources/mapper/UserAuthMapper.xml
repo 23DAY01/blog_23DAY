@@ -12,14 +12,14 @@
         <result column="ip_address" property="ipAddress" />
         <result column="ip_source" property="ipSource" />
         <result column="last_login_time" property="lastLoginTime" />
-        <result column="delete" property="delete" />
+        <result column="deleted" property="deleted" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, user_info_id, username, password, login_type, ip_address, ip_source, last_login_time, delete, create_time, update_time
+        id, user_info_id, username, password, login_type, ip_address, ip_source, last_login_time, deleted, create_time, update_time
     </sql>
 
 </mapper>

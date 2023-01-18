@@ -10,14 +10,14 @@
         <result column="request_method" property="requestMethod" />
         <result column="parent_id" property="parentId" />
         <result column="is_anonymous" property="isAnonymous" />
-        <result column="delete" property="delete" />
+        <result column="deleted" property="deleted" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, resource_name, url, request_method, parent_id, is_anonymous, delete, create_time, update_time
+        id, resource_name, url, request_method, parent_id, is_anonymous, deleted, create_time, update_time
     </sql>
 
 </mapper>

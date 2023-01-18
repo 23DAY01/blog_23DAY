@@ -7,12 +7,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
- * <p>
- * 留言表 服务实现类
- * </p>
- *
- * @author 23DAY
- * @since 2023-01-17
+ * @Description Message服务实现类
+ * @ClassName MessageServiceImpl
+ * @Author 23DAY
+ * @Date 2023/01/18 20:44
+ * @Version 1.0
  */
 @Service
 public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> implements MessageService {

@@ -12,14 +12,14 @@
         <result column="parent_id" property="parentId" />
         <result column="type" property="type" />
         <result column="is_review" property="isReview" />
-        <result column="delete" property="delete" />
+        <result column="deleted" property="deleted" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, user_id, affiliation_id, comment_content, reply_user_id, parent_id, type, is_review, delete, create_time, update_time
+        id, user_id, affiliation_id, comment_content, reply_user_id, parent_id, type, is_review, deleted, create_time, update_time
     </sql>
 
 </mapper>

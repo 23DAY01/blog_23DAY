@@ -12,14 +12,14 @@
         <result column="order_num" property="orderNum" />
         <result column="parent_id" property="parentId" />
         <result column="is_hidden" property="isHidden" />
-        <result column="delete" property="delete" />
+        <result column="deleted" property="deleted" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, menu_name, menu_path, component, icon, order_num, parent_id, is_hidden, delete, create_time, update_time
+        id, menu_name, menu_path, component, icon, order_num, parent_id, is_hidden, deleted, create_time, update_time
     </sql>
 
 </mapper>

@@ -14,14 +14,14 @@
         <result column="original_url" property="originalUrl" />
         <result column="is_top" property="isTop" />
         <result column="status" property="status" />
-        <result column="delete" property="delete" />
+        <result column="deleted" property="deleted" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, user_id, category_id, article_thumbnail, article_title, article_content, type, original_url, is_top, status, delete, create_time, update_time
+        id, user_id, category_id, article_thumbnail, article_title, article_content, type, original_url, is_top, status, deleted, create_time, update_time
     </sql>
 
 </mapper>

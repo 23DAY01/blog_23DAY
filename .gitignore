@@ -23,6 +23,8 @@ target/
 搭建流程.md
 src/main/resources/application-dev.yml
 img
+logs
+src/test
 
 ### NetBeans ###
 /nbproject/private/

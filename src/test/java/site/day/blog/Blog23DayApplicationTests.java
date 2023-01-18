@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
+import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
@@ -11,15 +12,33 @@ import com.baomidou.mybatisplus.generator.fill.Column;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import javax.validation.constraints.NotNull;
+import java.io.File;
+import java.util.*;
 
 @SpringBootTest
 class Blog23DayApplicationTests {
 
+    public String author = "23DAY";
+    public String database = "day_blog";
+    //父包名
+    public String parent = "site.day.blog";
+
+    private static class EnhanceFreemarkerTemplateEngine extends FreemarkerTemplateEngine {
+        @Override
+        protected void outputCustomFile(@NotNull Map<String, String> customFile, @NotNull TableInfo tableInfo, @NotNull Map<String, Object> objectMap) {
+            String entityName = tableInfo.getEntityName();
+            String otherPath = this.getPathInfo(OutputFile.other);
+            customFile.forEach((key, value) -> {
+                String fileName = otherPath + File.separator + key.toLowerCase() + File.separator + entityName + key + ".java";
+                this.outputFile(new File(fileName), objectMap, value);
+            });
+        }
+    }
+
     @Test
     void contextLoads() {
+
         List<String> s = new ArrayList<>();
         s.add("day_article");
         s.add("day_article_tag");
@@ -43,27 +62,35 @@ class Blog23DayApplicationTests {
         s.add("day_user_role");
         s.add("day_website_config");
 
-        FastAutoGenerator.create("jdbc:mysql://localhost:3306/day_blog?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true", "root", "20010823GTH")
+        FastAutoGenerator.create("jdbc:mysql://localhost:3306/" + database + "?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true", "root", "20010823GTH")
                 .globalConfig(builder -> {
                     builder.disableOpenDir() //禁止打开输出目录
 //                            .fileOverride()
                             .outputDir("./src/main/java")// 指定输出目录
-                            .author("23DAY")// 设置作者
+                            .author(author)// 设置作者
                             .enableSwagger()// 开启swagger
                             .dateType(DateType.TIME_PACK)
-                            .commentDate("yyyy-MM-dd")
+                            //.commentDate("yyyy-MM-dd")
+                            .commentDate("yyyy/MM/dd HH:mm")
                             .build();
                 })
                 .packageConfig(builder -> {
-                    builder.parent("site.day.blog") // 设置父包名
+                    builder.parent(parent) // 设置父包名
                             .entity("pojo.domain")
                             .service("service")
                             .serviceImpl("service.impl")
                             .mapper("mapper")
                             .xml("mapperxml")
                             .controller("controller")
-                            .other("other")
+                            .other("pojo")
                             .pathInfo(Collections.singletonMap(OutputFile.xml, "./src/main/resources/mapper"))//文件的输出路径
+                            .build();
+                })
+                .templateConfig(builder -> {
+                    builder.entity("/templates/domain.java")
+                            .service("/templates/service.java")
+                            .serviceImpl("/templates/serviceImpl.java")
+                            .controller("/templates/controller.java")
                             .build();
                 })
                 .strategyConfig(builder -> {
@@ -97,13 +124,25 @@ class Blog23DayApplicationTests {
                             .formatXmlFileName("%sMapper")
                             .build();
                 })
-                .templateEngine(new FreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板
+                .injectionConfig(builder -> {
+                    builder.customFile(new HashMap<String, String>() {{
+                                put("DTO", "/templates/dto.java.ftl");
+                                put("VO", "/templates/vo.java.ftl");
+                            }})
+                            // 自定义键值对 ${}
+                            .customMap(new HashMap<String, Object>() {{
+                                put("basePath", parent);
+                            }})
+                            .build();
+                })
+                //.templateEngine(new EnhanceFreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板
+                .templateEngine(new EnhanceFreemarkerTemplateEngine())  // 使用增强FreeMaker引擎模板，增加dto、vo输出
                 .execute();
 
     }
 
     @Test
-    public void fn(){
+    public void fn() {
         System.out.println(1);
     }
 

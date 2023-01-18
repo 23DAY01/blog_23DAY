@@ -12,14 +12,14 @@
         <result column="ip_source" property="ipSource" />
         <result column="speed" property="speed" />
         <result column="is_review" property="isReview" />
-        <result column="delete" property="delete" />
+        <result column="deleted" property="deleted" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, nickname, avatar, message_content, ip_address, ip_source, speed, is_review, delete, create_time, update_time
+        id, nickname, avatar, message_content, ip_address, ip_source, speed, is_review, deleted, create_time, update_time
     </sql>
 
 </mapper>

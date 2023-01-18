@@ -11,14 +11,14 @@
         <result column="intro" property="intro" />
         <result column="website" property="website" />
         <result column="is_disabled" property="isDisabled" />
-        <result column="delete" property="delete" />
+        <result column="deleted" property="deleted" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, email, nickname, avatar, intro, website, is_disabled, delete, create_time, update_time
+        id, email, nickname, avatar, intro, website, is_disabled, deleted, create_time, update_time
     </sql>
 
 </mapper>

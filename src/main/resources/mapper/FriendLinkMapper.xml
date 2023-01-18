@@ -9,14 +9,14 @@
         <result column="link_avatar" property="linkAvatar" />
         <result column="link_address" property="linkAddress" />
         <result column="link_info" property="linkInfo" />
-        <result column="delete" property="delete" />
+        <result column="deleted" property="deleted" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, link_name, link_avatar, link_address, link_info, delete, create_time, update_time
+        id, link_name, link_avatar, link_address, link_info, deleted, create_time, update_time
     </sql>
 
 </mapper>

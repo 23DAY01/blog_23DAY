@@ -17,14 +17,14 @@
         <result column="nickname" property="nickname" />
         <result column="ip_address" property="ipAddress" />
         <result column="ip_source" property="ipSource" />
-        <result column="delete" property="delete" />
+        <result column="deleted" property="deleted" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, opt_module, opt_type, opt_url, opt_method, opt_desc, request_param, request_method, response_data, user_id, nickname, ip_address, ip_source, delete, create_time, update_time
+        id, opt_module, opt_type, opt_url, opt_method, opt_desc, request_param, request_method, response_data, user_id, nickname, ip_address, ip_source, deleted, create_time, update_time
     </sql>
 
 </mapper>
