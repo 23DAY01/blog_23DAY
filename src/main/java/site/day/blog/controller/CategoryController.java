@@ -1,5 +1,6 @@
 package site.day.blog.controller;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import site.day.blog.service.CategoryService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.beans.factory.annotation.Autowired;

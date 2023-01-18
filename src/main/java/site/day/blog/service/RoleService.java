@@ -3,6 +3,8 @@ package site.day.blog.service;
 import site.day.blog.pojo.domain.Role;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * @Description Role服务类
  * @ClassName RoleService
@@ -11,5 +13,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @Version 1.0
  */
 public interface RoleService extends IService<Role> {
+
+    public List<String> listRolesByUserInfoId(Integer userInfoId);
 
 }

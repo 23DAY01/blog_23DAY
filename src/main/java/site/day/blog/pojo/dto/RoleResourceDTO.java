@@ -2,6 +2,7 @@ package site.day.blog.pojo.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.Data;
 import lombok.AllArgsConstructor;
@@ -23,34 +24,24 @@ public class RoleResourceDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 主键
-     */
-    private Integer id;
-
-    /**
-     * 角色id
-     */
-    private Integer roleId;
-
-    /**
      * 资源id
      */
     private Integer resourceId;
 
     /**
-     * 逻辑删除 0否 NULL是
+     * 路径
      */
-    private Boolean deleted;
+    private String url;
 
     /**
-     * 创建时间
+     * 请求方式
      */
-    private LocalDateTime createTime;
+    private String requestMethod;
 
     /**
-     * 更新时间
+     * 角色名列表
      */
-    private LocalDateTime updateTime;
+    private List<String> roleList;
 
 
 }

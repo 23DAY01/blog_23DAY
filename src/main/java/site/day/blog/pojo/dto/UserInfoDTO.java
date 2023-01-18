@@ -47,30 +47,4 @@ public class UserInfoDTO implements Serializable {
      */
     private String intro;
 
-    /**
-     * 个人网站
-     */
-    private String website;
-
-    /**
-     * 是否禁用 0否 1是
-     */
-    private Boolean isDisabled;
-
-    /**
-     * 逻辑删除 0否 NULL是
-     */
-    private Boolean deleted;
-
-    /**
-     * 创建时间
-     */
-    private LocalDateTime createTime;
-
-    /**
-     * 更新时间
-     */
-    private LocalDateTime updateTime;
-
-
 }

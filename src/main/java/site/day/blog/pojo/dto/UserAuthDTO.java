@@ -63,19 +63,19 @@ public class UserAuthDTO implements Serializable {
     private LocalDateTime lastLoginTime;
 
     /**
-     * 逻辑删除 0否 NULL是
+     * 是否被禁用
      */
-    private Boolean deleted;
+    private Boolean isDisabled;
 
     /**
-     * 创建时间
+     * 用户操作系统
      */
-    private LocalDateTime createTime;
+    private String os;
 
     /**
-     * 更新时间
+     * 用户浏览器
      */
-    private LocalDateTime updateTime;
+    private String browser;
 
 
 }

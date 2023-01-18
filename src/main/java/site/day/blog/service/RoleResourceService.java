@@ -2,6 +2,9 @@ package site.day.blog.service;
 
 import site.day.blog.pojo.domain.RoleResource;
 import com.baomidou.mybatisplus.extension.service.IService;
+import site.day.blog.pojo.dto.RoleResourceDTO;
+
+import java.util.List;
 
 /**
  * @Description RoleResource服务类
@@ -11,5 +14,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @Version 1.0
  */
 public interface RoleResourceService extends IService<RoleResource> {
+
+    public List<RoleResourceDTO> listRoleResourceDTOs();
 
 }

@@ -2,11 +2,13 @@ package site.day.blog.pojo.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import org.w3c.dom.stylesheets.LinkStyle;
 
 /**
  * @ClassName RoleDTO
@@ -57,5 +59,13 @@ public class RoleDTO implements Serializable {
      */
     private LocalDateTime updateTime;
 
+    /**
+     * 资源id列表
+     */
+    private List<Integer> resourceIdList;
 
+    /**
+     * 菜单id列表
+     */
+    private List<Integer> menuIdList;
 }

@@ -3,6 +3,8 @@ package site.day.blog.service;
 import site.day.blog.pojo.domain.Resource;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * @Description Resource服务类
  * @ClassName ResourceService
@@ -11,5 +13,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @Version 1.0
  */
 public interface ResourceService extends IService<Resource> {
+
+    public List<Resource> listResourceNotAnonymous();
 
 }
