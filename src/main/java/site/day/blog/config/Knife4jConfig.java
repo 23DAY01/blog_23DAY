@@ -61,7 +61,7 @@ public class Knife4jConfig {
 //                文档标题
                 .title("博客api文档")
 //                文档描述
-                .description("springboot+vue开发的博客项目")
+                .description("springboot+vue开发的个人博客")
 //                联系人信息
                 .contact(new Contact(author, github, email))
                 .termsOfServiceUrl("http://localhost:" + port + "/doc.html")

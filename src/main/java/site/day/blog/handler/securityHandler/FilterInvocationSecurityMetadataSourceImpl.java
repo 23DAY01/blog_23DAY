@@ -47,7 +47,7 @@ public class FilterInvocationSecurityMetadataSourceImpl implements FilterInvocat
         roleResourceDTOs = null;
     }
 
-    //该方法的参数是受保护对象，在基于 URL 地址的权限控制中，受保护对象就是 FilterInvocation；
+    // 该方法的参数是受保护对象，在基于 URL 地址的权限控制中，受保护对象就是 FilterInvocation；
     // 该方法的返回值则是访问受保护对象所需要的权限。在该方法里边，我们首先从受保护对象 FilterInvocation
     // 中提取出当前请求的 URL 地址，例如 /admin/hello，然后通过 menuService 对象查询出所有的菜单
     // 数据（每条数据中都包含访问该条记录所需要的权限），遍历查询出来的菜单数据，如果当前请求的 URL 地址和

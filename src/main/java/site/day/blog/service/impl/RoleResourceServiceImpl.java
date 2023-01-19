@@ -1,6 +1,7 @@
 package site.day.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import site.day.blog.pojo.domain.Resource;
@@ -43,7 +44,7 @@ public class RoleResourceServiceImpl extends ServiceImpl<RoleResourceMapper, Rol
 
 
     /**
-     * @Description 获取RoleResourceDTOs
+     * @Description 获取所有不可匿名访问的资源与其相关联的角色名的mapList（RoleResourceDTO）
      * @Author 23DAY
      * @Date 2022/9/17 17:51
      * @Param []
@@ -51,27 +52,28 @@ public class RoleResourceServiceImpl extends ServiceImpl<RoleResourceMapper, Rol
      **/
     @Override
     public List<RoleResourceDTO> listRoleResourceDTOs() {
-//        获取符合条件的resource
+//        获取不能匿名访问的resource
         List<Resource> resourceList = resourceService.listResourceNotAnonymous();
-//        转换
+//        转换成RoleResourceDTO
         List<RoleResourceDTO> roleResourceDTOList = mapStruct.resources2roleResources(resourceList);
-//        获取资源id
+//        获取不能匿名访问的resourceId
         Set<Integer> resourceIds = resourceList.stream().map(Resource::getId).collect(Collectors.toSet());
-//        查找资源角色关系
+//        查找不能匿名访问的资源对应的角色
         LambdaQueryWrapper<RoleResource> roleResourceLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        roleResourceLambdaQueryWrapper.in(RoleResource::getResourceId, resourceIds);
+        roleResourceLambdaQueryWrapper.in(!CollectionUtils.isEmpty(resourceIds),RoleResource::getResourceId, resourceIds);
         List<RoleResource> roleResourceList = list(roleResourceLambdaQueryWrapper);
 //        获取角色id
         Set<Integer> roleIds = roleResourceList.stream().map(RoleResource::getRoleId).collect(Collectors.toSet());
 //        获取角色
         LambdaQueryWrapper<Role> roleLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        roleLambdaQueryWrapper.in(Role::getId,roleIds);
+        roleLambdaQueryWrapper.in(!CollectionUtils.isEmpty(roleIds),Role::getId,roleIds);
         List<Role> roleList = roleService.list(roleLambdaQueryWrapper);
 //        转换
 
 //        以资源id：角色id做一个map
         Map<Integer, List<Integer>> resourceId2roleIdMap = roleResourceList.stream().collect(Collectors.groupingBy(RoleResource::getResourceId, Collectors.mapping(RoleResource::getRoleId, Collectors.toList())));
 
+//      最终形成资源id:角色名的mapList
         for (RoleResourceDTO roleResourceDTO : roleResourceDTOList) {
 //            获取当前资源的所有角色
             List<Role> roles = ListUtils.select(roleList, role -> emptyIfNull(resourceId2roleIdMap.get(roleResourceDTO.getResourceId())).contains(role.getId()));

@@ -1,6 +1,8 @@
 package site.day.blog.utils;
 
 import org.springframework.security.core.context.SecurityContextHolder;
+import site.day.blog.enums.StatusCodeEnum;
+import site.day.blog.exception.AuthException;
 import site.day.blog.pojo.dto.UserDetail;
 
 /**
@@ -18,7 +20,13 @@ public class AuthUtil {
      * @return 用户登录信息
      */
     public static UserDetail getLoginUser() {
-        return (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetail userDetail = new UserDetail();
+        try {
+            userDetail = (UserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        } catch (RuntimeException e) {
+            throw AuthException.withErrorCodeEnum(StatusCodeEnum.AUTH_NO_LOGIN);
+        }
+        return userDetail;
     }
 
 

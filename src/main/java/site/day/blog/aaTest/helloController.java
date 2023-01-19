@@ -1,5 +1,6 @@
 package site.day.blog.aaTest;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -23,6 +24,7 @@ import java.util.List;
  * @Date 2023/1/19 0:18
  * @Version 1.0
  */
+@Api("hello")
 @RestController
 public class helloController {
 
