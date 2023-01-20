@@ -57,7 +57,7 @@ public class helloController {
 
     @GetMapping("/hello3")
     public ResponseAPI<?> hello3() {
-        throw BusinessException.withErrorCodeEnum(StatusCodeEnum.AUTH_FAIL);
+        throw BusinessException.withErrorCodeEnum(StatusCodeEnum.AUTH_FAILED);
 //        return ResponseAPI.success("hello");
     }
 

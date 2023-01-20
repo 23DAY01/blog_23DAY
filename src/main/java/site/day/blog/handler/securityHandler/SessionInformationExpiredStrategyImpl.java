@@ -22,6 +22,6 @@ import java.io.IOException;
 public class SessionInformationExpiredStrategyImpl implements SessionInformationExpiredStrategy {
     @Override
     public void onExpiredSessionDetected(SessionInformationExpiredEvent event) throws IOException, ServletException {
-        WebUtil.render(event.getResponse(), JsonUtil.Object2String(ResponseAPI.fail(StatusCodeEnum.AUTH_SESSION_CONCURRENCE_MAX)));
+        WebUtil.render(event.getResponse(), JsonUtil.Object2String(ResponseAPI.fail(StatusCodeEnum.AUTH_SESSION_CONCURRENCY_MAX)));
     }
 }
