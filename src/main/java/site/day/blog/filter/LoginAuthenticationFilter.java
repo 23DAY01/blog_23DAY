@@ -5,7 +5,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import site.day.blog.constant.AuthConst;
+import site.day.blog.constant.StatusMsgConst;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +23,7 @@ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFil
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         if (!request.getMethod().equals("POST")) {
-            throw new AuthenticationServiceException(AuthConst.StatusMessage.AUTH_METHOD_NOT_AVAILABLE);
+            throw new AuthenticationServiceException(StatusMsgConst.AUTH_METHOD_NOT_AVAILABLE);
         } else {
             String username = this.obtainUsername(request);
             username = username != null ? username.trim() : "";

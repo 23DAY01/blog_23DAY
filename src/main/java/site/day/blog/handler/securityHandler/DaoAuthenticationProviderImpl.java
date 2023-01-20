@@ -6,7 +6,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import site.day.blog.constant.AuthConst;
+import site.day.blog.constant.StatusMsgConst;
 
 import javax.annotation.Resource;
 
@@ -27,12 +27,12 @@ public class DaoAuthenticationProviderImpl extends DaoAuthenticationProvider {
     protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
         if (authentication.getCredentials() == null) {
             this.logger.debug("Failed to authenticate since no credentials provided");
-            throw new BadCredentialsException(AuthConst.StatusMessage.AUTH_UorP_ERROR);
+            throw new BadCredentialsException(StatusMsgConst.AUTH_UorP_ERROR);
         } else {
             String presentedPassword = authentication.getCredentials().toString();
             if (!this.passwordEncoder.matches(presentedPassword, userDetails.getPassword())) {
                 this.logger.debug("Failed to authenticate since password does not match stored value");
-                throw new BadCredentialsException(AuthConst.StatusMessage.AUTH_UorP_ERROR);
+                throw new BadCredentialsException(StatusMsgConst.AUTH_UorP_ERROR);
             }
         }
     }
