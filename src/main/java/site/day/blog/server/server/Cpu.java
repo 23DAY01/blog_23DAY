@@ -1,6 +1,6 @@
 package site.day.blog.server.server;
 
-import site.day.blog.utils.ArithUtil;
+import site.day.blog.utils.ArithmeticUtil;
 
 /**
  * @Description Cpu
@@ -53,7 +53,7 @@ public class Cpu
 
     public double getTotal()
     {
-        return ArithUtil.round(ArithUtil.mul(total, 100), 2);
+        return ArithmeticUtil.round(ArithmeticUtil.mul(total, 100), 2);
     }
 
     public void setTotal(double total)
@@ -63,7 +63,7 @@ public class Cpu
 
     public double getSys()
     {
-        return ArithUtil.round(ArithUtil.mul(sys / total, 100), 2);
+        return ArithmeticUtil.round(ArithmeticUtil.mul(sys / total, 100), 2);
     }
 
     public void setSys(double sys)
@@ -73,7 +73,7 @@ public class Cpu
 
     public double getUsed()
     {
-        return ArithUtil.round(ArithUtil.mul(used / total, 100), 2);
+        return ArithmeticUtil.round(ArithmeticUtil.mul(used / total, 100), 2);
     }
 
     public void setUsed(double used)
@@ -83,7 +83,7 @@ public class Cpu
 
     public double getWait()
     {
-        return ArithUtil.round(ArithUtil.mul(wait / total, 100), 2);
+        return ArithmeticUtil.round(ArithmeticUtil.mul(wait / total, 100), 2);
     }
 
     public void setWait(double wait)
@@ -93,7 +93,7 @@ public class Cpu
 
     public double getFree()
     {
-        return ArithUtil.round(ArithUtil.mul(free / total, 100), 2);
+        return ArithmeticUtil.round(ArithmeticUtil.mul(free / total, 100), 2);
     }
 
     public void setFree(double free)

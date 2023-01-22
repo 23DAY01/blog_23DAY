@@ -53,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private UserDetailsServiceImpl userDetailsService;
 
-    //  证异常处理
+    //  认证异常处理
     @Resource
     private AuthenticationEntryPointImpl authenticationEntryPoint;
 
@@ -73,6 +73,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     // 登出成功处理器
     @Resource
     private LogoutSuccessHandlerImpl logoutSuccessHandler;
+
+    /**
+     * ------------------------------------------------------------------
+     * authorizeRequests配置
+     * <p>
+     * ------------------------------------------------------------------
+     */
 
     // 自定义接口拦截规则
     @Resource

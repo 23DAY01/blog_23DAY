@@ -12,7 +12,7 @@ import oshi.software.os.OSFileStore;
 import oshi.software.os.OperatingSystem;
 import oshi.util.Util;
 import site.day.blog.server.server.*;
-import site.day.blog.utils.ArithUtil;
+import site.day.blog.utils.ArithmeticUtil;
 import site.day.blog.utils.WebUtil;
 
 import java.net.UnknownHostException;
@@ -153,7 +153,7 @@ public class Server
             sysFile.setTotal(convertFileSize(total));
             sysFile.setFree(convertFileSize(free));
             sysFile.setUsed(convertFileSize(used));
-            sysFile.setUsage(ArithUtil.mul(ArithUtil.div(used, total, 4), 100));
+            sysFile.setUsage(ArithmeticUtil.mul(ArithmeticUtil.div(used, total, 4), 100));
             sysFiles.add(sysFile);
         }
     }

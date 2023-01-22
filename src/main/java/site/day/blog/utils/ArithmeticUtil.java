@@ -4,18 +4,20 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
- * 精确的浮点数运算
- * 
- * @author ruoyi
+ * @Description 精确的浮点数运算
+ * @ClassName ArithmeticUtil
+ * @Author 23DAY
+ * @Date 2022/9/17 10:02
+ * @Version 1.0
  */
-public class ArithUtil
+public class ArithmeticUtil
 {
 
     /** 默认除法运算精度 */
     private static final int DEF_DIV_SCALE = 10;
 
     /** 这个类不能实例化 */
-    private ArithUtil()
+    private ArithmeticUtil()
     {
     }
 

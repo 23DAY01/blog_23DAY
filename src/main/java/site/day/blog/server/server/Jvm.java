@@ -2,7 +2,7 @@ package site.day.blog.server.server;
 
 
 import site.day.blog.constant.DateConst;
-import site.day.blog.utils.ArithUtil;
+import site.day.blog.utils.ArithmeticUtil;
 import site.day.blog.utils.DateUtil;
 
 import java.lang.management.ManagementFactory;
@@ -44,7 +44,7 @@ public class Jvm
 
     public double getTotal()
     {
-        return ArithUtil.div(total, (1024 * 1024), 2);
+        return ArithmeticUtil.div(total, (1024 * 1024), 2);
     }
 
     public void setTotal(double total)
@@ -54,7 +54,7 @@ public class Jvm
 
     public double getMax()
     {
-        return ArithUtil.div(max, (1024 * 1024), 2);
+        return ArithmeticUtil.div(max, (1024 * 1024), 2);
     }
 
     public void setMax(double max)
@@ -64,7 +64,7 @@ public class Jvm
 
     public double getFree()
     {
-        return ArithUtil.div(free, (1024 * 1024), 2);
+        return ArithmeticUtil.div(free, (1024 * 1024), 2);
     }
 
     public void setFree(double free)
@@ -74,12 +74,12 @@ public class Jvm
 
     public double getUsed()
     {
-        return ArithUtil.div(total - free, (1024 * 1024), 2);
+        return ArithmeticUtil.div(total - free, (1024 * 1024), 2);
     }
 
     public double getUsage()
     {
-        return ArithUtil.mul(ArithUtil.div(total - free, total, 4), 100);
+        return ArithmeticUtil.mul(ArithmeticUtil.div(total - free, total, 4), 100);
     }
 
     /**

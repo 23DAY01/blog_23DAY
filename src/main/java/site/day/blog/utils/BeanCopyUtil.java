@@ -6,10 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 复制对象或集合属性
- *
- * @author yezhiqiu
- * @date 2021/08/10
+ * @Description 实体类转换
+ * @ClassName BeanCopyUtil
+ * @Author 23DAY
+ * @Date 2022/9/17 10:02
+ * @Version 1.0
  */
 public class BeanCopyUtil {
 

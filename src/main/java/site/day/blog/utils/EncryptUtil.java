@@ -12,12 +12,12 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * @Description 加密工具类
- * @ClassName SecUtil
+ * @ClassName EncryptUtil
  * @Author 23DAY
  * @Date 2022/9/14 22:12
  * @Version 1.0
  */
-public class SecUtil {
+public class EncryptUtil {
 
     /**
      * 创建aes

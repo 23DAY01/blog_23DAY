@@ -1,7 +1,7 @@
 package site.day.blog.server.server;
 
 
-import site.day.blog.utils.ArithUtil;
+import site.day.blog.utils.ArithmeticUtil;
 
 /**
  * @Description Mem
@@ -29,7 +29,7 @@ public class Mem
 
     public double getTotal()
     {
-        return ArithUtil.div(total, (1024 * 1024 * 1024), 2);
+        return ArithmeticUtil.div(total, (1024 * 1024 * 1024), 2);
     }
 
     public void setTotal(long total)
@@ -39,7 +39,7 @@ public class Mem
 
     public double getUsed()
     {
-        return ArithUtil.div(used, (1024 * 1024 * 1024), 2);
+        return ArithmeticUtil.div(used, (1024 * 1024 * 1024), 2);
     }
 
     public void setUsed(long used)
@@ -49,7 +49,7 @@ public class Mem
 
     public double getFree()
     {
-        return ArithUtil.div(free, (1024 * 1024 * 1024), 2);
+        return ArithmeticUtil.div(free, (1024 * 1024 * 1024), 2);
     }
 
     public void setFree(long free)
@@ -59,6 +59,6 @@ public class Mem
 
     public double getUsage()
     {
-        return ArithUtil.mul(ArithUtil.div(used, total, 4), 100);
+        return ArithmeticUtil.mul(ArithmeticUtil.div(used, total, 4), 100);
     }
 }

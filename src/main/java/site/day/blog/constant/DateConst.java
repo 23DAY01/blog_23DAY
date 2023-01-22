@@ -19,6 +19,8 @@ public class DateConst {
 
     public static String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
 
+    public static String YYYY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
+
     /**
      * 时间格式
      */
