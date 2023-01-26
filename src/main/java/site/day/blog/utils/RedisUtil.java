@@ -321,10 +321,10 @@ public final class RedisUtil {
      *
      * @param key  键
      * @param item 项
-     * @param by   要增加几(大于0)
+     * @param delta   要增加几(大于0)
      */
-    public double hincr(String key, String item, double by) {
-        return redisTemplate.opsForHash().increment(key, item, by);
+    public Long hIncr(String key, String item, long delta) {
+        return redisTemplate.opsForHash().increment(key, item, delta);
     }
 
 
@@ -333,10 +333,10 @@ public final class RedisUtil {
      *
      * @param key  键
      * @param item 项
-     * @param by   要减少记(小于0)
+     * @param delta   要减少记(小于0)
      */
-    public double hdecr(String key, String item, double by) {
-        return redisTemplate.opsForHash().increment(key, item, -by);
+    public Long hDecr(String key, String item, long delta) {
+        return redisTemplate.opsForHash().increment(key, item, -delta);
     }
 
 
@@ -363,7 +363,7 @@ public final class RedisUtil {
      * @param value 值
      * @return true 存在 false不存在
      */
-    public boolean sHasKey(String key, Object value) {
+    public boolean sIsMember(String key, Object value) {
         try {
             return redisTemplate.opsForSet().isMember(key, value);
         } catch (Exception e) {
@@ -380,7 +380,7 @@ public final class RedisUtil {
      * @param values 值 可以是多个
      * @return 成功个数
      */
-    public long sSet(String key, Object... values) {
+    public long sAdd(String key, Object... values) {
         try {
             return redisTemplate.opsForSet().add(key, values);
         } catch (Exception e) {
@@ -434,7 +434,7 @@ public final class RedisUtil {
      * @return 移除的个数
      */
 
-    public long setRemove(String key, Object... values) {
+    public long sRemove(String key, Object... values) {
         try {
             Long count = redisTemplate.opsForSet().remove(key, values);
             return count;

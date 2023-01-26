@@ -25,7 +25,7 @@ CREATE TABLE `day_article`  (
   `id` int NOT NULL COMMENT '主键',
   `user_id` int NOT NULL COMMENT '作者id',
   `category_id` int NULL DEFAULT NULL COMMENT '文章分类',
-  `article_thumbnail` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '文章缩略图',
+  `article_cover` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '文章封面',
   `article_title` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '标题',
   `article_content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '内容',
   `type` int NOT NULL DEFAULT 0 COMMENT '文章类型 1原创 2转载 3翻译',

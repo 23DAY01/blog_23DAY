@@ -5,12 +5,12 @@ import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
-import site.day.blog.pojo.domain.Resource;
-import site.day.blog.pojo.domain.UserAuth;
-import site.day.blog.pojo.domain.UserInfo;
-import site.day.blog.pojo.dto.RoleResourceDTO;
-import site.day.blog.pojo.dto.UserAuthDTO;
-import site.day.blog.pojo.dto.UserInfoDTO;
+import site.day.blog.pojo.domain.*;
+import site.day.blog.pojo.dto.*;
+import site.day.blog.pojo.vo.ArchiveVO;
+import site.day.blog.pojo.vo.ArticleHomeVO;
+import site.day.blog.pojo.vo.ArticlePreviewVO;
+import site.day.blog.pojo.vo.TagVO;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ import java.util.List;
  * @Date 2022/9/14 22:12
  * @Version 1.0
  */
-@Mapper(componentModel = "spring" , injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
 @Component
 public interface MapStruct {
 
@@ -50,15 +50,15 @@ public interface MapStruct {
     /*
       资源认证  转换
      */
-    @Mapping(target = "resourceId" , source = "id")
+    @Mapping(target = "resourceId", source = "id")
     RoleResourceDTO resource2roleResource(Resource resource);
 
     List<RoleResourceDTO> resources2roleResources(List<Resource> resourceList);
 
 
-    /*
+    /**
      * 用户认证 转换
-     **/
+     */
     UserAuth userAuthDto2userAuth(UserAuthDTO userAuthDto);
 
     List<UserAuth> userAuthDtos2userAuths(List<UserAuthDTO> userAuthDTOS);
@@ -68,13 +68,46 @@ public interface MapStruct {
     List<UserAuthDTO> userAuths2userAuthDtos(List<UserAuth> userAuths);
 
 
-    /*
+    /**
      * 用户信息 转换
-     **/
+     */
 
-    UserInfoDTO userInfo2UserInfoDto(UserInfo userInfo);
+    UserInfoDTO userInfo2UserInfoDTO(UserInfo userInfo);
 
-    List<UserInfoDTO> userInfos2UserInfoDtos(List<UserInfo> userInfos);
+    List<UserInfoDTO> userInfoList2UserInfoDTOList(List<UserInfo> userInfos);
+
+    /**
+     * 文章pojo转换
+     */
+    @Mapping(source = "tagDTOList", target = "tagVOList")
+    ArticlePreviewVO articleDTO2articlePreviewVO(ArticleDTO articleDTO);
+
+    List<ArticlePreviewVO> articleDTOList2articlePreviewVOList(List<ArticleDTO> articleDTOS);
+
+    ArticleDTO article2articleDTO(Article article);
+
+    List<ArticleDTO> articleList2articleDTOList(List<Article> articles);
+
+    ArchiveVO articleDTO2archiveVO(ArticleDTO articleDTO);
+
+    List<ArchiveVO> articleDTOList2archiveVOList(List<ArticleDTO> articleDTOS);
+
+    @Mapping(source = "tagDTOList", target = "tagVOList")
+    ArticleHomeVO articleDTO2articleHomeVO(ArticleDTO articleDTO);
+
+    List<ArticleHomeVO> articleDTOList2articleHomeVOList(List<ArticleDTO> articleDTOS);
+
+    /**
+     * 标签
+     */
+    TagDTO tag2tagDTO(Tag tag);
+
+    List<TagDTO> tagList2tagDTOList(List<Tag> tags);
+
+    TagVO tagDTO2tagVO(TagDTO tagDTO);
+
+    List<TagVO> tagDTOList2tagVOList(List<TagDTO> tagDTOList);
+
 
 }
 

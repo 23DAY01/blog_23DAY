@@ -23,6 +23,19 @@ public class StringUtil {
     }
 
     /**
+     * @Description
+     * @Author 23DAY
+     * @Date 2023/1/26 0:00
+     * @Param [java.lang.String]
+     * @Return java.lang.Boolean
+     **/
+
+    public static Boolean isNullOrEmpty(String str) {
+        return str == null || str.isEmpty();
+    }
+
+
+    /**
      * @return java.lang.Boolean
      * @Description 判断是否为空
      * @Author 23DAY
@@ -56,14 +69,14 @@ public class StringUtil {
     }
 
     /**
+     * @return java.lang.Boolean
      * @Description 是否以某个字符串开始
      * @Author 23DAY
      * @Date 2022/10/13 10:49
      * @Param [java.lang.String, java.lang.String]
-     * @return java.lang.Boolean
      **/
     public static Boolean startsWithIgnoreCase(String contentType, String applicationJsonValue) {
-        return StrUtil.startWithIgnoreCase(contentType,applicationJsonValue);
+        return StrUtil.startWithIgnoreCase(contentType, applicationJsonValue);
     }
 
     public static String trimToEmpty(String str) {
@@ -71,25 +84,25 @@ public class StringUtil {
     }
 
     /**
+     * @return java.lang.String
      * @Description 截取某个字符串之前的字符
      * @Author 23DAY
      * @Date 2022/10/14 17:11
      * @Param [java.lang.String, java.lang.String]
-     * @return java.lang.String
      **/
     public static String substringBeforeLast(String str, String separator) {
-        return StrUtil.subBefore(str,separator,true);
+        return StrUtil.subBefore(str, separator, true);
     }
 
     /**
+     * @return java.lang.String
      * @Description 截取某个字符串之前的字符
      * @Author 23DAY
      * @Date 2022/10/14 17:11
      * @Param [java.lang.String, java.lang.String]
-     * @return java.lang.String
      **/
     public static String substringBefore(String str, String separator) {
-        return StrUtil.subBefore(str,separator,false);
+        return StrUtil.subBefore(str, separator, false);
     }
 
 }

@@ -42,7 +42,7 @@ public class ${table.controllerName} {
 </#if>
 
     @Autowired
-    public ${table.serviceName} ${entity?uncap_first}Service;
+    private ${table.serviceName} ${entity?uncap_first}Service;
 
     /**
      * @Description 根据id查询
@@ -54,7 +54,7 @@ public class ${table.controllerName} {
     @ApiOperation(value = "根据id查询${entity?uncap_first}", notes = "根据id查询${entity?uncap_first}")
     @GetMapping("/${entity?uncap_first}s/{id}")
     public ResponseAPI<?> get${entity}ById(
-            @ApiParam(name = "id", value = "主键", required = true)
+            @ApiParam(name = "id", value = "${entity?uncap_first}id", required = true)
             @PathVariable("id")
                     Integer id) {
         return ResponseAPI.success(${entity?uncap_first}Service.getById(id));

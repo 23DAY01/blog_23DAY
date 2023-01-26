@@ -60,13 +60,13 @@ public class RoleResourceServiceImpl extends ServiceImpl<RoleResourceMapper, Rol
         Set<Integer> resourceIds = resourceList.stream().map(Resource::getId).collect(Collectors.toSet());
 //        查找不能匿名访问的资源对应的角色
         LambdaQueryWrapper<RoleResource> roleResourceLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        roleResourceLambdaQueryWrapper.in(!CollectionUtils.isEmpty(resourceIds),RoleResource::getResourceId, resourceIds);
+        roleResourceLambdaQueryWrapper.in(CollectionUtils.isNotEmpty(resourceIds),RoleResource::getResourceId, resourceIds);
         List<RoleResource> roleResourceList = list(roleResourceLambdaQueryWrapper);
 //        获取角色id
         Set<Integer> roleIds = roleResourceList.stream().map(RoleResource::getRoleId).collect(Collectors.toSet());
 //        获取角色
         LambdaQueryWrapper<Role> roleLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        roleLambdaQueryWrapper.in(!CollectionUtils.isEmpty(roleIds),Role::getId,roleIds);
+        roleLambdaQueryWrapper.in(CollectionUtils.isNotEmpty(roleIds),Role::getId,roleIds);
         List<Role> roleList = roleService.list(roleLambdaQueryWrapper);
 //        转换
 

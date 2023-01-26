@@ -49,10 +49,10 @@ public class Article implements Serializable {
     private Integer categoryId;
 
     /**
-     * 文章缩略图
+     * 文章封面
      */
-    @TableField("article_thumbnail")
-    private String articleThumbnail;
+    @TableField("article_cover")
+    private String articleCover;
 
     /**
      * 标题

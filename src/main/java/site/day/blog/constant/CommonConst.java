@@ -36,6 +36,18 @@ public class CommonConst {
     public static final String UNKNOWN = "未知";
 
 
+    /**
+     * 分页常量
+     */
+    public static final String PAGE_CURRENT = "current";
+    public static final String PAGE_SIZE = "size";
+    public static final String PAGE_TOTAL = "total";
+    public static final long PAGE_DEFAULT_CURRENT = 1L;
+    public static final long PAGE_DEFAULT_SIZE = 10L;
 
 
+    /**
+     * 验证码过期时间
+     */
+    public static final long CODE_EXPIRE_TIME = 15 * 60;
 }

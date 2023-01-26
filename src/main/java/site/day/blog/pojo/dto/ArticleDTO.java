@@ -2,7 +2,9 @@ package site.day.blog.pojo.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -38,9 +40,19 @@ public class ArticleDTO implements Serializable {
     private Integer categoryId;
 
     /**
-     * 文章缩略图
+     * 文章分类名
      */
-    private String articleThumbnail;
+    private String categoryName;
+
+    /**
+     * 文章标签
+     */
+    private List<TagDTO> tagDTOList;
+
+    /**
+     * 文章封面
+     */
+    private String articleCover;
 
     /**
      * 标题
@@ -73,19 +85,10 @@ public class ArticleDTO implements Serializable {
     private Integer status;
 
     /**
-     * 逻辑删除 0否 NULL是
-     */
-    private Boolean deleted;
-
-    /**
      * 创建时间
      */
     private LocalDateTime createTime;
 
-    /**
-     * 更新时间
-     */
-    private LocalDateTime updateTime;
 
 
 }

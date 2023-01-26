@@ -8,6 +8,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import site.day.blog.interceptor.ApiAccessRestrictionInterceptor;
+import site.day.blog.interceptor.PageableInterceptor;
 import site.day.blog.interceptor.RepeatSubmitInterceptor;
 
 /**
@@ -23,6 +24,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Bean
     public ApiAccessRestrictionInterceptor ApiAccessRestrictionInterceptor() {
         return new ApiAccessRestrictionInterceptor();
+    }
+
+    @Bean
+    public PageableInterceptor PageableInterceptor(){
+        return new PageableInterceptor();
     }
 
     @Bean
@@ -56,6 +62,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(RepeatSubmitInterceptor());
         registry.addInterceptor(ApiAccessRestrictionInterceptor());
+        registry.addInterceptor(PageableInterceptor());
     }
 
     /**

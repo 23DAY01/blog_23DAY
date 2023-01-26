@@ -2,6 +2,12 @@ package site.day.blog.service;
 
 import site.day.blog.pojo.domain.Article;
 import com.baomidou.mybatisplus.extension.service.IService;
+import site.day.blog.pojo.dto.ArticleDTO;
+import site.day.blog.pojo.dto.ArticlePreviewDTO;
+import site.day.blog.pojo.vo.query.ArticleConditionQuery;
+import site.day.blog.pojo.vo.query.PageQuery;
+
+import java.util.List;
 
 /**
  * @Description Article服务类
@@ -12,4 +18,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ArticleService extends IService<Article> {
 
+
+    List<ArticleDTO> getArticlesByCondition(ArticleConditionQuery articleConditionQuery);
+
+    List<ArticleDTO> getArticles();
+
+    void saveArticleLike(Integer articleId);
 }

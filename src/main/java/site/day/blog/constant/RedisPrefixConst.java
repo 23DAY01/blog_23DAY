@@ -10,11 +10,6 @@ package site.day.blog.constant;
 public class RedisPrefixConst {
 
     /**
-     * 验证码过期时间
-     */
-    public static final long CODE_EXPIRE_TIME = 15 * 60;
-
-    /**
      * 验证码
      */
     public static final String USER_CODE_KEY = "code:";
@@ -42,12 +37,22 @@ public class RedisPrefixConst {
     /**
      * 重复提交
      */
-    public static final String REPEAT_SUBMIT_KEY="repeat_submit:";
+    public static final String REPEAT_SUBMIT_KEY = "repeat_submit:";
 
     /**
      * 接口访问频繁
      */
-    public static final String API_ACCESS_RESTRICTION="api_access_restriction:";
+    public static final String API_ACCESS_RESTRICTION = "api_access_restriction:";
+
+    /**
+     * 用户是否点赞
+     */
+    public static final String ARTICLE_USER_LIKE = "article_user_like";
+
+    /**
+     * 文章点赞量
+     */
+    public static final String ARTICLE_LIKE_COUNT = "article_like_count";
 
 
 }
