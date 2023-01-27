@@ -52,7 +52,7 @@ public class ArticleController {
             @ApiParam(name = "id", value = "主键", required = true)
             @PathVariable("id")
                     Integer id) {
-        List<ArticleDTO> articleDTOList = articleService.getArticleById(id);
+        ArticleDTO articleDTOList = articleService.getArticleById(id);
 
         return ResponseAPI.success();
     }
@@ -74,7 +74,7 @@ public class ArticleController {
         //调用业务逻辑获得dto
         List<ArticleDTO> articlePreviewDTOList = articleService.getArticlesByCondition(articleConditionQuery);
         //dto转换成vo
-        List<ArticlePreviewVO> articlePreviewVOList = mapStruct.articleDTOList2articlePreviewVOList(articlePreviewDTOList);
+        List<ArticlePreviewVO> articlePreviewVOList = mapStruct.ArticleDTOList2ArticlePreviewVOList(articlePreviewDTOList);
         //返回分页结果
         return ResponseAPI.success(PageResult.build(articlePreviewVOList));
     }
