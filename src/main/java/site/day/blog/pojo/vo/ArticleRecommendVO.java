@@ -10,17 +10,17 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * @Description 文章归档
- * @ClassName ArchiveVO
+ * @Description
+ * @ClassName ArticleRecommendVO
  * @Author 23DAY
- * @Date 2023/1/25 19:04
+ * @Date 2023/1/27 15:47
  * @Version 1.0
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel("文章预览")
-public class ArchiveVO implements Serializable {
+@ApiModel("文章推荐")
+public class ArticleRecommendVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,8 +30,9 @@ public class ArchiveVO implements Serializable {
     @ApiModelProperty(name = "articleTitle", value = "文章标题", dataType = "String")
     private String articleTitle;
 
+    @ApiModelProperty(name = "articleCover", value = "文章封面", dataType = "String")
+    private String articleCover;
+
     @ApiModelProperty(name = "createTime", value = "创建时间", dataType = "LocalDateTime")
     private LocalDateTime createTime;
-
-
 }

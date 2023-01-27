@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import site.day.blog.pojo.dto.TagDTO;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,7 +25,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel("文章预览")
-public class ArticlePreviewVO {
+public class ArticlePreviewVO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * id
@@ -33,9 +36,9 @@ public class ArticlePreviewVO {
     private Integer id;
 
     /**
-     * 文章缩略图
+     * 文章封面
      */
-    @ApiModelProperty(name = "articleCover", value = "文章缩略图", dataType = "String")
+    @ApiModelProperty(name = "articleCover", value = "文章封面", dataType = "String")
     private String articleCover;
 
     /**
@@ -60,7 +63,7 @@ public class ArticlePreviewVO {
      * 文章标签
      */
     @ApiModelProperty(name = "tagDTOList", value = "文章标签列表", dataType = "List<TagDTO>")
-    private List<TagVO> tagVOList;
+    private List<TagVO> tagList;
 
     /**
      * 创建时间

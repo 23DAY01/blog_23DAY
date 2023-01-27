@@ -28,7 +28,6 @@ public class FriendLinkVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull(message = "id不能为空")
     @ApiModelProperty(name = "id", value = "主键", dataType = "Integer")
     private Integer id;
 
@@ -44,14 +43,12 @@ public class FriendLinkVO implements Serializable {
     @ApiModelProperty(name = "linkInfo", value = "链接简介", dataType = "String")
     private String linkInfo;
 
-    @NotNull(message = "deleted不能为空")
     @ApiModelProperty(name = "deleted", value = "逻辑删除 0否 NULL是", dataType = "Boolean")
     private Boolean deleted;
 
     @ApiModelProperty(name = "createTime", value = "创建时间", dataType = "LocalDateTime")
     private LocalDateTime createTime;
 
-    @NotNull(message = "updateTime不能为空")
     @ApiModelProperty(name = "updateTime", value = "更新时间", dataType = "LocalDateTime")
     private LocalDateTime updateTime;
 

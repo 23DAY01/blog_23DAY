@@ -3,6 +3,7 @@ package ${package.Controller};
 import ${package.Service}.${table.serviceName};
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 <#if restControllerStyle>
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +33,7 @@ import ${package.Parent}.utils.ResponseAPI;
 <#else>
 @Controller
 </#if>
+@RequestMapping("/${entity?uncap_first}")
 <#if kotlin>
 class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
 <#else>
@@ -52,7 +54,7 @@ public class ${table.controllerName} {
      * @Return ${package.Parent}.utils.ResponseAPI<?>
      **/
     @ApiOperation(value = "根据id查询${entity?uncap_first}", notes = "根据id查询${entity?uncap_first}")
-    @GetMapping("/${entity?uncap_first}s/{id}")
+    @GetMapping("/{id}")
     public ResponseAPI<?> get${entity}ById(
             @ApiParam(name = "id", value = "${entity?uncap_first}id", required = true)
             @PathVariable("id")

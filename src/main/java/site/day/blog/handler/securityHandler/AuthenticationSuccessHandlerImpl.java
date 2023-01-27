@@ -62,7 +62,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
     public void updateUserInfo() {
         UserDetail loginUser = AuthUtil.getLoginUser();
         UserAuthDTO userAuthDto = loginUser.getUserAuthDto();
-        UserAuth userAuth = mapStruct.userAuthDto2userAuth(userAuthDto);
+        UserAuth userAuth = mapStruct.UserAuthDTO2UserAuth(userAuthDto);
         userAuthService.updateById(userAuth);
     }
 

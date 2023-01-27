@@ -50,4 +50,9 @@ public class CommonConst {
      * 验证码过期时间
      */
     public static final long CODE_EXPIRE_TIME = 15 * 60;
+
+    /**
+     * 默认网站配置id
+     */
+    public static final Integer DEFAULT_WEBSITE_CONFIG_ID = 1;
 }

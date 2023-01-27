@@ -62,7 +62,7 @@ public enum StatusCodeEnum {
     API_REPEAT_SUBMIT(4000402, StatusMsgConst.API_REPEAT_SUBMIT),
     API_ACCESS_METHOD_ERROR(4000403, StatusMsgConst.API_ACCESS_METHOD_ERROR),
 
-
+    ARTICLE_MISSING(4001001,StatusMsgConst.ARTICLE_MISSING),
 
     /**
      * Server

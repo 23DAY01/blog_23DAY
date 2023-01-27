@@ -28,11 +28,9 @@ public class ChatRecordVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull(message = "id不能为空")
     @ApiModelProperty(name = "id", value = "主键", dataType = "Integer")
     private Integer id;
 
-    @NotNull(message = "userId不能为空")
     @ApiModelProperty(name = "userId", value = "用户id", dataType = "Integer")
     private Integer userId;
 
@@ -54,14 +52,12 @@ public class ChatRecordVO implements Serializable {
     @ApiModelProperty(name = "type", value = "记录类型", dataType = "Integer")
     private Integer type;
 
-    @NotNull(message = "deleted不能为空")
     @ApiModelProperty(name = "deleted", value = "逻辑删除 0否 NULL是", dataType = "Boolean")
     private Boolean deleted;
 
     @ApiModelProperty(name = "createTime", value = "创建时间", dataType = "LocalDateTime")
     private LocalDateTime createTime;
 
-    @NotNull(message = "updateTime不能为空")
     @ApiModelProperty(name = "updateTime", value = "更新时间", dataType = "LocalDateTime")
     private LocalDateTime updateTime;
 

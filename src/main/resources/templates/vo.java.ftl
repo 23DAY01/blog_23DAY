@@ -52,7 +52,7 @@ public class ${entity}VO {
 <#-- ----------  BEGIN 字段循环遍历  ---------->
 <#list table.fields as field>
 
-    <#if field.metaInfo.nullable||field.keyFlag>
+    <#if field.keyFlag>
     @NotNull(message = "${field.propertyName}不能为空")
     </#if>
     <#if field.comment!?length gt 0>

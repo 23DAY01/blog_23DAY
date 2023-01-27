@@ -28,7 +28,6 @@ public class MessageVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull(message = "id不能为空")
     @ApiModelProperty(name = "id", value = "主键id", dataType = "Integer")
     private Integer id;
 
@@ -47,21 +46,18 @@ public class MessageVO implements Serializable {
     @ApiModelProperty(name = "ipSource", value = "ip来源", dataType = "String")
     private String ipSource;
 
-    @NotNull(message = "speed不能为空")
     @ApiModelProperty(name = "speed", value = "弹幕速度", dataType = "Integer")
     private Integer speed;
 
     @ApiModelProperty(name = "isReview", value = "是否审核", dataType = "Integer")
     private Integer isReview;
 
-    @NotNull(message = "deleted不能为空")
     @ApiModelProperty(name = "deleted", value = "逻辑删除 0否 NULL是", dataType = "Boolean")
     private Boolean deleted;
 
     @ApiModelProperty(name = "createTime", value = "创建时间", dataType = "LocalDateTime")
     private LocalDateTime createTime;
 
-    @NotNull(message = "updateTime不能为空")
     @ApiModelProperty(name = "updateTime", value = "更新时间", dataType = "LocalDateTime")
     private LocalDateTime updateTime;
 

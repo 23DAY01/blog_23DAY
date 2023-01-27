@@ -28,7 +28,6 @@ public class TalkVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull(message = "id不能为空")
     @ApiModelProperty(name = "id", value = "主键", dataType = "Integer")
     private Integer id;
 
@@ -38,7 +37,6 @@ public class TalkVO implements Serializable {
     @ApiModelProperty(name = "content", value = "说说内容", dataType = "String")
     private String content;
 
-    @NotNull(message = "image不能为空")
     @ApiModelProperty(name = "image", value = "图片", dataType = "String")
     private String image;
 
@@ -48,14 +46,12 @@ public class TalkVO implements Serializable {
     @ApiModelProperty(name = "status", value = "状态 0公开 1私密", dataType = "Boolean")
     private Boolean status;
 
-    @NotNull(message = "deleted不能为空")
     @ApiModelProperty(name = "deleted", value = "逻辑删除 0否 NULL是", dataType = "Boolean")
     private Boolean deleted;
 
     @ApiModelProperty(name = "createTime", value = "创建时间", dataType = "LocalDateTime")
     private LocalDateTime createTime;
 
-    @NotNull(message = "updateTime不能为空")
     @ApiModelProperty(name = "updateTime", value = "更新时间", dataType = "LocalDateTime")
     private LocalDateTime updateTime;
 

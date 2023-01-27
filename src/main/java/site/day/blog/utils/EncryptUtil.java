@@ -3,6 +3,7 @@ package site.day.blog.utils;
 import cn.hutool.crypto.Mode;
 import cn.hutool.crypto.Padding;
 import cn.hutool.crypto.symmetric.AES;
+import org.springframework.util.DigestUtils;
 import site.day.blog.constant.WebConst;
 
 import javax.crypto.spec.IvParameterSpec;
@@ -21,7 +22,8 @@ public class EncryptUtil {
 
     /**
      * 创建aes
-     * @param mode 加密类型
+     *
+     * @param mode    加密类型
      * @param padding
      * @return
      */
@@ -40,8 +42,9 @@ public class EncryptUtil {
 
     /**
      * aes加密
-     * @param data 加密字符串
-     * @param mode 加密类型
+     *
+     * @param data    加密字符串
+     * @param mode    加密类型
      * @param padding
      * @return
      */
@@ -52,8 +55,9 @@ public class EncryptUtil {
 
     /**
      * aes解密
-     * @param data 解密字符串
-     * @param mode 解密类型
+     *
+     * @param data    解密字符串
+     * @param mode    解密类型
      * @param padding
      * @return
      */
@@ -63,6 +67,16 @@ public class EncryptUtil {
         return new String(decryptDataBase64, StandardCharsets.UTF_8);
     }
 
+    /**
+     * @Description md5加密
+     * @Author 23DAY
+     * @Date 2023/1/27 14:03
+     * @Param [byte[]]
+     * @Return java.lang.String
+     **/
+    public static String md5(byte[] bytes) {
+        return DigestUtils.md5DigestAsHex(bytes);
+    }
 
 
 }

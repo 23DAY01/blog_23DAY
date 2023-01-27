@@ -18,11 +18,23 @@ public class DateUtil {
     }
 
     public static String getDateBetween(Date d1, Date d2) {
-        return cn.hutool.core.date.DateUtil.formatBetween(d1,d2, BetweenFormatter.Level.MINUTE);
+        return cn.hutool.core.date.DateUtil.formatBetween(d1, d2, BetweenFormatter.Level.MINUTE);
     }
 
-    public static Date getNow(){
+    public static Date getNow() {
         return cn.hutool.core.date.DateUtil.date();
+    }
+
+    public static Date beginOfDay(Date date) {
+        return cn.hutool.core.date.DateUtil.beginOfDay(date);
+    }
+
+    public static Date offsetDay(Date date, Integer offset) {
+        return cn.hutool.core.date.DateUtil.offsetDay(new Date(), offset);
+    }
+
+    public static Date endOfDay(Date date) {
+        return cn.hutool.core.date.DateUtil.endOfDay(date);
     }
 
 }

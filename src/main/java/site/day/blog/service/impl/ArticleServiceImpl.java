@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import site.day.blog.enums.StatusCodeEnum;
+import site.day.blog.exception.BusinessException;
 import site.day.blog.mapper.ArticleTagMapper;
 import site.day.blog.mapper.CategoryMapper;
 import site.day.blog.mapper.TagMapper;
@@ -14,25 +16,24 @@ import site.day.blog.pojo.domain.ArticleTag;
 import site.day.blog.pojo.domain.Category;
 import site.day.blog.pojo.domain.Tag;
 import site.day.blog.pojo.dto.ArticleDTO;
-import site.day.blog.pojo.dto.ArticlePreviewDTO;
 import site.day.blog.pojo.dto.TagDTO;
+import site.day.blog.pojo.vo.ArticlePreviewVO;
 import site.day.blog.pojo.vo.query.ArticleConditionQuery;
-import site.day.blog.pojo.vo.query.PageQuery;
 import site.day.blog.service.ArticleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
-import site.day.blog.utils.AuthUtil;
-import site.day.blog.utils.MapStruct;
-import site.day.blog.utils.PageUtil;
-import site.day.blog.utils.RedisUtil;
+import site.day.blog.utils.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 import static site.day.blog.constant.ArticleConst.STATUS_PUBLIC;
-import static site.day.blog.constant.RedisPrefixConst.ARTICLE_LIKE_COUNT;
-import static site.day.blog.constant.RedisPrefixConst.ARTICLE_USER_LIKE;
+import static site.day.blog.constant.ArticleConst.VISITOR_ARTICLE_LIST;
+import static site.day.blog.constant.RedisConst.*;
 
 /**
  * @Description Article服务实现类
@@ -62,6 +63,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Autowired
     private RedisUtil redisUtil;
 
+    @Autowired
+    private HttpSession session;
+
     /**
      * @Description 通过条件获取文章
      * @Author 23DAY
@@ -84,7 +88,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 .le(Objects.nonNull(query.getStartTime()), Article::getCreateTime, query.getStartTime()));
 
         //类型转化 do->dto article->articlePreviewDTO
-        List<ArticleDTO> articleDTOList = mapStruct.articleList2articleDTOList(articleList);
+        List<ArticleDTO> articleDTOList = mapStruct.ArticleList2ArticleDTOList(articleList);
 
         //获取category和tag的文章 然后进行封装
         //Optional.ofNullable(query.getCategoryId()).ifPresent(categoryId->{});
@@ -133,7 +137,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 //类型转换
                 List<TagDTO> tagDTOList = mapStruct.tagList2tagDTOList(tagOfArticleDTO);
                 //注入
-                articleDTO.setTagDTOList(tagDTOList);
+                articleDTO.setTagList(tagDTOList);
             }
         }
 
@@ -168,11 +172,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         //设置分页参数
         PageUtil.setTotal(articlePage.getTotal());
         //类型转换
-        List<ArticleDTO> articleDTOList = mapStruct.articleList2articleDTOList(articleList);
-        //获取category
-        addCategoryInfo(articleDTOList);
-        //获取tag
-        addTagInfo(articleDTOList);
+        List<ArticleDTO> articleDTOList = mapStruct.ArticleList2ArticleDTOList(articleList);
+        //注入dto
+        addDTOFiled(articleDTOList);
         return articleDTOList;
     }
 
@@ -190,6 +192,101 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }
     }
 
+    @Override
+    public ArticleDTO getArticleById(Integer id) {
+        //异步查询推荐文章
+        CompletableFuture<List<ArticleDTO>> recommendArticleList = CompletableFuture.supplyAsync(() -> getRecommendArticles(id));
+        //异步查询最新文章
+        CompletableFuture<List<ArticleDTO>> newestArticleList = CompletableFuture.supplyAsync(this::getNewestArticles);
+        //获取该篇文章
+        ArticleDTO articleDTO = mapStruct.Article2ArticleDTO(articleMapper.selectById(id));
+        if (Objects.isNull(articleDTO)) throw BusinessException.withErrorCodeEnum(StatusCodeEnum.ARTICLE_MISSING);
+        //更新文章访问量
+        updateViewCount(id);
+        //获取上一篇文章和下一篇文章
+        ArticleDTO lastArticle = mapStruct.Article2ArticleDTO(articleMapper.selectOne(Wrappers.lambdaQuery(Article.class)
+                .eq(Article::getStatus, STATUS_PUBLIC)
+                .lt(Article::getId, id)
+                .orderByDesc(Article::getId)
+                .last("limit 1")));
+        ArticleDTO nextArticle = mapStruct.Article2ArticleDTO(articleMapper.selectOne(Wrappers.lambdaQuery(Article.class)
+                .eq(Article::getStatus, STATUS_PUBLIC)
+                .gt(Article::getId, id)
+                .orderByAsc(Article::getId)
+                .last("limit 1")));
+        //封装
+        try {
+            articleDTO.setRecommendArticleList(recommendArticleList.get());
+            articleDTO.setNewestArticleList(newestArticleList.get());
+        } catch (InterruptedException | ExecutionException e) {
+            throw BusinessException.withErrorCodeEnum(StatusCodeEnum.UNKNOWN_RUNTIME_ERROR);
+        }
+        articleDTO.setLastArticle(lastArticle);
+        articleDTO.setNextArticle(nextArticle);
+        List<ArticleDTO> articleDTOList = Collections.singletonList(articleDTO);
+        addViewAndLikeCount(articleDTOList);
+        addDTOFiled(articleDTOList);
+        return articleDTOList.get(0);
+    }
+
+    /**
+     * @Description 更新文章访问量
+     * @Author 23DAY
+     * @Date 2023/1/27 16:21
+     * @Param [java.lang.Integer]
+     * @Return void
+     **/
+    private void updateViewCount(Integer id) {
+        //从session中获取访问过的文章id
+        List<Integer> articleIdList = CommonUtil.objToList(session.getAttribute(VISITOR_ARTICLE_LIST), Integer.class);
+        //如果在一个session没有访问过该文章
+        if (articleIdList.contains(id)) {
+            articleIdList.add(id);
+            redisUtil.zIncr(ARTICLE_VIEW_COUNT, id, 1D);
+        }
+    }
+
+    /**
+     * @Description 获得推荐文章
+     * @Author 23DAY
+     * @Date 2023/1/27 15:52
+     * @Param [java.lang.Integer]
+     * @Return java.util.List<site.day.blog.pojo.dto.ArticleDTO>
+     **/
+    public List<ArticleDTO> getRecommendArticles(Integer id) {
+        //获取该文章的所有标签id 获取标签下的所有文章
+        List<Integer> tagIdList = articleTagMapper.selectList(Wrappers.lambdaQuery(ArticleTag.class).eq(ArticleTag::getArticleId, id))
+                .stream().map(ArticleTag::getTagId).collect(Collectors.toList());
+        List<Integer> articleIdList = articleTagMapper.selectList(Wrappers.lambdaQuery(ArticleTag.class).in(CollectionUtils.isNotEmpty(tagIdList), ArticleTag::getTagId, tagIdList))
+                .stream().map(ArticleTag::getArticleId).filter(articleId -> !articleId.equals(id)).collect(Collectors.toList());
+        List<Article> articleList = articleMapper.selectList(Wrappers.lambdaQuery(Article.class)
+                .in(CollectionUtils.isNotEmpty(articleIdList), Article::getId, articleIdList)
+                .eq(Article::getStatus, STATUS_PUBLIC)
+                .orderByDesc(Article::getCreateTime)
+                .last("limit 5"));
+        List<ArticleDTO> articleDTOList = mapStruct.ArticleList2ArticleDTOList(articleList);
+        //注入dto
+        addDTOFiled(articleDTOList);
+        return articleDTOList;
+    }
+
+    /**
+     * @Description 获得最新文章
+     * @Author 23DAY
+     * @Date 2023/1/27 15:53
+     * @Param []
+     * @Return java.util.List<site.day.blog.pojo.dto.ArticleDTO>
+     **/
+    public List<ArticleDTO> getNewestArticles() {
+        List<Article> articleList = articleMapper.selectList(Wrappers.lambdaQuery(Article.class)
+                .eq(Article::getStatus, STATUS_PUBLIC)
+                .orderByDesc(Article::getCreateTime)
+                .last("limit 5"));
+        List<ArticleDTO> articleDTOList = mapStruct.ArticleList2ArticleDTOList(articleList);
+        addDTOFiled(articleDTOList);
+        return articleDTOList;
+    }
+
     /**
      * @Description 添加tag信息
      * @Author 23DAY
@@ -197,7 +294,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * @Param [java.util.List<site.day.blog.pojo.dto.ArticleDTO>]
      * @Return void
      **/
-    private void addTagInfo(List<ArticleDTO> articleDTOList) {
+    public void addTagInfo(List<ArticleDTO> articleDTOList) {
         //文章id
         List<Integer> articleIdList = articleDTOList.stream().map(ArticleDTO::getId).collect(Collectors.toList());
         //获取article tag 关系
@@ -214,7 +311,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
             //类型转换
             List<TagDTO> tagDTOList = mapStruct.tagList2tagDTOList(tags);
             //注入
-            articleDTO.setTagDTOList(tagDTOList);
+            articleDTO.setTagList(tagDTOList);
         }
     }
 
@@ -225,13 +322,65 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * @Param [java.util.List<site.day.blog.pojo.dto.ArticleDTO>]
      * @Return void
      **/
-    private void addCategoryInfo(List<ArticleDTO> articleDTOList) {
+    public void addCategoryInfo(List<ArticleDTO> articleDTOList) {
         List<Integer> categoryIdList = articleDTOList.stream().map(ArticleDTO::getCategoryId).collect(Collectors.toList());
         List<Category> categoryList = categoryMapper.selectList(Wrappers.lambdaQuery(Category.class).in(CollectionUtils.isNotEmpty(categoryIdList), Category::getId, categoryIdList));
         //结果变为映射
         Map<Integer, String> categoryId2Name = categoryList.stream().collect(Collectors.toMap(Category::getId, Category::getCategoryName));
         //将name注入
         articleDTOList.forEach(articleDTO -> articleDTO.setCategoryName(categoryId2Name.get(articleDTO.getCategoryId())));
+    }
+
+    /**
+     * @Description 添加浏览量
+     * @Author 23DAY
+     * @Date 2023/1/27 15:26
+     * @Param [java.util.List<site.day.blog.pojo.dto.ArticleDTO>]
+     * @Return void
+     **/
+    public void addViewAndLikeCount(List<ArticleDTO> articleDTOList) {
+        articleDTOList.forEach(articleDTO -> {
+            Integer articleId = articleDTO.getId();
+            articleDTO.setViewCount(redisUtil.zScore(ARTICLE_VIEW_COUNT, articleId).intValue());
+            articleDTO.setLikeCount((Integer) redisUtil.hGet(ARTICLE_LIKE_COUNT, String.valueOf(articleId)));
+        });
+    }
+
+    /**
+     * @Description 添加转换dto所需字段
+     * @Author 23DAY
+     * @Date 2023/1/27 15:27
+     * @Param [java.util.List<site.day.blog.pojo.dto.ArticleDTO>]
+     * @Return void
+     **/
+    public void addDTOFiled(List<ArticleDTO> articleDTOList) {
+        //获取category
+        addCategoryInfo(articleDTOList);
+        //获取tag
+        addTagInfo(articleDTOList);
+        //获取浏览量、浏览量
+        addViewAndLikeCount(articleDTOList);
+    }
+
+    /**
+     * @Description 获得文章排行
+     * @Author 23DAY
+     * @Date 2023/1/27 12:21
+     * @Param [java.lang.Integer]
+     * @Return java.util.List<site.day.blog.pojo.dto.ArticleDTO>
+     **/
+    public List<ArticleDTO> getArticleRank(Integer rankCount) {
+        //redis中获取前rankCount的的文章
+        Map<Object, Double> articleId2viewCountMap = redisUtil.zReverseRangeWithScore(ARTICLE_VIEW_COUNT, 0, rankCount - 1);
+        //获取文章id后查询文章
+        List<Integer> articleIdList = articleId2viewCountMap.keySet().stream().map(key -> (Integer) key).collect(Collectors.toList());
+        List<Article> articleList = articleMapper.selectList(Wrappers.lambdaQuery(Article.class)
+                .in(CollectionUtils.isNotEmpty(articleIdList), Article::getId, articleIdList));
+        List<ArticleDTO> articleDTOList = mapStruct.ArticleList2ArticleDTOList(articleList);
+        //为dto封装viewCount并基于viewCount排序
+        articleDTOList.forEach(articleDTO -> articleDTO.setViewCount(articleId2viewCountMap.get(articleDTO.getId()).intValue()));
+        articleDTOList = articleDTOList.stream().sorted(Comparator.comparingInt(ArticleDTO::getViewCount).reversed()).collect(Collectors.toList());
+        return articleDTOList;
     }
 
 }

@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static site.day.blog.constant.RedisPrefixConst.API_ACCESS_RESTRICTION;
+import static site.day.blog.constant.RedisConst.API_ACCESS_RESTRICTION;
 
 /**
  * @Description API限流

@@ -1,6 +1,5 @@
 package site.day.blog.controller;
 
-import com.sun.xml.internal.bind.v2.TODO;
 import org.springframework.web.bind.annotation.*;
 import site.day.blog.pojo.dto.ArticleDTO;
 import site.day.blog.pojo.vo.ArchiveVO;
@@ -53,7 +52,9 @@ public class ArticleController {
             @ApiParam(name = "id", value = "主键", required = true)
             @PathVariable("id")
                     Integer id) {
-        return ResponseAPI.success(articleService.getById(id));
+        List<ArticleDTO> articleDTOList = articleService.getArticleById(id);
+
+        return ResponseAPI.success();
     }
 
     /**
@@ -93,7 +94,7 @@ public class ArticleController {
             @RequestParam(required = false)
                     PageQuery pageQuery) {
         List<ArticleDTO> articleDTOList = articleService.getArticles();
-        List<ArchiveVO> archiveVOList = mapStruct.articleDTOList2archiveVOList(articleDTOList);
+        List<ArchiveVO> archiveVOList = mapStruct.ArticleDTOList2ArchiveVOList(articleDTOList);
         //分页结果
         return ResponseAPI.success(PageResult.build(archiveVOList));
     }
@@ -113,7 +114,7 @@ public class ArticleController {
             @RequestParam(required = false)
                     PageQuery pageQuery) {
         List<ArticleDTO> articleDTOList = articleService.getArticles();
-        List<ArticleHomeVO> articleHomeVOList = mapStruct.articleDTOList2articleHomeVOList(articleDTOList);
+        List<ArticleHomeVO> articleHomeVOList = mapStruct.ArticleDTOList2ArticleHomeVOList(articleDTOList);
         return ResponseAPI.success(PageResult.build(articleHomeVOList));
     }
 

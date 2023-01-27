@@ -24,4 +24,6 @@ public interface ArticleService extends IService<Article> {
     List<ArticleDTO> getArticles();
 
     void saveArticleLike(Integer articleId);
+
+    ArticleDTO getArticleById(Integer id);
 }

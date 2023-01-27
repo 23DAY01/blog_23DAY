@@ -33,19 +33,10 @@ public class ViewDTO implements Serializable {
     private Integer viewCount;
 
     /**
-     * 逻辑删除 0否 NULL是
-     */
-    private Boolean deleted;
-
-    /**
      * 创建时间
      */
     private LocalDateTime createTime;
 
-    /**
-     * 更新时间
-     */
-    private LocalDateTime updateTime;
 
 
 }

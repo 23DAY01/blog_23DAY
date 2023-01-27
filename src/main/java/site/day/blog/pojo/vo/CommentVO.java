@@ -28,25 +28,21 @@ public class CommentVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull(message = "id不能为空")
     @ApiModelProperty(name = "id", value = "主键", dataType = "Integer")
     private Integer id;
 
     @ApiModelProperty(name = "userId", value = "评论用户Id", dataType = "Integer")
     private Integer userId;
 
-    @NotNull(message = "affiliationId不能为空")
     @ApiModelProperty(name = "affiliationId", value = "所属主体id", dataType = "Integer")
     private Integer affiliationId;
 
     @ApiModelProperty(name = "commentContent", value = "评论内容", dataType = "String")
     private String commentContent;
 
-    @NotNull(message = "replyUserId不能为空")
     @ApiModelProperty(name = "replyUserId", value = "回复用户id", dataType = "Integer")
     private Integer replyUserId;
 
-    @NotNull(message = "parentId不能为空")
     @ApiModelProperty(name = "parentId", value = "父评论id", dataType = "Integer")
     private Integer parentId;
 
@@ -56,14 +52,12 @@ public class CommentVO implements Serializable {
     @ApiModelProperty(name = "isReview", value = "是否审核", dataType = "Boolean")
     private Boolean isReview;
 
-    @NotNull(message = "deleted不能为空")
     @ApiModelProperty(name = "deleted", value = "逻辑删除 0否 NULL是", dataType = "Boolean")
     private Boolean deleted;
 
     @ApiModelProperty(name = "createTime", value = "创建时间", dataType = "LocalDateTime")
     private LocalDateTime createTime;
 
-    @NotNull(message = "updateTime不能为空")
     @ApiModelProperty(name = "updateTime", value = "更新时间", dataType = "LocalDateTime")
     private LocalDateTime updateTime;
 

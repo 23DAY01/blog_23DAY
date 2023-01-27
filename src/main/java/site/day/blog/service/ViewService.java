@@ -2,6 +2,9 @@ package site.day.blog.service;
 
 import site.day.blog.pojo.domain.View;
 import com.baomidou.mybatisplus.extension.service.IService;
+import site.day.blog.pojo.dto.ViewDTO;
+
+import java.util.List;
 
 /**
  * @Description View服务类
@@ -11,5 +14,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @Version 1.0
  */
 public interface ViewService extends IService<View> {
+
+    public List<ViewDTO> getViewsDuring(Integer ago);
 
 }

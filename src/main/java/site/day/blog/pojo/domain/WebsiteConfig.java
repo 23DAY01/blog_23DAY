@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -62,6 +63,12 @@ public class WebsiteConfig implements Serializable {
      */
     @TableField("notice")
     private String notice;
+
+    /**
+     * 关于我
+     */
+    @TableField("about")
+    private String about;
 
     /**
      * github

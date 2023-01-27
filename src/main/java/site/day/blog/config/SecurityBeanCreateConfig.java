@@ -18,6 +18,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import site.day.blog.constant.AuthConst;
 import site.day.blog.handler.securityHandler.*;
+import site.day.blog.listener.RedisHttpSessionListener;
 import site.day.blog.service.impl.UserDetailsServiceImpl;
 
 import javax.annotation.Resource;
@@ -143,6 +144,11 @@ public class SecurityBeanCreateConfig {
         return new HttpSessionEventPublisher();
     }
 
+    @Bean
+    public RedisHttpSessionListener redisHttpSessionListener() {
+        return new RedisHttpSessionListener();
+    }
+
     // session错误策略
     @Bean
     public InvalidSessionStrategy invalidSessionStrategy() {
@@ -176,6 +182,7 @@ public class SecurityBeanCreateConfig {
     public SessionFixationProtectionStrategy sessionFixationProtectionStrategy() {
         return new SessionFixationProtectionStrategy();
     }
+
     @Bean
     public ChangeSessionIdAuthenticationStrategy changeSessionIdAuthenticationStrategy() {
         return new ChangeSessionIdAuthenticationStrategy();

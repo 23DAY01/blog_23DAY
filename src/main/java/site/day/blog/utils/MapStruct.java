@@ -7,10 +7,7 @@ import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
 import site.day.blog.pojo.domain.*;
 import site.day.blog.pojo.dto.*;
-import site.day.blog.pojo.vo.ArchiveVO;
-import site.day.blog.pojo.vo.ArticleHomeVO;
-import site.day.blog.pojo.vo.ArticlePreviewVO;
-import site.day.blog.pojo.vo.TagVO;
+import site.day.blog.pojo.vo.*;
 
 import java.util.List;
 
@@ -47,55 +44,132 @@ public interface MapStruct {
     //List<Vo> Dtos2Vos(List<Dto> dtos);
 
 
-    /*
-      资源认证  转换
+    /**
+     * 文章
      */
+    ArticlePreviewVO ArticleDTO2ArticlePreviewVO(ArticleDTO ArticleDTO);
+
+    List<ArticlePreviewVO> ArticleDTOList2ArticlePreviewVOList(List<ArticleDTO> ArticleDTOS);
+
+    ArticleDTO Article2ArticleDTO(Article Article);
+
+    List<ArticleDTO> ArticleList2ArticleDTOList(List<Article> Articles);
+
+    ArchiveVO ArticleDTO2archiveVO(ArticleDTO ArticleDTO);
+
+    List<ArchiveVO> ArticleDTOList2ArchiveVOList(List<ArticleDTO> ArticleDTOS);
+
+    ArticleHomeVO ArticleDTO2ArticleHomeVO(ArticleDTO ArticleDTO);
+
+    List<ArticleHomeVO> ArticleDTOList2ArticleHomeVOList(List<ArticleDTO> ArticleDTOS);
+
+    ArticleRecommendVO ArticleDTO2ArticleRecommendVO(ArticleDTO ArticleDTO);
+
+    List<ArticleRecommendVO> ArticleDTOList2ArticleRecommendVOList(List<ArticleDTO> ArticleDTOS);
+
+    /**
+     * 分类
+     */
+    CategoryDTO Category2CategoryDTO(Category Category);
+
+    List<CategoryDTO> CategoryList2CategoryDTOList(List<Category> categories);
+
+    CategoryVO CategoryDTO2CategoryVO(CategoryDTO CategoryDTO);
+
+    List<CategoryVO> CategoryDTOList2CategoryVOList(List<CategoryDTO> CategoryDTOS);
+
+    /**
+     * 评论
+     */
+    CommentDTO Comment2CommentDTO(Comment Comment);
+
+    List<CommentDTO> CommentList2CommentDTOList(List<Comment> Comments);
+
+    CommentVO CommentDTO2CommentVO(CommentDTO CommentDTO);
+
+    List<CommentVO> CommentDTOList2CommentVOList(List<CommentDTO> CommentDTOS);
+
+    /**
+     * 友链
+     */
+    FriendLinkDTO FriendLink2FriendLinkDTO(FriendLink FriendLink);
+
+    List<FriendLinkDTO> FriendLinkList2FriendLinkDTOList(List<FriendLink> FriendLinks);
+
+    FriendLinkVO FriendLinkDTO2FriendLinkVO(FriendLinkDTO FriendLinkDTO);
+
+    List<FriendLinkVO> FriendLinkDTOList2FriendLinkVOList(List<FriendLinkDTO> FriendLinkDTOS);
+
+    /**
+     * 菜单
+     */
+    MenuDTO Menu2MenuDTO(Menu Menu);
+
+    List<MenuDTO> MenuList2MenuDTOList(List<Menu> Menus);
+
+    MenuVO MenuDTO2MenuVO(MenuDTO MenuDTO);
+
+    List<MenuVO> MenuDTOList2MenuVOList(List<MenuDTO> MenuDTOS);
+
+    /**
+     * 消息
+     */
+    MessageDTO Message2MessageDTO(Message Message);
+
+    List<MessageDTO> MessageList2MessageDTOList(List<Message> Messages);
+
+    MessageVO MessageDTO2MessageVO(MessageDTO MessageDTO);
+
+    List<MessageVO> MessageDTOList2MessageVOList(List<MessageDTO> MessageDTOS);
+
+    /**
+     * 页面
+     */
+    PageDTO Page2PageDTO(Page Page);
+
+    List<PageDTO> PageList2PageDTOList(List<Page> Pages);
+
+    PageVO PageDTO2PageVO(PageDTO PageDTO);
+
+    List<PageVO> PageDTOList2PageVOList(List<PageDTO> PageDTOS);
+
+    /**
+     * 资源
+     */
+    ResourceDTO Resource2ResourceDTO(Resource Resource);
+
+    List<ResourceDTO> ResourceList2ResourceDTOList(List<Resource> Resources);
+
+    ResourceVO ResourceDTO2ResourceVO(ResourceDTO ResourceDTO);
+
+    List<ResourceVO> ResourceDTOList2ResourceVOList(List<ResourceDTO> ResourceDTOS);
+
+    /**
+     * 权限
+     */
+    RoleDTO Role2RoleDTO(Role Role);
+
+    List<RoleDTO> RoleList2RoleDTOList(List<Role> Roles);
+
+    RoleVO RoleDTO2RoleVO(RoleDTO RoleDTO);
+
+    List<RoleVO> RoleDTOList2RoleVOList(List<RoleDTO> RoleDTOS);
+
+    /**
+     * 资源权限关系
+     */
+    RoleResourceDTO RoleResource2RoleResourceDTO(RoleResource RoleResource);
+
+    List<RoleResourceDTO> RoleResourceList2RoleResourceDTOList(List<RoleResource> RoleResources);
+
+    RoleResourceVO RoleResourceDTO2RoleResourceVO(RoleResourceDTO RoleResourceDTO);
+
+    List<RoleResourceVO> RoleResourceDTOList2RoleResourceVOList(List<RoleResourceDTO> RoleResourceDTOS);
+
     @Mapping(target = "resourceId", source = "id")
     RoleResourceDTO resource2roleResource(Resource resource);
 
     List<RoleResourceDTO> resources2roleResources(List<Resource> resourceList);
-
-
-    /**
-     * 用户认证 转换
-     */
-    UserAuth userAuthDto2userAuth(UserAuthDTO userAuthDto);
-
-    List<UserAuth> userAuthDtos2userAuths(List<UserAuthDTO> userAuthDTOS);
-
-    UserAuthDTO userAuth2userAuthDto(UserAuth userAuth);
-
-    List<UserAuthDTO> userAuths2userAuthDtos(List<UserAuth> userAuths);
-
-
-    /**
-     * 用户信息 转换
-     */
-
-    UserInfoDTO userInfo2UserInfoDTO(UserInfo userInfo);
-
-    List<UserInfoDTO> userInfoList2UserInfoDTOList(List<UserInfo> userInfos);
-
-    /**
-     * 文章pojo转换
-     */
-    @Mapping(source = "tagDTOList", target = "tagVOList")
-    ArticlePreviewVO articleDTO2articlePreviewVO(ArticleDTO articleDTO);
-
-    List<ArticlePreviewVO> articleDTOList2articlePreviewVOList(List<ArticleDTO> articleDTOS);
-
-    ArticleDTO article2articleDTO(Article article);
-
-    List<ArticleDTO> articleList2articleDTOList(List<Article> articles);
-
-    ArchiveVO articleDTO2archiveVO(ArticleDTO articleDTO);
-
-    List<ArchiveVO> articleDTOList2archiveVOList(List<ArticleDTO> articleDTOS);
-
-    @Mapping(source = "tagDTOList", target = "tagVOList")
-    ArticleHomeVO articleDTO2articleHomeVO(ArticleDTO articleDTO);
-
-    List<ArticleHomeVO> articleDTOList2articleHomeVOList(List<ArticleDTO> articleDTOS);
 
     /**
      * 标签
@@ -108,6 +182,83 @@ public interface MapStruct {
 
     List<TagVO> tagDTOList2tagVOList(List<TagDTO> tagDTOList);
 
+    /**
+     * 说说
+     */
+    TalkDTO Talk2TalkDTO(Talk Talk);
+
+    List<TalkDTO> TalkList2TalkDTOList(List<Talk> Talks);
+
+    TalkVO TalkDTO2TalkVO(TalkDTO TalkDTO);
+
+    List<TalkVO> TalkDTOList2TalkVOList(List<TalkDTO> TalkDTOS);
+
+    /**
+     * 用户认证
+     */
+    UserAuth UserAuthDTO2UserAuth(UserAuthDTO userAuthDto);
+
+    UserAuthDTO UserAuth2UserAuthDTO(UserAuth userAuth);
+
+    List<UserAuthDTO> UserAuthList2UserAuthDTOList(List<UserAuth> UserAuths);
+
+    UserAuthVO UserAuthDTO2UserAuthVO(UserAuthDTO UserAuthDTO);
+
+    List<UserAuthVO> UserAuthDTOList2UserAuthVOList(List<UserAuthDTO> UserAuthDTOS);
+
+
+    /**
+     * 用户信息
+     */
+
+    UserInfoDTO UserInfo2UserInfoDTO(UserInfo userInfo);
+
+    List<UserInfoDTO> UserInfoList2UserInfoDTOList(List<UserInfo> UserInfos);
+
+    UserInfoVO UserInfoDTO2UserInfoVO(UserInfoDTO UserInfoDTO);
+
+    List<UserInfoVO> UserInfoDTOList2UserInfoVOList(List<UserInfoDTO> UserInfoDTOS);
+
+    /**
+     * 用户权限关系
+     */
+    UserRoleDTO UserRole2UserRoleDTO(UserRole UserRole);
+
+    List<UserRoleDTO> UserRoleList2UserRoleDTOList(List<UserRole> UserRoles);
+
+    UserRoleVO UserRoleDTO2UserRoleVO(UserRoleDTO UserRoleDTO);
+
+    List<UserRoleVO> UserRoleDTOList2UserRoleVOList(List<UserRoleDTO> UserRoleDTOS);
+
+    /**
+     * 浏览量
+     */
+    ViewDTO View2ViewDTO(View View);
+
+    List<ViewDTO> ViewList2ViewDTOList(List<View> Views);
+
+    ViewVO ViewDTO2ViewVO(ViewDTO ViewDTO);
+
+    List<ViewVO> ViewDTOList2ViewVOList(List<ViewDTO> ViewDTOS);
+
+    /**
+     * 网站配置
+     */
+    WebsiteConfigDTO WebsiteConfig2WebsiteConfigDTO(WebsiteConfig WebsiteConfig);
+
+    List<WebsiteConfigDTO> WebsiteConfigList2WebsiteConfigDTOList(List<WebsiteConfig> WebsiteConfigs);
+
+    WebsiteConfigVO WebsiteConfigDTO2WebsiteConfigVO(WebsiteConfigDTO WebsiteConfigDTO);
+
+    List<WebsiteConfigVO> WebsiteConfigDTOList2WebsiteConfigVOList(List<WebsiteConfigDTO> WebsiteConfigDTOS);
+
+    BlogBackInfoVO BlogInfoDTO2BlogBackInfoVO(BlogInfoDTO blogInfoDTO);
+
+    List<BlogBackInfoVO> BlogInfoDTOList2BlogBackInfoVOList(List<BlogBackInfoVO> BlogBackInfoVOS);
+
+    BlogHomeInfoVO BlogInfoDTO2BlogHomeInfoVO(BlogInfoDTO blogInfoDTO);
+
+    List<BlogHomeInfoVO> BlogInfoDTOList2BlogHomeInfoVOList(List<BlogHomeInfoVO> blogHomeInfoVOS);
 
 }
 

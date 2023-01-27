@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,7 @@ import lombok.experimental.Accessors;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
+@Builder
 public class ArticleDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,7 +48,7 @@ public class ArticleDTO implements Serializable {
     /**
      * 文章标签
      */
-    private List<TagDTO> tagDTOList;
+    private List<TagDTO> tagList;
 
     /**
      * 文章封面
@@ -89,6 +90,34 @@ public class ArticleDTO implements Serializable {
      */
     private LocalDateTime createTime;
 
+    /**
+     * 文章浏览量
+     */
+    private Integer viewCount;
 
+    /**
+     * 点赞量
+     */
+    private Integer likeCount;
+
+    /**
+     * 上一篇文章
+     */
+    private ArticleDTO lastArticle;
+
+    /**
+     * 下一篇文章
+     */
+    private ArticleDTO nextArticle;
+
+    /**
+     * 推荐文章列表
+     */
+    private List<ArticleDTO> recommendArticleList;
+
+    /**
+     * 最新文章列表
+     */
+    private List<ArticleDTO> newestArticleList;
 
 }

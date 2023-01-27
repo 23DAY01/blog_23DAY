@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import site.day.blog.annotation.RepeatSubmit;
-import site.day.blog.constant.RedisPrefixConst;
+import site.day.blog.constant.RedisConst;
 import site.day.blog.enums.StatusCodeEnum;
 import site.day.blog.filter.BodyReaderRequestWrapper;
 import site.day.blog.utils.*;
@@ -91,7 +91,7 @@ public class RepeatSubmitInterceptor implements HandlerInterceptor {
         String submitKey = String.valueOf(request.getSession().getId());
 
         // 唯一标识（指定key + url + 消息头）
-        String cacheRepeatKey = RedisPrefixConst.REPEAT_SUBMIT_KEY + url + submitKey;
+        String cacheRepeatKey = RedisConst.REPEAT_SUBMIT_KEY + url + submitKey;
 
         // 获取redis缓存的数据 并且判断是否为重复提交
         Object obj = redisUtil.get(cacheRepeatKey);

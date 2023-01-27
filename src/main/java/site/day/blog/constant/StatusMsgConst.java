@@ -11,7 +11,7 @@ public interface StatusMsgConst {
 
 
     String SUCCESS = "success";
-    String UNKNOWN_CLIENT_ERROR="客户端未知异常";
+    String UNKNOWN_CLIENT_ERROR = "客户端未知异常";
     String UNKNOWN_RUNTIME_ERROR = "运行时未知异常";
     String UNKNOWN_SYSTEM_ERROR = "系统未知异常";
 
@@ -52,6 +52,9 @@ public interface StatusMsgConst {
     String API_REPEAT_SUBMIT = "重复提交";
     String API_ACCESS_METHOD_ERROR = "接口访问方法错误";
 
+    // 文章错误
+    String ARTICLE_MISSING = "文章不存在";
+
 
     /**
      * Server
@@ -68,6 +71,5 @@ public interface StatusMsgConst {
     //      数据库错误
     String SQL_ERROR = "数据库异常";
     String REDIS_ERROR = "redis连接异常";
-
 
 }

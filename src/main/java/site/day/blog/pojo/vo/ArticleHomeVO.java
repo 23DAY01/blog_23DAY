@@ -39,7 +39,7 @@ public class ArticleHomeVO implements Serializable {
     private String categoryName;
 
     @ApiModelProperty(name = "tagDTOList", value = "文章标签列表", dataType = "List<TagDTO>")
-    private List<TagVO> tagVOList;
+    private List<TagVO> tagList;
 
     @ApiModelProperty(name = "articleCover", value = "文章缩略图", dataType = "String")
     private String articleCover;
@@ -64,6 +64,8 @@ public class ArticleHomeVO implements Serializable {
 
     @ApiModelProperty(name = "createTime", value = "创建时间", dataType = "LocalDateTime")
     private LocalDateTime createTime;
+
+
 
 
 }

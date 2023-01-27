@@ -91,8 +91,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         UserAgent userAgent = WebUtil.getUserAgent(request);
 
         // pojo转换
-        UserInfoDTO userInfoDto = mapStruct.userInfo2UserInfoDTO(userInfo);
-        UserAuthDTO userAuthDto = mapStruct.userAuth2userAuthDto(user);
+        UserInfoDTO userInfoDto = mapStruct.UserInfo2UserInfoDTO(userInfo);
+        UserAuthDTO userAuthDto = mapStruct.UserAuth2UserAuthDTO(user);
 
         //填充属性
         userAuthDto.setOs(userAgent.getOperatingSystem().getName());

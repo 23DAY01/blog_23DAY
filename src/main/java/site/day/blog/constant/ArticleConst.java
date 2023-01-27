@@ -22,4 +22,9 @@ public class ArticleConst {
      */
     public static final Integer STATUS_DRAFT = 3;
 
+    /**
+     * 用户访问文章
+     */
+    public static final String VISITOR_ARTICLE_LIST = "visitor_article_list";
+
 }

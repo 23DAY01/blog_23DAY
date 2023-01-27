@@ -28,7 +28,6 @@ public class UserAuthVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull(message = "id不能为空")
     @ApiModelProperty(name = "id", value = "主键", dataType = "Integer")
     private Integer id;
 
@@ -44,26 +43,21 @@ public class UserAuthVO implements Serializable {
     @ApiModelProperty(name = "loginType", value = "登录类型", dataType = "Integer")
     private Integer loginType;
 
-    @NotNull(message = "ipAddress不能为空")
     @ApiModelProperty(name = "ipAddress", value = "ip地址", dataType = "String")
     private String ipAddress;
 
-    @NotNull(message = "ipSource不能为空")
     @ApiModelProperty(name = "ipSource", value = "ip来源", dataType = "String")
     private String ipSource;
 
-    @NotNull(message = "lastLoginTime不能为空")
     @ApiModelProperty(name = "lastLoginTime", value = "上次登录时间", dataType = "LocalDateTime")
     private LocalDateTime lastLoginTime;
 
-    @NotNull(message = "deleted不能为空")
     @ApiModelProperty(name = "deleted", value = "逻辑删除 0否 NULL是", dataType = "Boolean")
     private Boolean deleted;
 
     @ApiModelProperty(name = "createTime", value = "创建时间", dataType = "LocalDateTime")
     private LocalDateTime createTime;
 
-    @NotNull(message = "updateTime不能为空")
     @ApiModelProperty(name = "updateTime", value = "更新时间", dataType = "LocalDateTime")
     private LocalDateTime updateTime;
 

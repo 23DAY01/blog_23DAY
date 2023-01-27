@@ -1,6 +1,7 @@
 package site.day.blog.utils;
 
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @Description redis工具类
@@ -25,8 +27,10 @@ public final class RedisUtil {
     private RedisTemplate<String, Object> redisTemplate;
 
     // =============================common============================
+
     /**
      * 指定缓存失效时间
+     *
      * @param key  键
      * @param time 时间(秒)
      */
@@ -44,6 +48,7 @@ public final class RedisUtil {
 
     /**
      * 根据key 获取过期时间
+     *
      * @param key 键 不能为null
      * @return 时间(秒) 返回0代表为永久有效
      */
@@ -54,6 +59,7 @@ public final class RedisUtil {
 
     /**
      * 判断key是否存在
+     *
      * @param key 键
      * @return true 存在 false不存在
      */
@@ -68,6 +74,7 @@ public final class RedisUtil {
 
     /**
      * 获取自增1后的值
+     *
      * @param key  key值
      * @param time 过期时间
      * @return 返回递增后结果
@@ -82,6 +89,7 @@ public final class RedisUtil {
 
     /**
      * 删除缓存
+     *
      * @param key 可以传一个值 或多个
      */
     @SuppressWarnings("unchecked")
@@ -100,6 +108,7 @@ public final class RedisUtil {
 
     /**
      * 普通缓存获取
+     *
      * @param key 键
      * @return 值
      */
@@ -109,6 +118,7 @@ public final class RedisUtil {
 
     /**
      * 普通缓存放入
+     *
      * @param key   键
      * @param value 值
      * @return true成功 false失败
@@ -127,6 +137,7 @@ public final class RedisUtil {
 
     /**
      * 普通缓存放入并设置时间
+     *
      * @param key   键
      * @param value 值
      * @param time  时间(秒) time要大于0 如果time小于等于0 将设置无限期
@@ -148,13 +159,14 @@ public final class RedisUtil {
 
     /**
      * 普通缓存放入并设置时间
-     * @param key   键
-     * @param value 值
-     * @param time  时间(秒) time要大于0 如果time小于等于0 将设置无限期
-     * @param timeUnit  时间颗粒度
+     *
+     * @param key      键
+     * @param value    值
+     * @param time     时间(秒) time要大于0 如果time小于等于0 将设置无限期
+     * @param timeUnit 时间颗粒度
      * @return true成功 false 失败
      */
-    public boolean set(String key, Object value, long time,TimeUnit timeUnit) {
+    public boolean set(String key, Object value, long time, TimeUnit timeUnit) {
         try {
             if (time > 0) {
                 redisTemplate.opsForValue().set(key, value, time, timeUnit);
@@ -171,6 +183,7 @@ public final class RedisUtil {
 
     /**
      * 递增
+     *
      * @param key   键
      * @param delta 要增加几(大于0)
      */
@@ -184,6 +197,7 @@ public final class RedisUtil {
 
     /**
      * 递减
+     *
      * @param key   键
      * @param delta 要减少几(小于0)
      */
@@ -199,15 +213,17 @@ public final class RedisUtil {
 
     /**
      * HashGet
+     *
      * @param key  键 不能为null
      * @param item 项 不能为null
      */
-    public Object hget(String key, String item) {
+    public Object hGet(String key, String item) {
         return redisTemplate.opsForHash().get(key, item);
     }
 
     /**
      * 获取hashKey对应的所有键值
+     *
      * @param key 键
      * @return 对应的多个键值
      */
@@ -217,6 +233,7 @@ public final class RedisUtil {
 
     /**
      * HashSet
+     *
      * @param key 键
      * @param map 对应多个键值
      */
@@ -233,6 +250,7 @@ public final class RedisUtil {
 
     /**
      * HashSet 并设置时间
+     *
      * @param key  键
      * @param map  对应多个键值
      * @param time 时间(秒)
@@ -319,9 +337,9 @@ public final class RedisUtil {
     /**
      * hash递增 如果不存在,就会创建一个 并把新增后的值返回
      *
-     * @param key  键
-     * @param item 项
-     * @param delta   要增加几(大于0)
+     * @param key   键
+     * @param item  项
+     * @param delta 要增加几(大于0)
      */
     public Long hIncr(String key, String item, long delta) {
         return redisTemplate.opsForHash().increment(key, item, delta);
@@ -331,9 +349,9 @@ public final class RedisUtil {
     /**
      * hash递减
      *
-     * @param key  键
-     * @param item 项
-     * @param delta   要减少记(小于0)
+     * @param key   键
+     * @param item  项
+     * @param delta 要减少记(小于0)
      */
     public Long hDecr(String key, String item, long delta) {
         return redisTemplate.opsForHash().increment(key, item, -delta);
@@ -344,6 +362,7 @@ public final class RedisUtil {
 
     /**
      * 根据key获取Set中的所有值
+     *
      * @param key 键
      */
     public Set<Object> sGet(String key) {
@@ -433,7 +452,6 @@ public final class RedisUtil {
      * @param values 值 可以是多个
      * @return 移除的个数
      */
-
     public long sRemove(String key, Object... values) {
         try {
             Long count = redisTemplate.opsForSet().remove(key, values);
@@ -443,6 +461,28 @@ public final class RedisUtil {
             return 0;
         }
     }
+
+
+    // ===========================sorted set===============================
+
+    /*
+    通过索引区间返回有序集合成指定区间内的成员对象，其中有序集成员按分数值递减(从大到小)顺序排列
+     */
+    public Map<Object, Double> zReverseRangeWithScore(String key, long start, long end) {
+        return redisTemplate.opsForZSet().reverseRangeWithScores(key, start, end)
+                .stream()
+                .collect(Collectors.toMap(ZSetOperations.TypedTuple::getValue, ZSetOperations.TypedTuple::getScore));
+    }
+
+    public Double zIncr(String key, Object value, Double score) {
+        return redisTemplate.opsForZSet().incrementScore(key, value, score);
+    }
+
+    public Double zScore(String key, Object value) {
+        return redisTemplate.opsForZSet().score(key, value);
+    }
+
+
 
     // ===============================list=================================
 
@@ -513,6 +553,7 @@ public final class RedisUtil {
 
     /**
      * 将list放入缓存
+     *
      * @param key   键
      * @param value 值
      * @param time  时间(秒)

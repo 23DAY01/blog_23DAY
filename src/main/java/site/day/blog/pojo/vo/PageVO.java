@@ -28,30 +28,21 @@ public class PageVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @NotNull(message = "id不能为空")
     @ApiModelProperty(name = "id", value = "页面id", dataType = "Integer")
     private Integer id;
 
     @ApiModelProperty(name = "pageName", value = "页面名称", dataType = "String")
     private String pageName;
 
-    @NotNull(message = "pageLabel不能为空")
     @ApiModelProperty(name = "pageLabel", value = "页面标签", dataType = "String")
     private String pageLabel;
 
     @ApiModelProperty(name = "pageCover", value = "页面封面", dataType = "String")
     private String pageCover;
 
-    @NotNull(message = "deleted不能为空")
-    @ApiModelProperty(name = "deleted", value = "逻辑删除 0否 NULL是", dataType = "Boolean")
-    private Boolean deleted;
-
     @ApiModelProperty(name = "createTime", value = "创建时间", dataType = "LocalDateTime")
     private LocalDateTime createTime;
 
-    @NotNull(message = "updateTime不能为空")
-    @ApiModelProperty(name = "updateTime", value = "更新时间", dataType = "LocalDateTime")
-    private LocalDateTime updateTime;
 
 
 }

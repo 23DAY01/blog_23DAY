@@ -53,6 +53,11 @@ public class WebsiteConfigDTO implements Serializable {
     private String notice;
 
     /**
+     * 关于我
+     */
+    private String about;
+
+    /**
      * github
      */
     private String github;
@@ -78,19 +83,11 @@ public class WebsiteConfigDTO implements Serializable {
     private String userAvatar;
 
     /**
-     * 逻辑删除 0否 NULL是
-     */
-    private Boolean deleted;
-
-    /**
      * 创建时间
      */
     private LocalDateTime createTime;
 
-    /**
-     * 更新时间
-     */
-    private LocalDateTime updateTime;
+
 
 
 }
