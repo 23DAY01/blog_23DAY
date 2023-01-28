@@ -1,6 +1,9 @@
 package site.day.blog.controller;
 
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import site.day.blog.pojo.dto.FriendLinkDTO;
+import site.day.blog.pojo.vo.FriendLinkVO;
 import site.day.blog.service.FriendLinkService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +12,11 @@ import lombok.extern.slf4j.Slf4j;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import site.day.blog.utils.MapStruct;
 import site.day.blog.utils.ResponseAPI;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Description FriendLink控制器
@@ -21,10 +28,14 @@ import site.day.blog.utils.ResponseAPI;
 @Slf4j
 @Api(tags = "friendLink模块")
 @RestController
+@RequestMapping("/links")
 public class FriendLinkController {
 
     @Autowired
     public FriendLinkService friendLinkService;
+
+    @Autowired
+    private MapStruct mapStruct;
 
     /**
      * @Description 根据id查询
@@ -40,6 +51,21 @@ public class FriendLinkController {
             @PathVariable("id")
                     Integer id) {
         return ResponseAPI.success(friendLinkService.getById(id));
+    }
+
+    /**
+     * @Description 查看友链
+     * @Author 23DAY
+     * @Date 2023/1/28 18:55
+     * @Param []
+     * @Return site.day.blog.utils.ResponseAPI<?>
+     **/
+    @ApiOperation("查看友链")
+    @GetMapping("")
+    public ResponseAPI<?> getFriendLinks() {
+        List<FriendLinkDTO> friendLinkDTOList = friendLinkService.getFriendLinks();
+        List<FriendLinkVO> friendLinkVOList = mapStruct.FriendLinkDTOList2FriendLinkVOList(friendLinkDTOList);
+        return ResponseAPI.success(friendLinkVOList);
     }
 
 }

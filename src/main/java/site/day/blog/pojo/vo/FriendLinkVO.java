@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -28,29 +29,39 @@ public class FriendLinkVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(name = "id", value = "主键", dataType = "Integer")
+    /**
+     * id
+     */
+    @ApiModelProperty(name = "id", value = "友链id", dataType = "Integer")
     private Integer id;
 
-    @ApiModelProperty(name = "linkName", value = "链接名称", dataType = "String")
+    /**
+     * 链接名
+     */
+    @NotBlank(message = "链接名不能为空")
+    @ApiModelProperty(name = "linkName", value = "友链名", dataType = "String", required = true)
     private String linkName;
 
-    @ApiModelProperty(name = "linkAvatar", value = "链接头像", dataType = "String")
+    /**
+     * 链接头像
+     */
+    @NotBlank(message = "链接头像不能为空")
+    @ApiModelProperty(name = "linkAvatar", value = "友链头像", dataType = "String", required = true)
     private String linkAvatar;
 
-    @ApiModelProperty(name = "linkAddress", value = "链接地址", dataType = "String")
+    /**
+     * 链接地址
+     */
+    @NotBlank(message = "链接地址不能为空")
+    @ApiModelProperty(name = "linkAddress", value = "友链头像", dataType = "String", required = true)
     private String linkAddress;
 
-    @ApiModelProperty(name = "linkInfo", value = "链接简介", dataType = "String")
+    /**
+     * 介绍
+     */
+    @NotBlank(message = "链接介绍不能为空")
+    @ApiModelProperty(name = "linkInfo", value = "友链头像", dataType = "String", required = true)
     private String linkInfo;
-
-    @ApiModelProperty(name = "deleted", value = "逻辑删除 0否 NULL是", dataType = "Boolean")
-    private Boolean deleted;
-
-    @ApiModelProperty(name = "createTime", value = "创建时间", dataType = "LocalDateTime")
-    private LocalDateTime createTime;
-
-    @ApiModelProperty(name = "updateTime", value = "更新时间", dataType = "LocalDateTime")
-    private LocalDateTime updateTime;
 
 
 }

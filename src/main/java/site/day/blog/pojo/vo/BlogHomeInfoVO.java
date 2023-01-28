@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import site.day.blog.pojo.dto.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -20,7 +21,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel("博客首页信息")
-public class BlogHomeInfoVO {
+public class BlogHomeInfoVO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * 文章数量

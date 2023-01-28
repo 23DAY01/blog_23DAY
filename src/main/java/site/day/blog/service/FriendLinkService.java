@@ -2,6 +2,9 @@ package site.day.blog.service;
 
 import site.day.blog.pojo.domain.FriendLink;
 import com.baomidou.mybatisplus.extension.service.IService;
+import site.day.blog.pojo.dto.FriendLinkDTO;
+
+import java.util.List;
 
 /**
  * @Description FriendLink服务类
@@ -12,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface FriendLinkService extends IService<FriendLink> {
 
+    List<FriendLinkDTO> getFriendLinks();
 }
