@@ -55,6 +55,9 @@ public interface StatusMsgConst {
     // 文章错误
     String ARTICLE_MISSING = "文章不存在";
 
+    //说说错误
+    String TALK_MISSING = "说说不存在";
+
 
     /**
      * Server

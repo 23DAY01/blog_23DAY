@@ -58,7 +58,7 @@ public class MessageController {
      * @Return site.day.blog.utils.ResponseAPI<?>
      **/
     @ApiOperation("添加留言")
-    @PostMapping("")
+    @PostMapping("/save")
     public ResponseAPI<?> saveMessage(
             @ApiParam(name = "messageQuery", value = "留言", required = true)
             @Valid

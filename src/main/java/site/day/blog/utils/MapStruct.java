@@ -193,9 +193,15 @@ public interface MapStruct {
 
     List<TalkDTO> TalkList2TalkDTOList(List<Talk> Talks);
 
-    TalkVO TalkDTO2TalkVO(TalkDTO TalkDTO);
+    TalkHomeVO TalkDTO2TalkHomeVO(TalkDTO TalkDTO);
 
-    List<TalkVO> TalkDTOList2TalkVOList(List<TalkDTO> TalkDTOS);
+    List<TalkHomeVO> TalkDTOList2TalkHomeVOList(List<TalkDTO> TalkDTOS);
+
+    TalkBackVO TalkDTO2TalkBackVO(TalkDTO TalkDTO);
+
+    List<TalkBackVO> TalkDTOList2TalkBackVOList(List<TalkDTO> TalkDTOS);
+
+
 
     /**
      * 用户认证

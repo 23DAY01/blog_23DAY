@@ -144,8 +144,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         //分页 通过已筛选出来的articleId重新select一遍进行分页
         List<Integer> pageArticleIdList = articleDTOList.stream().map(ArticleDTO::getId).collect(Collectors.toList());
         List<Integer> finalPageArticleIdList = articleMapper.selectPage(articlePage,
-                        new LambdaQueryWrapper<Article>()
-                                .in(CollectionUtils.isNotEmpty(pageArticleIdList), Article::getId, pageArticleIdList))
+                        Wrappers.lambdaQuery(Article.class)
+                                .in(CollectionUtils.isNotEmpty(pageArticleIdList), Article::getId, pageArticleIdList)
+                                .orderByDesc(Article::getIsTop))
                 .getRecords()
                 .stream()
                 .map(Article::getId)
@@ -168,7 +169,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public List<ArticleDTO> getArticles() {
         //分页
         Page<Article> articlePage = new Page<>(PageUtil.getCurrent(), PageUtil.getSize());
-        List<Article> articleList = articleMapper.selectPage(articlePage, Wrappers.emptyWrapper()).getRecords();
+        List<Article> articleList = articleMapper.selectPage(articlePage, Wrappers.lambdaQuery(Article.class)
+                .orderByDesc(Article::getIsTop)).getRecords();
         //设置分页参数
         PageUtil.setTotal(articlePage.getTotal());
         //类型转换

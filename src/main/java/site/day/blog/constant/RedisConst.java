@@ -49,6 +49,10 @@ public class RedisConst {
      */
     public static final String COMMENT_USER_LIKE = "comment_user_like:";
 
+    /**
+     * 说说用户点赞
+     */
+    public static final String TALK_USER_LIKE="talk_user_like";
 
     //==============================key================================
 
@@ -82,6 +86,11 @@ public class RedisConst {
      * 评论点赞量
      */
     public static final String COMMENT_LIKE_COUNT = "comment_like_count";
+
+    /**
+     * 说说点赞量
+     */
+    public static final String TALK_LIKE_COUNT = "talk_like_count";
 
 
 }

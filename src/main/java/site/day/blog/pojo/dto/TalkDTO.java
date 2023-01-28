@@ -33,6 +33,16 @@ public class TalkDTO implements Serializable {
     private Integer userId;
 
     /**
+     * 用户名
+     */
+    private String nickName;
+
+    /**
+     * 头像
+     */
+    private String avatar;
+
+    /**
      * 说说内容
      */
     private String content;
@@ -53,19 +63,14 @@ public class TalkDTO implements Serializable {
     private Boolean status;
 
     /**
-     * 逻辑删除 0否 NULL是
-     */
-    private Boolean deleted;
-
-    /**
      * 创建时间
      */
     private LocalDateTime createTime;
 
     /**
-     * 更新时间
+     * 点赞量
      */
-    private LocalDateTime updateTime;
+    private Integer likeCount;
 
 
 }

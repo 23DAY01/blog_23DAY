@@ -32,6 +32,6 @@ public class PageQuery {
 
     @ApiModelProperty(name = "size", value = "条数，默认为10", dataType = "Long")
     @Min(0)
-    private Long size = PAGE_DEFAULT_SIZE;
+    private Long size;
 
 }

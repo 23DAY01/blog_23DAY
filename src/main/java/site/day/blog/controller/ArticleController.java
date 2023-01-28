@@ -53,7 +53,6 @@ public class ArticleController {
             @PathVariable("id")
                     Integer id) {
         ArticleDTO articleDTOList = articleService.getArticleById(id);
-
         return ResponseAPI.success();
     }
 
@@ -144,7 +143,7 @@ public class ArticleController {
      * @Return site.day.blog.utils.ResponseAPI<?>
      **/
     @ApiOperation("文章点赞")
-    @GetMapping("/like/{articleId}")
+    @GetMapping("/{articleId}/like")
     public ResponseAPI<?> saveArticleLike(
             @ApiParam(name = "articleId", value = "文章id", required = true)
             @PathVariable("articleId")

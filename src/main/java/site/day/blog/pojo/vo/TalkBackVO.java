@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 import javax.validation.constraints.NotNull;
 
 /**
- * @ClassName TalkVO
+ * @ClassName TalkBackVO
  * @Author 23DAY
  * @Date 2023/01/18 20:48
  * @Version 1.0
@@ -23,8 +23,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@ApiModel(value = "TalkVO", description = "说说表")
-public class TalkVO implements Serializable {
+@ApiModel(value = "TalkBackVO", description = "说说表")
+public class TalkBackVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -33,6 +33,18 @@ public class TalkVO implements Serializable {
 
     @ApiModelProperty(name = "userId", value = "用户id", dataType = "Integer")
     private Integer userId;
+
+    /**
+     * 用户名
+     */
+    @ApiModelProperty(name = "nickName", value = "用户名", dataType = "String")
+    private String nickName;
+
+    /**
+     * 头像
+     */
+    @ApiModelProperty(name = "avatar", value = "头像", dataType = "String")
+    private String avatar;
 
     @ApiModelProperty(name = "content", value = "说说内容", dataType = "String")
     private String content;
@@ -46,14 +58,9 @@ public class TalkVO implements Serializable {
     @ApiModelProperty(name = "status", value = "状态 0公开 1私密", dataType = "Boolean")
     private Boolean status;
 
-    @ApiModelProperty(name = "deleted", value = "逻辑删除 0否 NULL是", dataType = "Boolean")
-    private Boolean deleted;
-
     @ApiModelProperty(name = "createTime", value = "创建时间", dataType = "LocalDateTime")
     private LocalDateTime createTime;
 
-    @ApiModelProperty(name = "updateTime", value = "更新时间", dataType = "LocalDateTime")
-    private LocalDateTime updateTime;
 
 
 }

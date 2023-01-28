@@ -10,7 +10,7 @@ import site.day.blog.constant.StatusMsgConst;
 /**
  * @Description 业务状态码枚举
  * regex：([A-Z\w]+)\(([0-9]+),\s".+"\),
- *          $1
+ * $1
  * @ClassName StatusCode
  * @Author 23DAY
  * @Date 2022/9/14 22:12
@@ -22,7 +22,7 @@ public enum StatusCodeEnum {
 
 
     SUCCESS(2000101, StatusMsgConst.SUCCESS),
-    UNKNOWN_CLIENT_ERROR(4009901,StatusMsgConst.UNKNOWN_CLIENT_ERROR),
+    UNKNOWN_CLIENT_ERROR(4009901, StatusMsgConst.UNKNOWN_CLIENT_ERROR),
     UNKNOWN_RUNTIME_ERROR(5009901, StatusMsgConst.UNKNOWN_RUNTIME_ERROR),
     UNKNOWN_SYSTEM_ERROR(5009902, StatusMsgConst.UNKNOWN_SYSTEM_ERROR),
 
@@ -62,7 +62,10 @@ public enum StatusCodeEnum {
     API_REPEAT_SUBMIT(4000402, StatusMsgConst.API_REPEAT_SUBMIT),
     API_ACCESS_METHOD_ERROR(4000403, StatusMsgConst.API_ACCESS_METHOD_ERROR),
 
-    ARTICLE_MISSING(4001001,StatusMsgConst.ARTICLE_MISSING),
+    //业务错误-article
+    ARTICLE_MISSING(4001001, StatusMsgConst.ARTICLE_MISSING),
+    //业务错误-talk
+    TALK_MISSING(4001101, StatusMsgConst.TALK_MISSING),
 
     /**
      * Server

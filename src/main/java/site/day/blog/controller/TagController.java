@@ -2,6 +2,7 @@ package site.day.blog.controller;
 
 import org.elasticsearch.common.util.Maps;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import site.day.blog.pojo.dto.TagDTO;
 import site.day.blog.pojo.vo.TagVO;
 import site.day.blog.service.TagService;
@@ -28,6 +29,7 @@ import java.util.Map;
 @Slf4j
 @Api(tags = "tag模块")
 @RestController
+@RequestMapping("/tags")
 public class TagController {
 
     @Autowired
