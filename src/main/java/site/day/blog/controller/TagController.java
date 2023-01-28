@@ -1,6 +1,9 @@
 package site.day.blog.controller;
 
+import org.elasticsearch.common.util.Maps;
 import org.springframework.web.bind.annotation.PathVariable;
+import site.day.blog.pojo.dto.TagDTO;
+import site.day.blog.pojo.vo.TagVO;
 import site.day.blog.service.TagService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +12,11 @@ import lombok.extern.slf4j.Slf4j;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import site.day.blog.utils.MapStruct;
 import site.day.blog.utils.ResponseAPI;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Description Tag控制器
@@ -24,7 +31,10 @@ import site.day.blog.utils.ResponseAPI;
 public class TagController {
 
     @Autowired
-    public TagService tagService;
+    private TagService tagService;
+
+    @Autowired
+    private MapStruct mapStruct;
 
     /**
      * @Description 根据id查询
@@ -40,6 +50,21 @@ public class TagController {
             @PathVariable("id")
                     Integer id) {
         return ResponseAPI.success(tagService.getById(id));
+    }
+
+    /**
+     * @Description 获取标签
+     * @Author 23DAY
+     * @Date 2023/1/28 19:49
+     * @Param []
+     * @Return site.day.blog.utils.ResponseAPI<?>
+     **/
+    @ApiOperation("获取标签")
+    @GetMapping("/list")
+    public ResponseAPI<?> getTags() {
+        List<TagDTO> tagDTOList = tagService.getTags();
+        List<TagVO> tagVOList = mapStruct.tagDTOList2tagVOList(tagDTOList);
+        return ResponseAPI.success(tagVOList);
     }
 
 }

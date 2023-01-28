@@ -2,6 +2,9 @@ package site.day.blog.service;
 
 import site.day.blog.pojo.domain.Tag;
 import com.baomidou.mybatisplus.extension.service.IService;
+import site.day.blog.pojo.dto.TagDTO;
+
+import java.util.List;
 
 /**
  * @Description Tag服务类
@@ -12,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface TagService extends IService<Tag> {
 
+    List<TagDTO> getTags();
 }
