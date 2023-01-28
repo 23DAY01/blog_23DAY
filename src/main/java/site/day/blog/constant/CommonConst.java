@@ -55,4 +55,13 @@ public class CommonConst {
      * 默认网站配置id
      */
     public static final Integer DEFAULT_WEBSITE_CONFIG_ID = 1;
+
+    /**
+     * 默认昵称
+     */
+    public static final String DEFAULT_NICKNAME = "游客";
+    /**
+     * 默认留言速度
+     */
+    public static final Integer MESSAGE_SPEED = 7;
 }

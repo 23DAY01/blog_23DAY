@@ -2,6 +2,10 @@ package site.day.blog.service;
 
 import site.day.blog.pojo.domain.Message;
 import com.baomidou.mybatisplus.extension.service.IService;
+import site.day.blog.pojo.dto.MessageDTO;
+import site.day.blog.pojo.vo.query.MessageQuery;
+
+import java.util.List;
 
 /**
  * @Description Message服务类
@@ -12,4 +16,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface MessageService extends IService<Message> {
 
+    void saveMessage(MessageQuery messageQuery);
+
+    List<MessageDTO> getMessages();
 }

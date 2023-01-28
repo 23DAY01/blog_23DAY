@@ -49,17 +49,5 @@ public class MessageVO implements Serializable {
     @ApiModelProperty(name = "speed", value = "弹幕速度", dataType = "Integer")
     private Integer speed;
 
-    @ApiModelProperty(name = "isReview", value = "是否审核", dataType = "Integer")
-    private Integer isReview;
-
-    @ApiModelProperty(name = "deleted", value = "逻辑删除 0否 NULL是", dataType = "Boolean")
-    private Boolean deleted;
-
-    @ApiModelProperty(name = "createTime", value = "创建时间", dataType = "LocalDateTime")
-    private LocalDateTime createTime;
-
-    @ApiModelProperty(name = "updateTime", value = "更新时间", dataType = "LocalDateTime")
-    private LocalDateTime updateTime;
-
 
 }
