@@ -25,9 +25,9 @@ public class PageableInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         //如果current为空或null则不创建page
         boolean flag = StringUtil.isNullOrEmpty(request.getParameter(PAGE_CURRENT));
-        String current = StringUtil.isNullOrEmpty(request.getParameter(PAGE_CURRENT)) ? String.valueOf(PAGE_DEFAULT_CURRENT) : request.getParameter(PAGE_CURRENT);
-        String size = StringUtil.isNullOrEmpty(request.getParameter(PAGE_SIZE)) ? String.valueOf(PAGE_DEFAULT_SIZE) : request.getParameter(PAGE_SIZE);
-        if (!flag){
+        if (!flag) {
+            String current = request.getParameter(PAGE_CURRENT);
+            String size = StringUtil.isNullOrEmpty(request.getParameter(PAGE_SIZE)) ? String.valueOf(PAGE_DEFAULT_SIZE) : request.getParameter(PAGE_SIZE);
             PageUtil.setPage(new Page<>(Long.parseLong(current), Long.parseLong(size)));
         }
         return true;

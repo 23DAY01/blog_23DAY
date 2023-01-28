@@ -29,7 +29,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Slf4j
-@Api(tags = "websiteConfig模块")
+@Api(tags = "blog模块")
 @RestController
 @RequestMapping("/blog")
 public class BlogController {

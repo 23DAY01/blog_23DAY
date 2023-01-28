@@ -168,7 +168,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public List<ArticleDTO> getArticles() {
         //分页
         Page<Article> articlePage = new Page<>(PageUtil.getCurrent(), PageUtil.getSize());
-        List<Article> articleList = articleMapper.selectPage(articlePage, new LambdaQueryWrapper<>()).getRecords();
+        List<Article> articleList = articleMapper.selectPage(articlePage, Wrappers.emptyWrapper()).getRecords();
         //设置分页参数
         PageUtil.setTotal(articlePage.getTotal());
         //类型转换

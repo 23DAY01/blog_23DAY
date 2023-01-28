@@ -38,7 +38,7 @@ public class BlogBackInfoVO {
      * 分类列表
      */
     @ApiModelProperty(name = "categoryList",value = "分类列表",dataType = "List<CategoryVO>")
-    private List<CategoryVO> categoryList;
+    private List<CategoryHomeVO> categoryList;
 
     /**
      * 标签数量

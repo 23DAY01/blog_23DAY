@@ -1,6 +1,9 @@
 package site.day.blog.controller;
 
 import com.google.code.kaptcha.Producer;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +24,8 @@ import java.io.IOException;
  * @Date 2022/9/18 14:47
  * @Version 1.0
  */
+@Slf4j
+@Api(tags = "websiteConfig模块")
 @RestController
 public class CaptchaController {
 
@@ -34,6 +39,7 @@ public class CaptchaController {
      * @Date 2022/9/21 20:31
      * @Param [javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse]
      **/
+    @ApiOperation(value = "图片验证码",notes = "返回图片验证码")
     @GetMapping("/captcha")
     public void getCaptcha(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // 设置内容类型

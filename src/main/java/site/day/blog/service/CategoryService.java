@@ -2,6 +2,9 @@ package site.day.blog.service;
 
 import site.day.blog.pojo.domain.Category;
 import com.baomidou.mybatisplus.extension.service.IService;
+import site.day.blog.pojo.dto.CategoryDTO;
+
+import java.util.List;
 
 /**
  * @Description Category服务类
@@ -12,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface CategoryService extends IService<Category> {
 
+    List<CategoryDTO> getCategories();
 }

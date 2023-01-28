@@ -107,7 +107,7 @@ public class ArticleController {
      * @Return site.day.blog.utils.ResponseAPI<?>
      **/
     @ApiOperation("首页查看文章")
-    @GetMapping("")
+    @GetMapping("/list")
     public ResponseAPI<?> getHomeArticles(
             @ApiParam(name = "articleConditionQuery", value = "查询条件")
             @Valid

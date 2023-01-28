@@ -1,15 +1,21 @@
 package site.day.blog.controller;
 
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
+import site.day.blog.pojo.dto.CategoryDTO;
+import site.day.blog.pojo.vo.CategoryHomeVO;
+import site.day.blog.pojo.vo.PageResult;
+import site.day.blog.pojo.vo.query.PageQuery;
 import site.day.blog.service.CategoryService;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
 import lombok.extern.slf4j.Slf4j;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import site.day.blog.utils.MapStruct;
 import site.day.blog.utils.ResponseAPI;
+
+import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @Description Category控制器
@@ -21,10 +27,14 @@ import site.day.blog.utils.ResponseAPI;
 @Slf4j
 @Api(tags = "category模块")
 @RestController
+@RequestMapping("/categories")
 public class CategoryController {
 
     @Autowired
-    public CategoryService categoryService;
+    private CategoryService categoryService;
+
+    @Autowired
+    private MapStruct mapStruct;
 
     /**
      * @Description 根据id查询
@@ -41,5 +51,18 @@ public class CategoryController {
                     Integer id) {
         return ResponseAPI.success(categoryService.getById(id));
     }
+
+    @ApiOperation(value = "查看全部分类")
+    @GetMapping("/list")
+    public ResponseAPI<?> getCategories(
+            @ApiParam(name = "articleConditionQuery", value = "查询条件")
+            @Valid
+            @RequestParam(required = false)
+                    PageQuery pageQuery) {
+        List<CategoryDTO> categoryDTOList = categoryService.getCategories();
+        List<CategoryHomeVO> categoryHomeVOList = mapStruct.CategoryDTOList2CategoryHomeVOList(categoryDTOList);
+        return ResponseAPI.success(PageResult.build(categoryHomeVOList));
+    }
+
 
 }

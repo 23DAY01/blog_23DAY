@@ -1,10 +1,25 @@
 package site.day.blog.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.beans.factory.annotation.Autowired;
+import site.day.blog.mapper.ArticleMapper;
+import site.day.blog.pojo.domain.Article;
+import site.day.blog.pojo.domain.ArticleTag;
 import site.day.blog.pojo.domain.Category;
 import site.day.blog.mapper.CategoryMapper;
+import site.day.blog.pojo.dto.ArticleDTO;
+import site.day.blog.pojo.dto.CategoryDTO;
 import site.day.blog.service.CategoryService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import site.day.blog.utils.MapStruct;
+import site.day.blog.utils.PageUtil;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @Description Category服务实现类
@@ -16,4 +31,36 @@ import org.springframework.stereotype.Service;
 @Service
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements CategoryService {
 
+    @Autowired
+    private CategoryMapper categoryMapper;
+
+    @Autowired
+    private MapStruct mapStruct;
+
+    @Autowired
+    private ArticleMapper articleMapper;
+
+
+    @Override
+    public List<CategoryDTO> getCategories() {
+        Page<Category> categoryPage = new Page<>(PageUtil.getCurrent(), PageUtil.getSize());
+        List<Category> categoryList = categoryMapper.selectPage(categoryPage, Wrappers.emptyWrapper()).getRecords();
+        //设置分页参数
+        PageUtil.setTotal(categoryPage.getTotal());
+        //类型转换
+        List<CategoryDTO> categoryDTOList = mapStruct.CategoryList2CategoryDTOList(categoryList);
+        //注入
+        addArticleInfo(categoryDTOList);
+        return categoryDTOList;
+    }
+
+    public void addArticleInfo(List<CategoryDTO> categoryDTOList) {
+        //获取categoryId到articleIdList的映射
+        Map<Integer, List<Integer>> categoryId2ArticleIdMap = articleMapper.selectList(Wrappers.emptyWrapper())
+                .stream().collect(Collectors.groupingBy(Article::getCategoryId, Collectors.mapping(Article::getId, Collectors.toList())));
+        //根据id取出来articleIdList的size
+        for (CategoryDTO categoryDTO : categoryDTOList) {
+            categoryDTO.setArticleCount(categoryId2ArticleIdMap.get(categoryDTO.getId()).size());
+        }
+    }
 }

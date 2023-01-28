@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 import javax.validation.constraints.NotNull;
 
 /**
- * @ClassName CategoryVO
+ * @ClassName CategoryHomeVO
  * @Author 23DAY
  * @Date 2023/01/18 20:48
  * @Version 1.0
@@ -23,8 +23,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@ApiModel(value = "CategoryVO", description = "分类表")
-public class CategoryVO implements Serializable {
+@ApiModel(value = "CategoryHomeVO", description = "分类")
+public class CategoryHomeVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,14 +34,8 @@ public class CategoryVO implements Serializable {
     @ApiModelProperty(name = "categoryName", value = "分类名", dataType = "String")
     private String categoryName;
 
-    @ApiModelProperty(name = "deleted", value = "逻辑删除 0否 NULL是", dataType = "Boolean")
-    private Boolean deleted;
-
-    @ApiModelProperty(name = "createTime", value = "创建时间", dataType = "LocalDateTime")
-    private LocalDateTime createTime;
-
-    @ApiModelProperty(name = "updateTime", value = "更新时间", dataType = "LocalDateTime")
-    private LocalDateTime updateTime;
+    @ApiModelProperty(name = "articleCount", value = "文章数量", dataType = "Integer")
+    private Integer articleCount;
 
 
 }

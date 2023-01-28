@@ -74,9 +74,13 @@ public interface MapStruct {
 
     List<CategoryDTO> CategoryList2CategoryDTOList(List<Category> categories);
 
-    CategoryVO CategoryDTO2CategoryVO(CategoryDTO CategoryDTO);
+    CategoryHomeVO CategoryDTO2CategoryHomeVO(CategoryDTO CategoryDTO);
 
-    List<CategoryVO> CategoryDTOList2CategoryVOList(List<CategoryDTO> CategoryDTOS);
+    List<CategoryHomeVO> CategoryDTOList2CategoryHomeVOList(List<CategoryDTO> CategoryDTOS);
+
+    //CategoryBackVO CategoryDTO2CategoryVO(CategoryDTO CategoryDTO);
+    //
+    //List<CategoryBackVO> CategoryDTOList2CategoryVOList(List<CategoryDTO> CategoryDTOS);
 
     /**
      * 评论
