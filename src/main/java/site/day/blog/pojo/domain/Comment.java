@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
+@Builder
 @TableName("day_comment")
 public class Comment implements Serializable {
 
@@ -49,6 +51,12 @@ public class Comment implements Serializable {
     private Integer affiliationId;
 
     /**
+     * 评论类型 1.文章 2.友链 3.说说
+     */
+    @TableField("type")
+    private Integer type;
+
+    /**
      * 评论内容
      */
     @TableField("comment_content")
@@ -67,10 +75,10 @@ public class Comment implements Serializable {
     private Integer parentId;
 
     /**
-     * 评论类型 1.文章 2.友链 3.说说
+     * 顶级评论id，默认为自身id
      */
-    @TableField("type")
-    private Integer type;
+    @TableField("top_id")
+    private Integer topId;
 
     /**
      * 是否审核

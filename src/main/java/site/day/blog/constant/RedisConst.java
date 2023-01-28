@@ -1,5 +1,8 @@
 package site.day.blog.constant;
 
+import com.baomidou.mybatisplus.generator.config.StrategyConfig;
+import com.sun.javafx.logging.PulseLogger;
+
 /**
  * @Description Redis 常量
  * @ClassName RedisPrefixConst
@@ -32,7 +35,7 @@ public class RedisConst {
     public static final String API_ACCESS_RESTRICTION = "api_access_restriction:";
 
     /**
-     * 用户是否点赞
+     * 文章点赞
      */
     public static final String ARTICLE_USER_LIKE = "article_user_like:";
 
@@ -40,6 +43,11 @@ public class RedisConst {
      * 文章点赞量
      */
     public static final String ARTICLE_LIKE_COUNT = "article_like_count:";
+
+    /**
+     * 评论点赞
+     */
+    public static final String COMMENT_USER_LIKE = "comment_user_like:";
 
 
     //==============================key================================
@@ -69,6 +77,11 @@ public class RedisConst {
      * 博客浏览量
      */
     public static final String BLOG_VIEW_COUNT = "blog_view_count";
+
+    /**
+     * 评论点赞量
+     */
+    public static final String COMMENT_LIKE_COUNT = "comment_like_count";
 
 
 }

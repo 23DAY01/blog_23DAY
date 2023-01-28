@@ -89,9 +89,9 @@ public interface MapStruct {
 
     List<CommentDTO> CommentList2CommentDTOList(List<Comment> Comments);
 
-    CommentVO CommentDTO2CommentVO(CommentDTO CommentDTO);
+    CommentHomeVO CommentDTO2CommentHomeVO(CommentDTO CommentDTO);
 
-    List<CommentVO> CommentDTOList2CommentVOList(List<CommentDTO> CommentDTOS);
+    List<CommentHomeVO> CommentDTOList2CommentHomeVOList(List<CommentDTO> CommentDTOS);
 
     /**
      * 友链

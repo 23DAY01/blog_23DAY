@@ -1,28 +1,26 @@
 package site.day.blog.pojo.dto;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.List;
-
-import com.baomidou.mybatisplus.annotation.TableField;
-import lombok.Builder;
-import lombok.Data;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
 /**
- * @ClassName CommentDTO
+ * @Description
+ * @ClassName CommentReplyDTO
  * @Author 23DAY
- * @Date 2023/01/18 20:44
+ * @Date 2023/1/28 13:22
  * @Version 1.0
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@Builder
-public class CommentDTO implements Serializable {
+public class CommentReplyDTO implements Serializable {
+
 
     private static final long serialVersionUID = 1L;
 
@@ -30,6 +28,11 @@ public class CommentDTO implements Serializable {
      * 主键
      */
     private Integer id;
+
+    /**
+     * 父评论id
+     */
+    private Integer parentId;
 
     /**
      * 评论用户Id
@@ -52,44 +55,14 @@ public class CommentDTO implements Serializable {
     private String website;
 
     /**
-     * 所属主体id
-     */
-    private Integer affiliationId;
-
-    /**
-     * 所属主题类型
-     */
-    private Integer type;
-
-    /**
-     * 顶级评论id，默认为自身id
-     */
-    private Integer topId;
-
-    /**
-     * 父评论id
-     */
-    private Integer parentId;
-
-    /**
      * 评论内容
      */
     private String commentContent;
 
     /**
-     * 点赞量
-     */
-    private Integer likeCount;
-
-    /**
      * 回复量
      */
     private Integer replyCount;
-
-    /**
-     * 当前评论的回复
-     */
-    private List<CommentDTO> replyList;
 
     /**
      * 被回复用户id
@@ -107,11 +80,6 @@ public class CommentDTO implements Serializable {
     private String replyWebsite;
 
     /**
-     * 被回复用户头像
-     */
-    private String replyAvatar;
-
-    /**
      * 是否审核
      */
     private Boolean isReview;
@@ -121,5 +89,9 @@ public class CommentDTO implements Serializable {
      */
     private LocalDateTime createTime;
 
+    /**
+     * 点赞量
+     */
+    private Integer likeCount;
 
 }

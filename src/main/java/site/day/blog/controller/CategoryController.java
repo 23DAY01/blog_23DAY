@@ -55,7 +55,7 @@ public class CategoryController {
     @ApiOperation(value = "查看全部分类")
     @GetMapping("/list")
     public ResponseAPI<?> getCategories(
-            @ApiParam(name = "articleConditionQuery", value = "查询条件")
+            @ApiParam(name = "pageQuery", value = "分页")
             @Valid
             @RequestParam(required = false)
                     PageQuery pageQuery) {
