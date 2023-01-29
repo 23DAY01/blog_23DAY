@@ -86,6 +86,11 @@ public class ArticleDTO implements Serializable {
     private Integer status;
 
     /**
+     * 逻辑删除
+     */
+    private Boolean deleted;
+
+    /**
      * 创建时间
      */
     private LocalDateTime createTime;

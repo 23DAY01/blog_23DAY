@@ -56,16 +56,7 @@ public class ArticleHomeVO implements Serializable {
     @ApiModelProperty(name = "originalUrl", value = "原文链接", dataType = "String")
     private String originalUrl;
 
-    @ApiModelProperty(name = "isTop", value = "是否置顶 0否 1是", dataType = "Boolean")
-    private Boolean isTop;
-
-    @ApiModelProperty(name = "status", value = "文章状态 1公开 2私密 3草稿", dataType = "Integer")
-    private Integer status;
-
     @ApiModelProperty(name = "createTime", value = "创建时间", dataType = "LocalDateTime")
     private LocalDateTime createTime;
-
-
-
 
 }

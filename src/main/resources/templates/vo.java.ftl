@@ -52,17 +52,13 @@ public class ${entity}VO {
 <#-- ----------  BEGIN 字段循环遍历  ---------->
 <#list table.fields as field>
 
-    <#if field.keyFlag>
-    @NotNull(message = "${field.propertyName}不能为空")
-    </#if>
     <#if field.comment!?length gt 0>
         <#if swagger>
     @ApiModelProperty(name = "${field.propertyName}", value = "${field.comment}", dataType = "${field.propertyType}")
-        <#else>
+        </#if>
     /**
      * ${field.comment}
      */
-        </#if>
     </#if>
     private ${field.propertyType} ${field.propertyName};
 </#list>

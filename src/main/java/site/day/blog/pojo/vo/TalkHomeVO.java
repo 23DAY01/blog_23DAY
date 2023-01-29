@@ -28,30 +28,45 @@ public class TalkHomeVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 主键
+     */
     @ApiModelProperty(name = "id", value = "主键", dataType = "Integer")
     private Integer id;
-
+    
     /**
      * 用户名
      */
     @ApiModelProperty(name = "nickName", value = "用户名", dataType = "String")
     private String nickName;
-
+    
     /**
      * 头像
      */
     @ApiModelProperty(name = "avatar", value = "头像", dataType = "String")
     private String avatar;
 
+    /**
+     * 说说内容
+     */
     @ApiModelProperty(name = "content", value = "说说内容", dataType = "String")
     private String content;
 
+    /**
+     * 图片
+     */
     @ApiModelProperty(name = "image", value = "图片", dataType = "String")
     private String image;
 
+    /**
+     * 是否置顶 0否 1是
+     */
     @ApiModelProperty(name = "isTop", value = "是否置顶 0否 1是", dataType = "Boolean")
     private Boolean isTop;
 
+    /**
+     * 创建时间
+     */
     @ApiModelProperty(name = "createTime", value = "创建时间", dataType = "LocalDateTime")
     private LocalDateTime createTime;
 

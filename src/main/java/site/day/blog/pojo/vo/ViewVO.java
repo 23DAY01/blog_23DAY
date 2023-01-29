@@ -28,13 +28,21 @@ public class ViewVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 主键
+     */
     @ApiModelProperty(name = "id", value = "主键", dataType = "Integer")
     private Integer id;
 
+    /**
+     * 访问量
+     */
     @ApiModelProperty(name = "viewCount", value = "访问量", dataType = "Integer")
     private Integer viewCount;
 
-
+    /**
+     * 创建时间
+     */
     @ApiModelProperty(name = "createTime", value = "创建时间", dataType = "LocalDateTime")
     private LocalDateTime createTime;
 

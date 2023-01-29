@@ -28,21 +28,39 @@ public class ArticleTagVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 主键
+     */
     @ApiModelProperty(name = "id", value = "主键", dataType = "Integer")
     private Integer id;
 
+    /**
+     * 文章id
+     */
     @ApiModelProperty(name = "articleId", value = "文章id", dataType = "Integer")
     private Integer articleId;
 
+    /**
+     * 标签id
+     */
     @ApiModelProperty(name = "tagId", value = "标签id", dataType = "Integer")
     private Integer tagId;
 
+    /**
+     * 逻辑删除 0否 NULL是
+     */
     @ApiModelProperty(name = "deleted", value = "逻辑删除 0否 NULL是", dataType = "Boolean")
     private Boolean deleted;
 
+    /**
+     * 创建时间
+     */
     @ApiModelProperty(name = "createTime", value = "创建时间", dataType = "LocalDateTime")
     private LocalDateTime createTime;
 
+    /**
+     * 更新时间
+     */
     @ApiModelProperty(name = "updateTime", value = "更新时间", dataType = "LocalDateTime")
     private LocalDateTime updateTime;
 

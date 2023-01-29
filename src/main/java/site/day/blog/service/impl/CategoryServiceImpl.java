@@ -19,6 +19,7 @@ import site.day.blog.utils.PageUtil;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -54,6 +55,13 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         return categoryDTOList;
     }
 
+    /**
+     * @Description 封装文章信息
+     * @Author 23DAY
+     * @Date 2023/1/29 16:40
+     * @Param [java.util.List<site.day.blog.pojo.dto.CategoryDTO>]
+     * @Return void
+     **/
     public void addArticleInfo(List<CategoryDTO> categoryDTOList) {
         //获取categoryId到articleIdList的映射
         Map<Integer, List<Integer>> categoryId2ArticleIdMap = articleMapper.selectList(Wrappers.emptyWrapper())
@@ -62,5 +70,25 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         for (CategoryDTO categoryDTO : categoryDTOList) {
             categoryDTO.setArticleCount(categoryId2ArticleIdMap.get(categoryDTO.getId()).size());
         }
+    }
+
+
+    /**
+     * @Description 判断新增文章携带分类是否存在并返回
+     * @Author 23DAY
+     * @Date 2023/1/29 16:46
+     * @Param [java.lang.String]
+     * @Return site.day.blog.pojo.domain.Category
+     **/
+    public Integer saveArticleCategory(String categoryName) {
+        Category category = categoryMapper.selectOne(Wrappers.lambdaQuery(Category.class)
+                .eq(Category::getCategoryName, categoryName));
+        if (Objects.isNull(category)) {
+            category = Category.builder()
+                    .categoryName(categoryName)
+                    .build();
+            categoryMapper.insert(category);
+        }
+        return category.getId();
     }
 }

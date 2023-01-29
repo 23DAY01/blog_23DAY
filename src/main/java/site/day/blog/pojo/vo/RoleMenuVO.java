@@ -28,21 +28,39 @@ public class RoleMenuVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 主键
+     */
     @ApiModelProperty(name = "id", value = "主键", dataType = "Integer")
     private Integer id;
 
+    /**
+     * 角色id
+     */
     @ApiModelProperty(name = "roleId", value = "角色id", dataType = "Integer")
     private Integer roleId;
 
+    /**
+     * 菜单id
+     */
     @ApiModelProperty(name = "menuId", value = "菜单id", dataType = "Integer")
     private Integer menuId;
 
+    /**
+     * 逻辑删除 0否 NULL是
+     */
     @ApiModelProperty(name = "deleted", value = "逻辑删除 0否 NULL是", dataType = "Boolean")
     private Boolean deleted;
 
+    /**
+     * 创建时间
+     */
     @ApiModelProperty(name = "createTime", value = "创建时间", dataType = "LocalDateTime")
     private LocalDateTime createTime;
 
+    /**
+     * 更新时间
+     */
     @ApiModelProperty(name = "updateTime", value = "更新时间", dataType = "LocalDateTime")
     private LocalDateTime updateTime;
 

@@ -2,10 +2,7 @@ package site.day.blog.controller;
 
 import org.springframework.web.bind.annotation.*;
 import site.day.blog.pojo.dto.ArticleDTO;
-import site.day.blog.pojo.vo.ArchiveVO;
-import site.day.blog.pojo.vo.ArticleHomeVO;
-import site.day.blog.pojo.vo.ArticlePreviewVO;
-import site.day.blog.pojo.vo.PageResult;
+import site.day.blog.pojo.vo.*;
 import site.day.blog.pojo.vo.query.ArticleConditionQuery;
 import site.day.blog.pojo.vo.query.PageQuery;
 import site.day.blog.service.ArticleService;
@@ -52,8 +49,9 @@ public class ArticleController {
             @ApiParam(name = "id", value = "主键", required = true)
             @PathVariable("id")
                     Integer id) {
-        ArticleDTO articleDTOList = articleService.getArticleById(id);
-        return ResponseAPI.success();
+        ArticleDTO articleDTO = articleService.getArticleById(id);
+        ArticleHomeDetailVO articleHomeDetailVO = mapStruct.ArticleDTO2ArticleHomeDetailVO(articleDTO);
+        return ResponseAPI.success(articleHomeDetailVO);
     }
 
     /**
@@ -68,8 +66,11 @@ public class ArticleController {
     public ResponseAPI<?> getArticlesByCondition(
             @ApiParam(name = "articleConditionQuery", value = "查询条件")
             @Valid
+                    ArticleConditionQuery articleConditionQuery,
+            @ApiParam(name = "pageQuery", value = "查询条件")
+            @Valid
             @RequestParam(required = false)
-                    ArticleConditionQuery articleConditionQuery) {
+                    PageQuery pageQuery) {
         //调用业务逻辑获得dto
         List<ArticleDTO> articlePreviewDTOList = articleService.getArticlesByCondition(articleConditionQuery);
         //dto转换成vo
@@ -90,7 +91,6 @@ public class ArticleController {
     public ResponseAPI<?> getArchives(
             @ApiParam(name = "pageQuery", value = "查询条件")
             @Valid
-            @RequestParam(required = false)
                     PageQuery pageQuery) {
         List<ArticleDTO> articleDTOList = articleService.getArticles();
         List<ArchiveVO> archiveVOList = mapStruct.ArticleDTOList2ArchiveVOList(articleDTOList);
@@ -132,6 +132,7 @@ public class ArticleController {
             @Valid
             @RequestParam(required = false)
                     ArticleConditionQuery articleConditionQuery) {
+        //TODO 搜索策略
         return null;
     }
 

@@ -5,25 +5,28 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
+import site.day.blog.enums.FileExtEnum;
+import site.day.blog.enums.FilePathEnum;
 import site.day.blog.enums.StatusCodeEnum;
 import site.day.blog.exception.BusinessException;
-import site.day.blog.mapper.ArticleTagMapper;
-import site.day.blog.mapper.CategoryMapper;
-import site.day.blog.mapper.TagMapper;
-import site.day.blog.pojo.domain.Article;
-import site.day.blog.mapper.ArticleMapper;
-import site.day.blog.pojo.domain.ArticleTag;
-import site.day.blog.pojo.domain.Category;
-import site.day.blog.pojo.domain.Tag;
+import site.day.blog.mapper.*;
+import site.day.blog.pojo.domain.*;
 import site.day.blog.pojo.dto.ArticleDTO;
 import site.day.blog.pojo.dto.TagDTO;
 import site.day.blog.pojo.vo.query.ArticleConditionQuery;
+import site.day.blog.pojo.vo.query.ArticleSaveQuery;
+import site.day.blog.pojo.vo.query.ArticleStatusQuery;
 import site.day.blog.service.ArticleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import site.day.blog.service.CategoryService;
+import site.day.blog.strategy.context.UploadStrategyContext;
 import site.day.blog.utils.*;
 
 import javax.servlet.http.HttpSession;
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -32,6 +35,7 @@ import java.util.stream.Collectors;
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 import static site.day.blog.constant.ArticleConst.STATUS_PUBLIC;
 import static site.day.blog.constant.ArticleConst.VISITOR_ARTICLE_LIST;
+import static site.day.blog.constant.CommonConst.DEFAULT_WEBSITE_CONFIG_ID;
 import static site.day.blog.constant.RedisConst.*;
 
 /**
@@ -65,6 +69,15 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Autowired
     private HttpSession session;
 
+    @Autowired
+    private CategoryServiceImpl categoryService;
+
+    @Autowired
+    private TagServiceImpl tagService;
+
+    @Autowired
+    private UploadStrategyContext uploadStrategyContext;
+
     /**
      * @Description 通过条件获取文章
      * @Author 23DAY
@@ -74,86 +87,34 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      **/
     @Override
     public List<ArticleDTO> getArticlesByCondition(ArticleConditionQuery query) {
-
         //分页
         Page<Article> articlePage = new Page<>(PageUtil.getCurrent(), PageUtil.getSize());
-        //通过普通条件获取列表
-        List<Article> articleList = articleMapper.selectList(Wrappers.lambdaQuery(Article.class)
-                .like(Objects.nonNull(query.getKeyWord()), Article::getArticleTitle, query.getKeyWord())
-                .eq(Objects.nonNull(query.getType()), Article::getType, query.getType())
-                .eq(Objects.nonNull(query.getStatus()), Article::getStatus, query.getStatus())
-                .eq(Objects.nonNull(query.getDeleted()), Article::getDeleted, query.getDeleted())
-                .ge(Objects.nonNull(query.getStartTime()), Article::getCreateTime, query.getStartTime())
-                .le(Objects.nonNull(query.getStartTime()), Article::getCreateTime, query.getStartTime()));
-
-        //类型转化 do->dto article->articlePreviewDTO
-        List<ArticleDTO> articleDTOList = mapStruct.ArticleList2ArticleDTOList(articleList);
-
-        //获取category和tag的文章 然后进行封装
-        //Optional.ofNullable(query.getCategoryId()).ifPresent(categoryId->{});
-        if (Objects.nonNull(query.getCategoryId())) {
-            Integer categoryId = query.getCategoryId();
-            //选取目标分类id
-            articleDTOList = articleDTOList.stream()
-                    .filter(articleDTO -> Objects.equals(articleDTO.getCategoryId(), categoryId))
-                    .collect(Collectors.toList());
-            //获取category
-            Category category = categoryMapper.selectById(categoryId);
-            //注入DTO
-            articleDTOList.forEach(articleDTO -> articleDTO.setCategoryName(category.getCategoryName()));
-        } else if (Objects.nonNull(query.getTagId())) {
-            //通过已筛选过的articleId和目标tagId，筛选出包含目标tagId的articleId，然后获取articleTag
-            List<Integer> articleIdList = articleDTOList.stream()
-                    .map(ArticleDTO::getId)
-                    .collect(Collectors.toList());
-            articleIdList = articleTagMapper.selectList(new LambdaQueryWrapper<ArticleTag>()
-                            .in(CollectionUtils.isNotEmpty(articleIdList), ArticleTag::getArticleId, articleIdList)
-                            .eq(ArticleTag::getTagId, query.getTagId())).stream()
-                    .map(ArticleTag::getArticleId)
-                    .distinct()
-                    .collect(Collectors.toList());
-            List<ArticleTag> articleTagList = articleTagMapper.selectList(new LambdaQueryWrapper<ArticleTag>().in(CollectionUtils.isNotEmpty(articleIdList), ArticleTag::getArticleId, articleIdList));
-            //获取articleTag中的所有标签
-            List<Integer> tagIdList = articleTagList.stream()
-                    .map(ArticleTag::getTagId)
-                    .collect(Collectors.toList());
-            List<Tag> tagList = tagMapper.selectList(new LambdaQueryWrapper<Tag>().in(CollectionUtils.isNotEmpty(tagIdList), Tag::getId, tagIdList));
-            //筛选articlePreviewDTOList中符合的articlePreviewDTO，因为articleId经过了第二次过滤
-            List<Integer> finalArticleIdList = articleIdList;
-            articleDTOList = articleDTOList.stream()
-                    .filter(articlePreviewDTO -> emptyIfNull(finalArticleIdList).contains(articlePreviewDTO.getId()))
-                    .collect(Collectors.toList());
-            //通过articleId到TagId做映射，分别注入
-            Map<Integer, List<Integer>> articleId2tagIdMap = articleTagList
-                    .stream()
-                    .collect(Collectors.groupingBy(ArticleTag::getArticleId, Collectors.mapping(ArticleTag::getTagId, Collectors.toList())));
-            for (ArticleDTO articleDTO : articleDTOList) {
-                //获取标签列表中当前文章包含的标签
-                List<Tag> tagOfArticleDTO = tagList
-                        .stream()
-                        .filter(tag -> emptyIfNull(articleId2tagIdMap.get(articleDTO.getId())).contains(tag.getId()))
-                        .collect(Collectors.toList());
-                //类型转换
-                List<TagDTO> tagDTOList = mapStruct.tagList2tagDTOList(tagOfArticleDTO);
-                //注入
-                articleDTO.setTagList(tagDTOList);
-            }
-        }
-
-        //分页 通过已筛选出来的articleId重新select一遍进行分页
-        List<Integer> pageArticleIdList = articleDTOList.stream().map(ArticleDTO::getId).collect(Collectors.toList());
-        List<Integer> finalPageArticleIdList = articleMapper.selectPage(articlePage,
-                        Wrappers.lambdaQuery(Article.class)
-                                .in(CollectionUtils.isNotEmpty(pageArticleIdList), Article::getId, pageArticleIdList)
-                                .orderByDesc(Article::getIsTop))
-                .getRecords()
-                .stream()
-                .map(Article::getId)
-                .collect(Collectors.toList());
-        articleDTOList = articleDTOList.stream().filter(articlePreviewDTO -> emptyIfNull(finalPageArticleIdList).contains(articlePreviewDTO.getId())).collect(Collectors.toList());
-
-        //设置分页参数
+        //获取各个条件下的articleId
+        List<Integer> articleIdList1 = articleMapper.selectList(Wrappers.lambdaQuery(Article.class)
+                        .like(Objects.nonNull(query.getKeyWord()), Article::getArticleTitle, query.getKeyWord())
+                        .eq(Objects.nonNull(query.getType()), Article::getType, query.getType())
+                        .eq(Objects.nonNull(query.getStatus()), Article::getStatus, query.getStatus())
+                        .ge(Objects.nonNull(query.getStartTime()), Article::getCreateTime, query.getStartTime())
+                        .le(Objects.nonNull(query.getEndTime()), Article::getCreateTime, query.getEndTime()))
+                .stream().map(Article::getId).collect(Collectors.toList());
+        //获取category下的articleId
+        List<Integer> articleIdList2 = articleMapper.selectList(Wrappers.lambdaQuery(Article.class)
+                        .eq(Objects.nonNull(query.getCategoryId()), Article::getCategoryId, query.getCategoryId()))
+                .stream().map(Article::getId).collect(Collectors.toList());
+        //获取tag下的articleId
+        List<Integer> articleIdList3 = articleTagMapper.selectList(Wrappers.lambdaQuery(ArticleTag.class)
+                        .eq(Objects.nonNull(query.getTagId()), ArticleTag::getTagId, query.getTagId()))
+                .stream().map(ArticleTag::getArticleId).distinct().collect(Collectors.toList());
+        //合并
+        Collection<Integer> articleIdList = CollectionUtils.intersection(articleIdList1, CollectionUtils.intersection(articleIdList2, articleIdList3));
+        //分页查询
+        List<Article> articleList = articleMapper.selectPage(articlePage, Wrappers.lambdaQuery(Article.class)
+                .in(CollectionUtils.isNotEmpty(articleIdList), Article::getId, articleIdList)).getRecords();
         PageUtil.setTotal(articlePage.getTotal());
+        //类型转化 do->dto article->articleDTO
+        List<ArticleDTO> articleDTOList = mapStruct.ArticleList2ArticleDTOList(articleList);
+        //注入dto
+        addDTOFiled(articleDTOList);
         return articleDTOList;
     }
 
@@ -229,6 +190,112 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         addDTOFiled(articleDTOList);
         return articleDTOList.get(0);
     }
+
+    /**
+     * @Description 查看后台文章
+     * @Author 23DAY
+     * @Date 2023/1/29 15:20
+     * @Param [site.day.blog.pojo.vo.query.ArticleConditionQuery]
+     * @Return java.util.List<site.day.blog.pojo.dto.ArticleDTO>
+     **/
+    @Override
+    public List<ArticleDTO> getBackArticles(ArticleConditionQuery query) {
+        //分页
+        Page<Article> articlePage = new Page<>(PageUtil.getCurrent(), PageUtil.getSize());
+
+        //获取各个条件下的articleId
+        List<Integer> articleIdList1 = articleMapper.selectList(Wrappers.lambdaQuery(Article.class)
+                        .like(Objects.nonNull(query.getKeyWord()), Article::getArticleTitle, query.getKeyWord())
+                        .eq(Objects.nonNull(query.getType()), Article::getType, query.getType())
+                        .eq(Objects.nonNull(query.getStatus()), Article::getStatus, query.getStatus())
+                        .eq(Objects.nonNull(query.getDeleted()), Article::getDeleted, query.getDeleted())
+                        .ge(Objects.nonNull(query.getStartTime()), Article::getCreateTime, query.getStartTime())
+                        .le(Objects.nonNull(query.getEndTime()), Article::getCreateTime, query.getEndTime()))
+                .stream().map(Article::getId).collect(Collectors.toList());
+        //获取category下的articleId
+        List<Integer> articleIdList2 = articleMapper.selectList(Wrappers.lambdaQuery(Article.class)
+                        .eq(Objects.nonNull(query.getCategoryId()), Article::getCategoryId, query.getCategoryId()))
+                .stream().map(Article::getId).collect(Collectors.toList());
+        //获取tag下的articleId
+        List<Integer> articleIdList3 = articleTagMapper.selectList(Wrappers.lambdaQuery(ArticleTag.class)
+                        .eq(Objects.nonNull(query.getTagId()), ArticleTag::getTagId, query.getTagId()))
+                .stream().map(ArticleTag::getArticleId).distinct().collect(Collectors.toList());
+        //合并
+        Collection<Integer> articleIdList = CollectionUtils.intersection(articleIdList1, CollectionUtils.intersection(articleIdList2, articleIdList3));
+        //分页查询
+        List<Article> articleList = articleMapper.selectPage(articlePage, Wrappers.lambdaQuery(Article.class)
+                .in(CollectionUtils.isNotEmpty(articleIdList), Article::getId, articleIdList)).getRecords();
+        PageUtil.setTotal(articlePage.getTotal());
+        //类型转化 do->dto article->articleDTO
+        List<ArticleDTO> articleDTOList = mapStruct.ArticleList2ArticleDTOList(articleList);
+        //注入dto
+        addDTOFiled(articleDTOList);
+        return articleDTOList;
+    }
+
+    /**
+     * @Description 添加或修改文章
+     * @Author 23DAY
+     * @Date 2023/1/29 18:03
+     * @Param [site.day.blog.pojo.vo.query.ArticleSaveQuery]
+     * @Return void
+     **/
+    @Override
+    public void saveOrUpdateArticle(ArticleSaveQuery articleSaveQuery) {
+        Article article = mapStruct.ArticleSaveQuery2Article(articleSaveQuery);
+        article.setUserId(AuthUtil.getLoginUser().getUserInfo().getId());
+        //判断携带分类是否存在并返回
+        Integer categoryId = categoryService.saveArticleCategory(articleSaveQuery.getCategoryName());
+        article.setCategoryId(categoryId);
+        //添加文章
+        saveOrUpdate(article);
+        //判断携带标题是否存在并添加
+        tagService.saveArticleTag(article.getId(), articleSaveQuery.getTagNameList());
+    }
+
+    @Override
+    public void updateArticleStatus(ArticleStatusQuery articleStatusQuery) {
+        Article article = mapStruct.ArticleStatusQuery2Article(articleStatusQuery);
+        articleMapper.updateById(article);
+    }
+
+    @Override
+    public void deleteArticle(Integer id) {
+        articleTagMapper.delete(Wrappers.lambdaQuery(ArticleTag.class).eq(ArticleTag::getArticleId, id));
+        articleMapper.deleteById(id);
+    }
+
+    @Override
+    public ArticleDTO getBackArticleById(Integer id) {
+        Article article = articleMapper.selectById(id);
+        ArticleDTO articleDTO = mapStruct.Article2ArticleDTO(article);
+        List<ArticleDTO> articleDTOList = Collections.singletonList(articleDTO);
+        addDTOFiled(articleDTOList);
+        return articleDTOList.get(0);
+    }
+
+    @Override
+    public List<String> exportArticles(List<Integer> articleIdList) {
+        List<Article> articleList = articleMapper.selectBatchIds(articleIdList);
+        ArrayList<String> urlList = new ArrayList<>();
+        for (Article article : articleList) {
+            try {
+                ByteArrayInputStream inputStream = new ByteArrayInputStream(article.getArticleContent().getBytes(StandardCharsets.UTF_8));
+                String url = uploadStrategyContext.executeUploadStrategy(article.getArticleTitle() + FileExtEnum.MD.getExtName(), inputStream, FilePathEnum.MD.getPath());
+                urlList.add(url);
+            } catch (Exception e) {
+                throw BusinessException.withErrorCodeEnum(StatusCodeEnum.FILE_UPLOAD_ERROR);
+            }
+        }
+        return urlList;
+    }
+
+    @Override
+    public String uploadArticleImage(MultipartFile file) {
+        String url = uploadStrategyContext.executeUploadStrategy(file, FilePathEnum.ARTICLE.getPath());
+        return url;
+    }
+
 
     /**
      * @Description 更新文章访问量

@@ -28,12 +28,21 @@ public class CategoryHomeVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 主键
+     */
     @ApiModelProperty(name = "id", value = "主键", dataType = "Integer")
     private Integer id;
 
+    /**
+     * 分类名
+     */
     @ApiModelProperty(name = "categoryName", value = "分类名", dataType = "String")
     private String categoryName;
 
+    /**
+     * 文章数量
+     */
     @ApiModelProperty(name = "articleCount", value = "文章数量", dataType = "Integer")
     private Integer articleCount;
 

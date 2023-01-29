@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import site.day.blog.pojo.domain.*;
 import site.day.blog.pojo.dto.*;
 import site.day.blog.pojo.vo.*;
+import site.day.blog.pojo.vo.query.ArticleSaveQuery;
+import site.day.blog.pojo.vo.query.ArticleStatusQuery;
 
 import java.util.List;
 
@@ -55,6 +57,10 @@ public interface MapStruct {
 
     List<ArticleDTO> ArticleList2ArticleDTOList(List<Article> Articles);
 
+    ArticleHomeDetailVO ArticleDTO2ArticleHomeDetailVO(ArticleDTO ArticleDTO);
+
+    List<ArticleHomeDetailVO> ArticleDTOList2ArticleHomeDetailVOList(List<ArticleDTO> ArticleDTOS);
+
     ArchiveVO ArticleDTO2archiveVO(ArticleDTO ArticleDTO);
 
     List<ArchiveVO> ArticleDTOList2ArchiveVOList(List<ArticleDTO> ArticleDTOS);
@@ -66,6 +72,14 @@ public interface MapStruct {
     ArticleRecommendVO ArticleDTO2ArticleRecommendVO(ArticleDTO ArticleDTO);
 
     List<ArticleRecommendVO> ArticleDTOList2ArticleRecommendVOList(List<ArticleDTO> ArticleDTOS);
+
+    ArticleBackVO ArticleDTO2ArticleBackVO(ArticleDTO ArticleDTO);
+
+    List<ArticleBackVO> ArticleDTOList2ArticleBackVOList(List<ArticleDTO> ArticleDTOS);
+
+    Article ArticleSaveQuery2Article(ArticleSaveQuery articleSaveQuery);
+
+    Article ArticleStatusQuery2Article(ArticleStatusQuery articleStatusQuery);
 
     /**
      * 分类
@@ -200,7 +214,6 @@ public interface MapStruct {
     TalkBackVO TalkDTO2TalkBackVO(TalkDTO TalkDTO);
 
     List<TalkBackVO> TalkDTOList2TalkBackVOList(List<TalkDTO> TalkDTOS);
-
 
 
     /**

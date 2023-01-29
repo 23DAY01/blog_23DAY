@@ -28,18 +28,33 @@ public class PageVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 页面id
+     */
     @ApiModelProperty(name = "id", value = "页面id", dataType = "Integer")
     private Integer id;
 
+    /**
+     * 页面名称
+     */
     @ApiModelProperty(name = "pageName", value = "页面名称", dataType = "String")
     private String pageName;
 
+    /**
+     * 页面标签
+     */
     @ApiModelProperty(name = "pageLabel", value = "页面标签", dataType = "String")
     private String pageLabel;
 
+    /**
+     * 页面封面
+     */
     @ApiModelProperty(name = "pageCover", value = "页面封面", dataType = "String")
     private String pageCover;
 
+    /**
+     * 创建时间
+     */
     @ApiModelProperty(name = "createTime", value = "创建时间", dataType = "LocalDateTime")
     private LocalDateTime createTime;
 

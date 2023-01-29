@@ -28,9 +28,15 @@ public class TagVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 主键
+     */
     @ApiModelProperty(name = "id", value = "主键", dataType = "Integer")
     private Integer id;
 
+    /**
+     * 标签名称
+     */
     @ApiModelProperty(name = "tagName", value = "标签名称", dataType = "String")
     private String tagName;
 

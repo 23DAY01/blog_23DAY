@@ -25,15 +25,27 @@ import java.util.List;
 @ApiModel(value = "PageResult", description = "分页结果")
 public class PageResult<T> {
 
+    /**
+     * 分页结果
+     */
     @ApiModelProperty(name = "record", value = "分页结果", dataType = "List<T>")
     private List<T> records;
 
+    /**
+     * 查询总数
+     */
     @ApiModelProperty(name = "total", value = "查询总数", dataType = "long")
     private long total;
 
+    /**
+     * 查询条数
+     */
     @ApiModelProperty(name = "size", value = "查询条数", dataType = "size")
     private long size;
 
+    /**
+     * 查询页码
+     */
     @ApiModelProperty(name = "current", value = "查询页码", dataType = "current")
     private long current;
 
