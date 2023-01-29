@@ -1,6 +1,9 @@
 package site.day.blog.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import site.day.blog.pojo.dto.BlogInfoDTO;
+import site.day.blog.pojo.dto.WebsiteConfigDTO;
+import site.day.blog.pojo.vo.query.WebsiteConfigQuery;
 
 import java.util.List;
 
@@ -17,4 +20,9 @@ public interface BlogService {
 
     void reportVisitor();
 
+    String uploadArticleImage(MultipartFile file);
+
+    void updateWebsiteConfig(WebsiteConfigQuery websiteConfigQuery);
+
+    WebsiteConfigDTO getWebsiteConfig();
 }

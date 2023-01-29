@@ -10,6 +10,7 @@ import site.day.blog.pojo.dto.*;
 import site.day.blog.pojo.vo.*;
 import site.day.blog.pojo.vo.query.ArticleSaveQuery;
 import site.day.blog.pojo.vo.query.ArticleStatusQuery;
+import site.day.blog.pojo.vo.query.WebsiteConfigQuery;
 
 import java.util.List;
 
@@ -282,6 +283,8 @@ public interface MapStruct {
     BlogHomeInfoVO BlogInfoDTO2BlogHomeInfoVO(BlogInfoDTO blogInfoDTO);
 
     List<BlogHomeInfoVO> BlogInfoDTOList2BlogHomeInfoVOList(List<BlogHomeInfoVO> blogHomeInfoVOS);
+
+    WebsiteConfig WebsiteConfigQuery2WebsiteConfig(WebsiteConfigQuery websiteConfigQuery);
 
 }
 

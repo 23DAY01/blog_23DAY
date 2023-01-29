@@ -91,7 +91,9 @@ public class AdminArticleController {
 
     @ApiOperation("上传图片")
     @PostMapping("/upload/image")
-    public ResponseAPI<?> saveArticleImage(MultipartFile file) {
+    public ResponseAPI<?> uploadArticleImage(
+            @ApiParam(name = "file", value = "配置图片")
+                    MultipartFile file) {
         String url = articleService.uploadArticleImage(file);
         return ResponseAPI.success(url);
     }

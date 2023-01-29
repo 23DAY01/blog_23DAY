@@ -6,11 +6,16 @@ import eu.bitwalker.useragentutils.OperatingSystem;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import site.day.blog.enums.FilePathEnum;
 import site.day.blog.mapper.*;
 import site.day.blog.pojo.domain.Article;
+import site.day.blog.pojo.domain.WebsiteConfig;
 import site.day.blog.pojo.dto.*;
+import site.day.blog.pojo.vo.query.WebsiteConfigQuery;
 import site.day.blog.service.BlogService;
 import site.day.blog.service.ViewService;
+import site.day.blog.strategy.context.UploadStrategyContext;
 import site.day.blog.utils.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -67,6 +72,9 @@ public class BlogServiceImpl implements BlogService {
     @Autowired
     private HttpServletRequest request;
 
+    @Autowired
+    private UploadStrategyContext uploadStrategyContext;
+
     @Override
     public BlogInfoDTO getBlogInfo() {
         //查询文章数量
@@ -106,6 +114,13 @@ public class BlogServiceImpl implements BlogService {
                 .build();
     }
 
+    /**
+     * @Description 游客信息统计
+     * @Author 23DAY
+     * @Date 2023/1/29 19:20
+     * @Param []
+     * @Return void
+     **/
     @Override
     public void reportVisitor() {
         //获取ip
@@ -126,4 +141,23 @@ public class BlogServiceImpl implements BlogService {
         redisUtil.incr(BLOG_VIEW_COUNT, 1);
         redisUtil.sAdd(BLOG_VISITOR, md5);
     }
+
+    @Override
+    public String uploadArticleImage(MultipartFile file) {
+        return uploadStrategyContext.executeUploadStrategy(file, FilePathEnum.BLOG.getPath());
+    }
+
+    @Override
+    public void updateWebsiteConfig(WebsiteConfigQuery websiteConfigQuery) {
+        WebsiteConfig websiteConfig = mapStruct.WebsiteConfigQuery2WebsiteConfig(websiteConfigQuery);
+        websiteConfig.setId(DEFAULT_WEBSITE_CONFIG_ID);
+        websiteConfigMapper.updateById(websiteConfig);
+    }
+
+    @Override
+    public WebsiteConfigDTO getWebsiteConfig() {
+        WebsiteConfig websiteConfig = websiteConfigMapper.selectById(DEFAULT_WEBSITE_CONFIG_ID);
+        return mapStruct.WebsiteConfig2WebsiteConfigDTO(websiteConfig);
+    }
+
 }

@@ -103,4 +103,5 @@ public class BlogBackInfoVO implements Serializable {
     @ApiModelProperty(name = "about", value = "关于我", dataType = "String")
     private String about;
 
+
 }

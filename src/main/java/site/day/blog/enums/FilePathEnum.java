@@ -26,8 +26,9 @@ public enum FilePathEnum {
     /**
      * md文件
      */
-    MD("md/","md文件");
+    MD("md/","md文件"),
 
+    BLOG("/blog","博客图片");
 
 
     /**
