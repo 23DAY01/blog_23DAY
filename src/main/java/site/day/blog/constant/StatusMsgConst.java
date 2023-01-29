@@ -59,6 +59,15 @@ public interface StatusMsgConst {
     //说说错误
     String TALK_MISSING = "说说不存在";
 
+    //分类错误
+    String CATEGORY_NAME_REPEAT = "分类已存在";
+    String CATEGORY_MISSING = "分类不存在";
+    String CATEGORY_HAVE_ARTICLE="分类下存在文章";
+
+    //标签错误
+    String TAG_NAME_REPEAT = "标签已存在";
+    String TAG_MISSING = "标签不存在";
+
 
     /**
      * Server
@@ -75,5 +84,6 @@ public interface StatusMsgConst {
     //      数据库错误
     String SQL_ERROR = "数据库异常";
     String REDIS_ERROR = "redis连接异常";
+
 
 }

@@ -10,6 +10,7 @@ import site.day.blog.pojo.dto.*;
 import site.day.blog.pojo.vo.*;
 import site.day.blog.pojo.vo.query.ArticleSaveQuery;
 import site.day.blog.pojo.vo.query.ArticleStatusQuery;
+import site.day.blog.pojo.vo.query.CategorySaveQuery;
 import site.day.blog.pojo.vo.query.WebsiteConfigQuery;
 
 import java.util.List;
@@ -92,6 +93,10 @@ public interface MapStruct {
     CategoryHomeVO CategoryDTO2CategoryHomeVO(CategoryDTO CategoryDTO);
 
     List<CategoryHomeVO> CategoryDTOList2CategoryHomeVOList(List<CategoryDTO> CategoryDTOS);
+
+    List<CategoryBackVO> CategoryDTOList2CategoryBackVOList(List<CategoryDTO> categoryDTOList);
+
+    Category CategorySaveQuery2Category(CategorySaveQuery categorySaveQuery);
 
     //CategoryBackVO CategoryDTO2CategoryVO(CategoryDTO CategoryDTO);
     //

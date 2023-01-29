@@ -9,18 +9,21 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import site.day.blog.enums.FilePathEnum;
 import site.day.blog.pojo.dto.ArticleDTO;
+import site.day.blog.pojo.dto.CategoryDTO;
 import site.day.blog.pojo.vo.ArticleBackVO;
+import site.day.blog.pojo.vo.CategoryBackVO;
+import site.day.blog.pojo.vo.CategoryHomeVO;
 import site.day.blog.pojo.vo.PageResult;
-import site.day.blog.pojo.vo.query.ArticleConditionQuery;
-import site.day.blog.pojo.vo.query.ArticleSaveQuery;
-import site.day.blog.pojo.vo.query.ArticleStatusQuery;
-import site.day.blog.pojo.vo.query.PageQuery;
+import site.day.blog.pojo.vo.query.*;
 import site.day.blog.service.ArticleService;
+import site.day.blog.service.CategoryService;
+import site.day.blog.service.TagService;
 import site.day.blog.strategy.context.UploadStrategyContext;
 import site.day.blog.utils.MapStruct;
 import site.day.blog.utils.ResponseAPI;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 /**
@@ -33,7 +36,7 @@ import java.util.List;
 @Slf4j
 @Api(tags = "管理员模块")
 @RestController
-@RequestMapping("/admin/articles")
+@RequestMapping("/admin")
 public class AdminArticleController {
 
     @Autowired
@@ -45,6 +48,12 @@ public class AdminArticleController {
     @Autowired
     private UploadStrategyContext uploadStrategyContext;
 
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private TagService tagService;
+
     /**
      * @Description 查看后台文章
      * @Author 23DAY
@@ -53,7 +62,7 @@ public class AdminArticleController {
      * @Return site.day.blog.utils.ResponseAPI<?>
      **/
     @ApiOperation("查看后台文章")
-    @GetMapping("")
+    @GetMapping("/articles/list")
     public ResponseAPI<?> getBackArticles(
             @ApiParam(name = "articleConditionQuery", value = "查询条件")
             @Valid
@@ -68,7 +77,7 @@ public class AdminArticleController {
     }
 
     @ApiOperation("新增或修改文章")
-    @PostMapping("/save")
+    @PostMapping("/articles/save")
     public ResponseAPI<?> saveArticle(
             @ApiParam(name = "articleSaveQuery", value = "新增或修改文章")
             @Valid
@@ -79,7 +88,7 @@ public class AdminArticleController {
     }
 
     @ApiOperation("修改文章状态")
-    @PostMapping("/status")
+    @PostMapping("/articles/status")
     public ResponseAPI<?> updateArticleStatus(
             @ApiParam(name = "articleStatusQuery", value = "文章状态修改")
             @Valid
@@ -90,7 +99,7 @@ public class AdminArticleController {
     }
 
     @ApiOperation("上传图片")
-    @PostMapping("/upload/image")
+    @PostMapping("/articles/upload/image")
     public ResponseAPI<?> uploadArticleImage(
             @ApiParam(name = "file", value = "配置图片")
                     MultipartFile file) {
@@ -99,10 +108,11 @@ public class AdminArticleController {
     }
 
     @ApiOperation("删除文章")
-    @GetMapping("/{id}/delete")
+    @GetMapping("/articles/{id}/delete")
     public ResponseAPI<?> deleteArticle(
             @ApiParam(name = "id", value = "文章id")
             @PathVariable
+            @NotBlank
                     Integer id) {
         articleService.deleteArticle(id);
         return ResponseAPI.success();
@@ -110,10 +120,11 @@ public class AdminArticleController {
 
 
     @ApiOperation("通过id获取文章")
-    @GetMapping("/{id}")
+    @GetMapping("/articles/{id}")
     public ResponseAPI<?> getArticleById(
             @ApiParam(name = "id", value = "文章id")
             @PathVariable
+            @NotBlank
                     Integer id) {
         ArticleDTO articleDTO = articleService.getBackArticleById(id);
         ArticleBackVO articleBackVO = mapStruct.ArticleDTO2ArticleBackVO(articleDTO);
@@ -121,12 +132,47 @@ public class AdminArticleController {
     }
 
     @ApiOperation("导出文章")
-    @PostMapping("/export")
+    @PostMapping("/articles/export")
     public ResponseAPI<?> exportArticles(
             @RequestBody
+            @NotBlank
                     List<Integer> articleIdList) {
         List<String> urlList = articleService.exportArticles(articleIdList);
         return ResponseAPI.success(urlList);
+    }
+
+    @ApiOperation("获取后台分类")
+    @GetMapping("/categories/list")
+    public ResponseAPI<?> getBackCategories(
+            @ApiParam(name = "pageQuery", value = "查询条件")
+            @Valid
+            @RequestParam(required = false)
+                    PageQuery pageQuery) {
+        List<CategoryDTO> categoryDTOList = categoryService.getCategories();
+        List<CategoryBackVO> categoryBackVOList = mapStruct.CategoryDTOList2CategoryBackVOList(categoryDTOList);
+        return ResponseAPI.success(PageResult.build(categoryBackVOList));
+    }
+
+    @ApiOperation("添加或修改分类")
+    @PostMapping("/categories/save")
+    public ResponseAPI<?> saveOrUpdateCategory(
+            @ApiParam(name = "categorySaveQuery", value = "分类")
+            @Valid
+            @RequestBody
+                    CategorySaveQuery categorySaveQuery) {
+        categoryService.saveOrUpdateCategory(categorySaveQuery);
+        return ResponseAPI.success();
+    }
+
+    @ApiOperation("删除分类")
+    @PostMapping("/categories/delete")
+    public ResponseAPI<?> deleteCategory(
+            @ApiParam(name = "idList", value = "删除分类id")
+            @RequestBody
+            @NotBlank
+                    List<Integer> idList) {
+        categoryService.deleteCategory(idList);
+        return ResponseAPI.success();
     }
 
 }

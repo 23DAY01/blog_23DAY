@@ -3,7 +3,10 @@ package site.day.blog.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.commons.collections4.BagUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import site.day.blog.enums.StatusCodeEnum;
+import site.day.blog.exception.BusinessException;
 import site.day.blog.mapper.ArticleMapper;
 import site.day.blog.pojo.domain.Article;
 import site.day.blog.pojo.domain.ArticleTag;
@@ -11,6 +14,7 @@ import site.day.blog.pojo.domain.Category;
 import site.day.blog.mapper.CategoryMapper;
 import site.day.blog.pojo.dto.ArticleDTO;
 import site.day.blog.pojo.dto.CategoryDTO;
+import site.day.blog.pojo.vo.query.CategorySaveQuery;
 import site.day.blog.service.CategoryService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -53,6 +57,29 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         //注入
         addArticleInfo(categoryDTOList);
         return categoryDTOList;
+    }
+
+    @Override
+    public void saveOrUpdateCategory(CategorySaveQuery query) {
+        Integer categoryId = categoryMapper.selectOne(Wrappers.lambdaQuery(Category.class)
+                .eq(Category::getCategoryName, query.getCategoryName())).getId();
+        //如果已存在
+        if (Objects.nonNull(categoryId) && !categoryId.equals(query.getId())) {
+            throw BusinessException.withErrorCodeEnum(StatusCodeEnum.CATEGORY_NAME_REPEAT);
+        }
+        Category category = mapStruct.CategorySaveQuery2Category(query);
+        saveOrUpdate(category);
+    }
+
+    @Override
+    public void deleteCategory(List<Integer> idList) {
+        long count = articleMapper.selectCount(Wrappers.lambdaQuery(Article.class)
+                .in(Article::getCategoryId, idList));
+        //分类下存在文章不可删除
+        if (count > 0) {
+            throw BusinessException.withErrorCodeEnum(StatusCodeEnum.CATEGORY_HAVE_ARTICLE);
+        }
+        categoryMapper.deleteBatchIds(idList);
     }
 
     /**
