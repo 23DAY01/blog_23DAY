@@ -8,36 +8,27 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 /**
  * @Description
- * @ClassName UserAuthQuery
+ * @ClassName EmailQuery
  * @Author 23DAY
- * @Date 2023/1/29 0:17
+ * @Date 2023/1/29 10:41
  * @Version 1.0
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel("用户认证请求")
-public class UserAuthQuery {
+@ApiModel("邮箱")
+public class EmailQuery {
 
     /**
-     * 用户名
+     * 邮箱
      */
     @NotBlank(message = "邮箱不能为空")
     @Email(message = "邮箱格式不正确")
-    @ApiModelProperty(name = "username", value = "用户名/邮箱", required = true, dataType = "String")
-    private String username;
-
-    /**
-     * 密码
-     */
-    @Size(min = 6, message = "密码不能少于6位")
-    @NotBlank(message = "密码不能为空")
-    @ApiModelProperty(name = "password", value = "密码", required = true, dataType = "String")
-    private String password;
+    @ApiModelProperty(name = "email", value = "用户名", required = true, dataType = "String")
+    private String email;
 
     /**
      * 验证码

@@ -140,9 +140,9 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
      * @Param [java.lang.String, java.lang.String]
      * @Return void
      **/
-    private void checkCodeValidity(String username, String code) {
+    public void checkCodeValidity(String email, String code) {
         //检验邮箱校验码
-        if (!code.equals(redisUtil.get(USER_CODE_KEY + username))) {
+        if (!code.equals(redisUtil.get(USER_CODE_KEY + email))) {
             throw BusinessException.withErrorCodeEnum(StatusCodeEnum.AUTH_CODE_ERROR);
         }
     }
@@ -154,7 +154,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
      * @Param [java.lang.String, java.lang.Boolean]
      * @Return void
      **/
-    private void checkUserExist(String username, Boolean flag) {
+    public void checkUserExist(String username, Boolean flag) {
         UserAuth userAuth = userAuthMapper.selectOne(Wrappers.lambdaQuery(UserAuth.class)
                 .eq(UserAuth::getUsername, username));
         if (!flag && Objects.nonNull(userAuth)) {

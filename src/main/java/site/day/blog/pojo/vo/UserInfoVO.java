@@ -49,9 +49,6 @@ public class UserInfoVO implements Serializable {
     @ApiModelProperty(name = "isDisabled", value = "是否禁用 0否 1是", dataType = "Boolean")
     private Boolean isDisabled;
 
-    @ApiModelProperty(name = "deleted", value = "逻辑删除 0否 NULL是", dataType = "Boolean")
-    private Boolean deleted;
-
     @ApiModelProperty(name = "createTime", value = "创建时间", dataType = "LocalDateTime")
     private LocalDateTime createTime;
 
