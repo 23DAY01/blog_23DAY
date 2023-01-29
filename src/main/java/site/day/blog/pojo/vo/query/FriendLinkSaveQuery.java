@@ -1,33 +1,25 @@
-package site.day.blog.pojo.vo;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
+package site.day.blog.pojo.vo.query;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 /**
- * @ClassName FriendLinkVO
+ * @Description
+ * @ClassName FriendLinkSaveQuery
  * @Author 23DAY
- * @Date 2023/01/18 20:48
+ * @Date 2023/1/29 21:28
  * @Version 1.0
  */
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
-@ApiModel(value = "FriendLinkVO", description = "友链表")
-public class FriendLinkVO implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@NoArgsConstructor
+@ApiModel("添加友链")
+public class FriendLinkSaveQuery {
 
     /**
      * id
@@ -62,6 +54,5 @@ public class FriendLinkVO implements Serializable {
     @NotBlank(message = "链接介绍不能为空")
     @ApiModelProperty(name = "linkInfo", value = "友链头像", dataType = "String", required = true)
     private String linkInfo;
-
 
 }

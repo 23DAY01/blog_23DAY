@@ -72,7 +72,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     }
 
     @Override
-    public void deleteCategory(List<Integer> idList) {
+    public void deleteCategoryByIds(List<Integer> idList) {
         long count = articleMapper.selectCount(Wrappers.lambdaQuery(Article.class)
                 .in(Article::getCategoryId, idList));
         //分类下存在文章不可删除

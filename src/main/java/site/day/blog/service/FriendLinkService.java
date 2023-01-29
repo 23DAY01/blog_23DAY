@@ -3,6 +3,7 @@ package site.day.blog.service;
 import site.day.blog.pojo.domain.FriendLink;
 import com.baomidou.mybatisplus.extension.service.IService;
 import site.day.blog.pojo.dto.FriendLinkDTO;
+import site.day.blog.pojo.vo.query.FriendLinkSaveQuery;
 
 import java.util.List;
 
@@ -16,4 +17,8 @@ import java.util.List;
 public interface FriendLinkService extends IService<FriendLink> {
 
     List<FriendLinkDTO> getFriendLinks();
+
+    void saveOrUpdateFriendLink(FriendLinkSaveQuery friendLinkSaveQuery);
+
+    void deleteFriendLink(List<Integer> linkIdList);
 }

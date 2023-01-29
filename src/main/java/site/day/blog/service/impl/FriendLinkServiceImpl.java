@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import site.day.blog.pojo.domain.FriendLink;
 import site.day.blog.mapper.FriendLinkMapper;
 import site.day.blog.pojo.dto.FriendLinkDTO;
+import site.day.blog.pojo.vo.query.FriendLinkSaveQuery;
 import site.day.blog.service.FriendLinkService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -32,5 +33,16 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
     public List<FriendLinkDTO> getFriendLinks() {
         List<FriendLink> friendLinkList = friendLinkMapper.selectList(Wrappers.emptyWrapper());
         return mapStruct.FriendLinkList2FriendLinkDTOList(friendLinkList);
+    }
+
+    @Override
+    public void saveOrUpdateFriendLink(FriendLinkSaveQuery friendLinkSaveQuery) {
+        FriendLink friendLink = mapStruct.FriendLinkSaveQuery2Friend(friendLinkSaveQuery);
+        saveOrUpdate(friendLink);
+    }
+
+    @Override
+    public void deleteFriendLink(List<Integer> linkIdList) {
+        removeByIds(linkIdList);
     }
 }

@@ -2,6 +2,9 @@ package site.day.blog.service;
 
 import site.day.blog.pojo.domain.OperationLog;
 import com.baomidou.mybatisplus.extension.service.IService;
+import site.day.blog.pojo.dto.OperationLogDTO;
+
+import java.util.List;
 
 /**
  * @Description OperationLog服务类
@@ -12,4 +15,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface OperationLogService extends IService<OperationLog> {
 
+    List<OperationLogDTO> getOperationLogs();
+
+    void deleteOperationLog(List<Integer> logIdList);
 }

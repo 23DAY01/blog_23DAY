@@ -3,7 +3,7 @@ package site.day.blog.controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import site.day.blog.pojo.dto.FriendLinkDTO;
-import site.day.blog.pojo.vo.FriendLinkVO;
+import site.day.blog.pojo.vo.FriendLinkHomeVO;
 import site.day.blog.service.FriendLinkService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import site.day.blog.utils.MapStruct;
 import site.day.blog.utils.ResponseAPI;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Description FriendLink控制器
@@ -64,8 +63,8 @@ public class FriendLinkController {
     @GetMapping("")
     public ResponseAPI<?> getFriendLinks() {
         List<FriendLinkDTO> friendLinkDTOList = friendLinkService.getFriendLinks();
-        List<FriendLinkVO> friendLinkVOList = mapStruct.FriendLinkDTOList2FriendLinkVOList(friendLinkDTOList);
-        return ResponseAPI.success(friendLinkVOList);
+        List<FriendLinkHomeVO> friendLinkHomeVOList = mapStruct.FriendLinkDTOList2FriendLinkHomeVOList(friendLinkDTOList);
+        return ResponseAPI.success(friendLinkHomeVOList);
     }
 
 }

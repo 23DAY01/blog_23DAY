@@ -7,12 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import site.day.blog.enums.FilePathEnum;
 import site.day.blog.pojo.dto.ArticleDTO;
 import site.day.blog.pojo.dto.CategoryDTO;
 import site.day.blog.pojo.vo.ArticleBackVO;
 import site.day.blog.pojo.vo.CategoryBackVO;
-import site.day.blog.pojo.vo.CategoryHomeVO;
 import site.day.blog.pojo.vo.PageResult;
 import site.day.blog.pojo.vo.query.*;
 import site.day.blog.service.ArticleService;
@@ -34,7 +32,7 @@ import java.util.List;
  * @Version 1.0
  */
 @Slf4j
-@Api(tags = "管理员模块")
+@Api(tags = "管理员-文章模块")
 @RestController
 @RequestMapping("/admin")
 public class AdminArticleController {
@@ -171,7 +169,7 @@ public class AdminArticleController {
             @RequestBody
             @NotBlank
                     List<Integer> idList) {
-        categoryService.deleteCategory(idList);
+        categoryService.deleteCategoryByIds(idList);
         return ResponseAPI.success();
     }
 

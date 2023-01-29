@@ -20,5 +20,5 @@ public interface CategoryService extends IService<Category> {
 
     void saveOrUpdateCategory(CategorySaveQuery categorySaveQuery);
 
-    void deleteCategory(List<Integer> idList);
+    void deleteCategoryByIds(List<Integer> idList);
 }

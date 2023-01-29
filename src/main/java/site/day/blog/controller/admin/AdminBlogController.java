@@ -8,18 +8,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import site.day.blog.pojo.dto.BlogInfoDTO;
+import site.day.blog.pojo.dto.OperationLogDTO;
 import site.day.blog.pojo.dto.WebsiteConfigDTO;
 import site.day.blog.pojo.vo.BlogBackInfoVO;
+import site.day.blog.pojo.vo.OperationLogVO;
+import site.day.blog.pojo.vo.PageResult;
 import site.day.blog.pojo.vo.WebsiteConfigVO;
+import site.day.blog.pojo.vo.query.PageQuery;
 import site.day.blog.pojo.vo.query.WebsiteConfigQuery;
 import site.day.blog.service.BlogService;
-import site.day.blog.service.WebsiteConfigService;
-import site.day.blog.service.impl.BlogServiceImpl;
+import site.day.blog.service.OperationLogService;
 import site.day.blog.utils.MapStruct;
 import site.day.blog.utils.ResponseAPI;
 
+import javax.naming.spi.ResolveResult;
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Description
@@ -29,7 +33,7 @@ import java.util.Map;
  * @Version 1.0
  */
 @Slf4j
-@Api(tags = "管理员模块")
+@Api(tags = "管理员-博客模块")
 @RestController
 @RequestMapping("/admin/blog")
 public class AdminBlogController {
@@ -39,6 +43,9 @@ public class AdminBlogController {
 
     @Autowired
     private MapStruct mapStruct;
+
+    @Autowired
+    private OperationLogService operationLogService;
 
     @ApiOperation("查看后台博客信息")
     @GetMapping("/info")
@@ -73,6 +80,28 @@ public class AdminBlogController {
         WebsiteConfigDTO websiteConfigDTO = blogService.getWebsiteConfig();
         WebsiteConfigVO websiteConfigVO = mapStruct.WebsiteConfigDTO2WebsiteConfigVO(websiteConfigDTO);
         return ResponseAPI.success(websiteConfigVO);
+    }
+
+    @ApiOperation("查询操作日志")
+    @GetMapping("/logs/list")
+    public ResponseAPI<?> getOperationLogs(
+            @ApiParam(name = "pageQuery", value = "查询条件")
+            @Valid
+            @RequestParam(required = false)
+                    PageQuery pageQuery) {
+        List<OperationLogDTO> operationLogDTOList = operationLogService.getOperationLogs();
+        List<OperationLogVO> operationLogVOList = mapStruct.OperationLogDTOList2OperationLogVOList(operationLogDTOList);
+        return ResponseAPI.success(PageResult.build(operationLogVOList));
+    }
+
+    @ApiOperation("删除操作日志")
+    @PostMapping("/logs/delete")
+    public ResponseAPI<?> deleteOperationLog(
+            @ApiParam(name = "logIdList", value = "删除日志id")
+            @RequestBody
+                    List<Integer> logIdList) {
+        operationLogService.deleteOperationLog(logIdList);
+        return ResponseAPI.success();
     }
 
 

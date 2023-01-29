@@ -8,10 +8,7 @@ import org.springframework.stereotype.Component;
 import site.day.blog.pojo.domain.*;
 import site.day.blog.pojo.dto.*;
 import site.day.blog.pojo.vo.*;
-import site.day.blog.pojo.vo.query.ArticleSaveQuery;
-import site.day.blog.pojo.vo.query.ArticleStatusQuery;
-import site.day.blog.pojo.vo.query.CategorySaveQuery;
-import site.day.blog.pojo.vo.query.WebsiteConfigQuery;
+import site.day.blog.pojo.vo.query.*;
 
 import java.util.List;
 
@@ -109,6 +106,10 @@ public interface MapStruct {
 
     List<CommentDTO> CommentList2CommentDTOList(List<Comment> Comments);
 
+    CommentBackVO CommentDTO2CommentBackVO(CommentDTO CommentDTO);
+
+    List<CommentBackVO> CommentDTOList2CommentBackVOList(List<CommentDTO> CommentDTOS);
+
     CommentHomeVO CommentDTO2CommentHomeVO(CommentDTO CommentDTO);
 
     List<CommentHomeVO> CommentDTOList2CommentHomeVOList(List<CommentDTO> CommentDTOS);
@@ -120,9 +121,16 @@ public interface MapStruct {
 
     List<FriendLinkDTO> FriendLinkList2FriendLinkDTOList(List<FriendLink> FriendLinks);
 
-    FriendLinkVO FriendLinkDTO2FriendLinkVO(FriendLinkDTO FriendLinkDTO);
+    FriendLinkBackVO FriendLinkDTO2FriendLinkBackVO(FriendLinkDTO FriendLinkDTO);
 
-    List<FriendLinkVO> FriendLinkDTOList2FriendLinkVOList(List<FriendLinkDTO> FriendLinkDTOS);
+    List<FriendLinkBackVO> FriendLinkDTOList2FriendLinkBackVOList(List<FriendLinkDTO> FriendLinkDTOS);
+
+    FriendLinkHomeVO FriendLinkDTO2FriendLinkHomeVO(FriendLinkDTO FriendLinkDTO);
+
+    List<FriendLinkHomeVO> FriendLinkDTOList2FriendLinkHomeVOList(List<FriendLinkDTO> FriendLinkDTOS);
+
+    FriendLink FriendLinkSaveQuery2Friend(FriendLinkSaveQuery friendLinkSaveQuery);
+
 
     /**
      * 菜单
@@ -134,6 +142,17 @@ public interface MapStruct {
     MenuVO MenuDTO2MenuVO(MenuDTO MenuDTO);
 
     List<MenuVO> MenuDTOList2MenuVOList(List<MenuDTO> MenuDTOS);
+
+    /**
+     * 操作日志
+     */
+    OperationLogDTO OperationLog2OperationLogDTO(OperationLog OperationLog);
+
+    List<OperationLogDTO> OperationLogList2OperationLogDTOList(List<OperationLog> OperationLogs);
+
+    OperationLogVO OperationLogDTO2OperationLogVO(OperationLogDTO OperationLogDTO);
+
+    List<OperationLogVO> OperationLogDTOList2OperationLogVOList(List<OperationLogDTO> OperationLogDTOS);
 
     /**
      * 消息
