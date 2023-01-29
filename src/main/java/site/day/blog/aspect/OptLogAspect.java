@@ -15,7 +15,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import site.day.blog.service.OperationLogService;
 import site.day.blog.annotation.OptLog;
 import site.day.blog.pojo.domain.OperationLog;
-import site.day.blog.service.OperationLogService;
 import site.day.blog.utils.AuthUtil;
 import site.day.blog.utils.JsonUtil;
 import site.day.blog.utils.WebUtil;
@@ -88,9 +87,9 @@ public class OptLogAspect {
         // 返回结果
         operationLog.setResponseData(JsonUtil.Object2String(keys));
         // 请求用户ID
-        operationLog.setUserId(AuthUtil.getLoginUser().getUserInfoDTO().getId());
+        operationLog.setUserId(AuthUtil.getLoginUser().getUserInfo().getId());
         // 请求用户
-        operationLog.setNickname(AuthUtil.getLoginUser().getUserInfoDTO().getNickname());
+        operationLog.setNickname(AuthUtil.getLoginUser().getUserInfo().getNickname());
         // 请求IP
         String ipAddress = WebUtil.getIpAddress(request);
         operationLog.setIpAddress(ipAddress);

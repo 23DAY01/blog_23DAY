@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
+@Builder
 @TableName("day_user_info")
 public class UserInfo implements Serializable {
 
@@ -65,12 +67,6 @@ public class UserInfo implements Serializable {
      */
     @TableField("website")
     private String website;
-
-    /**
-     * 是否禁用 0否 1是
-     */
-    @TableField("is_disabled")
-    private Boolean isDisabled;
 
     /**
      * 逻辑删除 0否 NULL是

@@ -1,7 +1,9 @@
 package site.day.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import eu.bitwalker.useragentutils.UserAgent;
+import org.bouncycastle.jcajce.provider.symmetric.AES;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -44,6 +46,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserAuthMapper userAuthMapper;
+
     @Autowired
     private UserInfoMapper userInfoMapper;
 
@@ -52,6 +55,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private RedisUtil redisUtil;
+
     @Resource
     private HttpServletRequest request;
 
@@ -63,7 +67,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 //        }
         username = username != null ? username.trim() : "";
         // 查询账号是否存在
-        UserAuth userAuth = userAuthMapper.selectOne(new LambdaQueryWrapper<UserAuth>()
+        UserAuth userAuth = userAuthMapper.selectOne(Wrappers.lambdaQuery(UserAuth.class)
                 .eq(UserAuth::getUsername, username));
         if (Objects.isNull(userAuth)) {
             // 这里springSecurity的逻辑有点不合适 因为要隐藏usernameNotFound异常所以抛出了一个badCredential异常 但是对于这个异常的处理必须打印log于是很麻烦
@@ -91,22 +95,21 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         UserAgent userAgent = WebUtil.getUserAgent(request);
 
         // pojo转换
-        UserInfoDTO userInfoDto = mapStruct.UserInfo2UserInfoDTO(userInfo);
-        UserAuthDTO userAuthDto = mapStruct.UserAuth2UserAuthDTO(user);
+        UserInfoDTO userInfoDTO = mapStruct.UserInfo2UserInfoDTO(userInfo);
+        UserAuthDTO userAuthDTO = mapStruct.UserAuth2UserAuthDTO(user);
 
         //填充属性
-        userAuthDto.setOs(userAgent.getOperatingSystem().getName());
-        userAuthDto.setBrowser(userAgent.getBrowser().getName());
-        userAuthDto.setLastLoginTime(LocalDateTime.now(ZoneId.of(SHANGHAI.getZone())));
-        userAuthDto.setIpAddress(ipAddress);
-        userAuthDto.setIpSource(ipSource);
-
-        UserDetail userDetail = new UserDetail();
-        userDetail.setUserInfoDTO(userInfoDto);
-        userDetail.setUserAuthDto(userAuthDto);
-        userDetail.setRoleList(roleList);
+        userAuthDTO.setOs(userAgent.getOperatingSystem().getName());
+        userAuthDTO.setBrowser(userAgent.getBrowser().getName());
+        userAuthDTO.setLastLoginTime(LocalDateTime.now(ZoneId.of(SHANGHAI.getZone())));
+        userAuthDTO.setIpAddress(ipAddress);
+        userAuthDTO.setIpSource(ipSource);
 
         // 封装权限集合
-        return userDetail;
+        return UserDetail.builder()
+                .userInfo(userInfoDTO)
+                .userAuth(userAuthDTO)
+                .roleList(roleList)
+                .build();
     }
 }

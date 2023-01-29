@@ -29,7 +29,7 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
             WebUtil.render(httpServletResponse, JsonUtil.Object2String(ResponseAPI.fail(StatusCodeEnum.AUTH_NO_LOGIN)));
         } else {
             UserDetail userDetail = (UserDetail) authentication.getPrincipal();
-            WebUtil.render(httpServletResponse, JsonUtil.Object2String(ResponseAPI.success(userDetail.getUserInfoDTO())));
+            WebUtil.render(httpServletResponse, JsonUtil.Object2String(ResponseAPI.success(userDetail.getUserInfo())));
         }
     }
 }

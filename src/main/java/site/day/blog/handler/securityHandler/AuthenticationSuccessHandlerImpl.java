@@ -49,7 +49,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 //        System.out.println(httpServletRequest.getSession().getCreationTime());
 //        System.out.println(httpServletRequest.getSession().getId());
 
-        WebUtil.render(httpServletResponse, JsonUtil.Object2String(ResponseAPI.success(loginUser.getUserInfoDTO())));
+        WebUtil.render(httpServletResponse, JsonUtil.Object2String(ResponseAPI.success(loginUser.getUserInfo())));
     }
 
     /**
@@ -60,9 +60,8 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
      **/
     @Async
     public void updateUserInfo() {
-        UserDetail loginUser = AuthUtil.getLoginUser();
-        UserAuthDTO userAuthDto = loginUser.getUserAuthDto();
-        UserAuth userAuth = mapStruct.UserAuthDTO2UserAuth(userAuthDto);
+        UserAuthDTO userAuthDTO = AuthUtil.getLoginUser().getUserAuth();
+        UserAuth userAuth = mapStruct.UserAuthDTO2UserAuth(userAuthDTO);
         userAuthService.updateById(userAuth);
     }
 

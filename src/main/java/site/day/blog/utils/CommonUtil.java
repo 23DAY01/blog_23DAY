@@ -1,9 +1,6 @@
 package site.day.blog.utils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @Description
@@ -12,28 +9,16 @@ import java.util.Set;
  * @Date 2023/1/27 22:16
  * @Version 1.0
  */
-public class CommonUtil<T> {
+public class CommonUtil {
 
-    public static <T> List<T> objToList(Object obj, Class<T> cla) {
-        List<T> list = new ArrayList<T>();
-        if (obj instanceof ArrayList<?>) {
-            for (Object o : (List<?>) obj) {
-                list.add(cla.cast(o));
-            }
-            return list;
+    public static String getRandomCode() {
+        StringBuilder str = new StringBuilder();
+        Random random = new Random();
+        for (int i = 0; i < 6; i++) {
+            str.append(random.nextInt(10));
         }
-        return null;
+        return str.toString();
     }
 
-    public static <T> Set<T> objToSet(Object obj, Class<T> clazz) {
-        Set<T> result = new HashSet<>();
-        if (obj instanceof Set<?>) {
-            for (Object o : (Set<?>) obj) {
-                result.add(clazz.cast(o));
-            }
-            return result;
-        }
-        return result;
-    }
 
 }

@@ -45,6 +45,7 @@ public interface StatusMsgConst {
     String AUTH_USER_ACCOUNT_DISABLED = "用户账号不可用";
     String AUTH_USER_ACCOUNT_EXPIRED = "用户账号已过期";
     String AUTH_USER_CREDENTIALS_EXPIRED = "用户账号密码过期";
+    String AUTH_USER_USERNAME_REPEAT = "用户名已存在";
 
 
     //        api错误

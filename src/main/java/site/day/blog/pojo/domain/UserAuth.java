@@ -6,9 +6,11 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -25,6 +27,7 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
+@Builder
 @TableName("day_user_auth")
 public class UserAuth implements Serializable {
 
@@ -77,6 +80,12 @@ public class UserAuth implements Serializable {
      */
     @TableField("last_login_time")
     private LocalDateTime lastLoginTime;
+
+    /**
+     * 是否禁用 0否 1是
+     */
+    @TableField("is_disabled")
+    private Boolean isDisabled;
 
     /**
      * 逻辑删除 0否 NULL是

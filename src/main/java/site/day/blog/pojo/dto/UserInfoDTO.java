@@ -3,6 +3,8 @@ package site.day.blog.pojo.dto;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -46,5 +48,16 @@ public class UserInfoDTO implements Serializable {
      * 用户简介
      */
     private String intro;
+
+    /**
+     * 个人网站
+     */
+    private String website;
+
+    /**
+     * 创建时间
+     */
+    private LocalDateTime createTime;
+
 
 }

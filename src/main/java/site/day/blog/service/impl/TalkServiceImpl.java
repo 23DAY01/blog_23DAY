@@ -18,7 +18,6 @@ import site.day.blog.utils.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import static site.day.blog.constant.RedisConst.TALK_LIKE_COUNT;
@@ -114,7 +113,7 @@ public class TalkServiceImpl extends ServiceImpl<TalkMapper, Talk> implements Ta
 
     @Override
     public void saveTalkLike(Integer id) {
-        String talkUserLikeKey = TALK_USER_LIKE + AuthUtil.getLoginUser().getUserInfoDTO().getId();
+        String talkUserLikeKey = TALK_USER_LIKE + AuthUtil.getLoginUser().getUserInfo().getId();
         //在set中获取用户是否对该说说点赞
         if (redisUtil.sIsMember(talkUserLikeKey, id)) {
             redisUtil.sRemove(talkUserLikeKey, id);

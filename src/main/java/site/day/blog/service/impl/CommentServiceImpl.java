@@ -86,7 +86,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Override
     public void saveComment(CommentQuery commentQuery) {
         Comment comment = Comment.builder()
-                .userId(AuthUtil.getLoginUser().getUserInfoDTO().getId())
+                .userId(AuthUtil.getLoginUser().getUserInfo().getId())
                 .affiliationId(commentQuery.getAffiliationId())
                 .type(commentQuery.getType())
                 .commentContent(commentQuery.getCommentContent())
@@ -122,7 +122,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Override
     public void saveCommentLike(Integer id) {
         //用户点赞key
-        String commentLikeKey = COMMENT_USER_LIKE + AuthUtil.getLoginUser().getUserInfoDTO().getId();
+        String commentLikeKey = COMMENT_USER_LIKE + AuthUtil.getLoginUser().getUserInfo().getId();
         if (redisUtil.sIsMember(commentLikeKey, id)) {
             //如果点过赞则在列表中去掉该评论id  并且评论点赞量-1
             redisUtil.sRemove(commentLikeKey, id);

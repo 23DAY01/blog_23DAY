@@ -12,6 +12,11 @@ import com.sun.javafx.logging.PulseLogger;
  */
 public class RedisConst {
 
+    /**
+     * 验证码过期时间
+     */
+    public static final long CODE_EXPIRE_TIME = 15 * 60;
+
     //============================prefix===============================
 
     /**
@@ -52,8 +57,12 @@ public class RedisConst {
     /**
      * 说说用户点赞
      */
-    public static final String TALK_USER_LIKE="talk_user_like";
+    public static final String TALK_USER_LIKE = "talk_user_like";
 
+    /**
+     * 验证码
+     */
+    public static final String EMAIL_USER_CODE = "email_user+code";
     //==============================key================================
 
 

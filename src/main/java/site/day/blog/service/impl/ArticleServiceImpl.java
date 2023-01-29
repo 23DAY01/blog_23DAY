@@ -17,7 +17,6 @@ import site.day.blog.pojo.domain.Category;
 import site.day.blog.pojo.domain.Tag;
 import site.day.blog.pojo.dto.ArticleDTO;
 import site.day.blog.pojo.dto.TagDTO;
-import site.day.blog.pojo.vo.ArticlePreviewVO;
 import site.day.blog.pojo.vo.query.ArticleConditionQuery;
 import site.day.blog.service.ArticleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -182,7 +181,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public void saveArticleLike(Integer articleId) {
-        String articleUserLikeKey = ARTICLE_USER_LIKE + AuthUtil.getLoginUser().getUserAuthDto().getId();
+        String articleUserLikeKey = ARTICLE_USER_LIKE + AuthUtil.getLoginUser().getUserAuth().getId();
         if (redisUtil.sIsMember(articleUserLikeKey, articleId)) {
             //如果文章点赞过，则删除点赞记录，并且文章点赞量-1
             redisUtil.sRemove(articleUserLikeKey, articleId);
@@ -240,7 +239,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      **/
     private void updateViewCount(Integer id) {
         //从session中获取访问过的文章id
-        List<Integer> articleIdList = CommonUtil.objToList(session.getAttribute(VISITOR_ARTICLE_LIST), Integer.class);
+        List<Integer> articleIdList = ConvertUtil.objToList(session.getAttribute(VISITOR_ARTICLE_LIST), Integer.class);
         //如果在一个session没有访问过该文章
         if (articleIdList.contains(id)) {
             articleIdList.add(id);
