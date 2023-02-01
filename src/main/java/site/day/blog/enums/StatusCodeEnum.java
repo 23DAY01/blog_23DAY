@@ -74,6 +74,8 @@ public enum StatusCodeEnum {
     //业务错误-tag
     TAG_NAME_REPEAT(4001301, StatusMsgConst.TAG_NAME_REPEAT),
     TAG_MISSING(4001302, StatusMsgConst.TAG_MISSING),
+    //业务错误-菜单
+    MENU_ROLE_RELATION(4001401,StatusMsgConst.MENU_ROLE_RELATION),
 
     /**
      * Server

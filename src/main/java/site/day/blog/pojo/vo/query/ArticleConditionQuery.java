@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import static site.day.blog.constant.CommonConst.*;
 
 /**
- * @Description
+ * @Description 文章状态查询
  * @ClassName PageVO
  * @Author 23DAY
  * @Date 2023/1/23 22:53
@@ -22,7 +22,7 @@ import static site.day.blog.constant.CommonConst.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel("文章状态查询")
+@ApiModel(value = "ArticleConditionQuery", description = "文章状态查询")
 public class ArticleConditionQuery {
 
     /**

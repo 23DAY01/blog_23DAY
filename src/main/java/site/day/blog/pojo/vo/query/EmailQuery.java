@@ -10,7 +10,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 /**
- * @Description
+ * @Description 邮箱
  * @ClassName EmailQuery
  * @Author 23DAY
  * @Date 2023/1/29 10:41
@@ -19,7 +19,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel("邮箱")
+@ApiModel(value = "EmailQuery", description = "邮箱")
 public class EmailQuery {
 
     /**

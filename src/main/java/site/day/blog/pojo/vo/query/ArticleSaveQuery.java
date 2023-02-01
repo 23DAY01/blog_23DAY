@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * @Description
+ * @Description 文章新增或修改
  * @ClassName ArticleSaveQuery
  * @Author 23DAY
  * @Date 2023/1/29 15:51
@@ -20,7 +20,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel("文章新增或修改")
+@ApiModel(value = "ArticleSaveQuery", description = "文章新增或修改")
 public class ArticleSaveQuery {
 
     /**

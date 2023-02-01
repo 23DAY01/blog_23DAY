@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 /**
- * @Description
+ * @Description 用户认证请求
  * @ClassName UserAuthQuery
  * @Author 23DAY
  * @Date 2023/1/29 0:17
@@ -20,7 +20,7 @@ import javax.validation.constraints.Size;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel("用户认证请求")
+@ApiModel(value = "UserAuthQuery", description = "用户认证请求")
 public class UserAuthQuery {
 
     /**

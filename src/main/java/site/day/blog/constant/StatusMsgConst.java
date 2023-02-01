@@ -68,6 +68,9 @@ public interface StatusMsgConst {
     String TAG_NAME_REPEAT = "标签已存在";
     String TAG_MISSING = "标签不存在";
 
+    //菜单错误
+    String MENU_ROLE_RELATION="菜单与角色关联";
+
 
     /**
      * Server

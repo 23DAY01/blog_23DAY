@@ -3,7 +3,8 @@ package site.day.blog.service;
 import site.day.blog.pojo.domain.Message;
 import com.baomidou.mybatisplus.extension.service.IService;
 import site.day.blog.pojo.dto.MessageDTO;
-import site.day.blog.pojo.vo.query.MessageQuery;
+import site.day.blog.pojo.vo.query.MessageSaveQuery;
+import site.day.blog.pojo.vo.query.MessageStatusQuery;
 
 import java.util.List;
 
@@ -16,7 +17,13 @@ import java.util.List;
  */
 public interface MessageService extends IService<Message> {
 
-    void saveMessage(MessageQuery messageQuery);
+    void saveMessage(MessageSaveQuery messageSaveQuery);
 
     List<MessageDTO> getMessages();
+
+    List<MessageDTO> getBackMessages(Boolean isReview);
+
+    void updateMessagesStatus(MessageStatusQuery messageStatusQuery);
+
+    void deleteMessageByIds(List<Integer> messageIdList);
 }

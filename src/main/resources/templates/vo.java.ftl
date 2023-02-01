@@ -53,12 +53,12 @@ public class ${entity}VO {
 <#list table.fields as field>
 
     <#if field.comment!?length gt 0>
-        <#if swagger>
-    @ApiModelProperty(name = "${field.propertyName}", value = "${field.comment}", dataType = "${field.propertyType}")
-        </#if>
     /**
      * ${field.comment}
      */
+        <#if swagger>
+    @ApiModelProperty(name = "${field.propertyName}", value = "${field.comment}", dataType = "${field.propertyType}")
+        </#if>
     </#if>
     private ${field.propertyType} ${field.propertyName};
 </#list>

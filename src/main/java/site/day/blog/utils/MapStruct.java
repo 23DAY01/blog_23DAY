@@ -143,6 +143,8 @@ public interface MapStruct {
 
     List<MenuVO> MenuDTOList2MenuVOList(List<MenuDTO> MenuDTOS);
 
+    Menu MenuSaveQuery2Menu(MenuSaveQuery menuSaveQuery);
+
     /**
      * 操作日志
      */
@@ -161,9 +163,13 @@ public interface MapStruct {
 
     List<MessageDTO> MessageList2MessageDTOList(List<Message> Messages);
 
-    MessageVO MessageDTO2MessageVO(MessageDTO MessageDTO);
+    MessageBackVO MessageDTO2MessageBackVO(MessageDTO MessageDTO);
 
-    List<MessageVO> MessageDTOList2MessageVOList(List<MessageDTO> MessageDTOS);
+    List<MessageBackVO> MessageDTOList2MessageBackVOList(List<MessageDTO> MessageDTOS);
+
+    MessageHomeVO MessageDTO2MessageHomeVO(MessageDTO MessageDTO);
+
+    List<MessageHomeVO> MessageDTOList2MessageHomeVOList(List<MessageDTO> MessageDTOS);
 
     /**
      * 页面

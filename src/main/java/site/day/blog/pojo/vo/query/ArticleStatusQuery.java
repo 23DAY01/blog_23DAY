@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 
 /**
- * @Description
+ * @Description 文章状态修改
  * @ClassName ArticleStatusQuery
  * @Author 23DAY
  * @Date 2023/1/29 18:08
@@ -18,7 +18,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel("文章状态修改")
+@ApiModel(value = "ArticleStatusQuery", description = "文章状态修改")
 public class ArticleStatusQuery {
 
     /**

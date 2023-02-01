@@ -10,7 +10,7 @@ import site.day.blog.mapper.CommentMapper;
 import site.day.blog.pojo.domain.UserInfo;
 import site.day.blog.pojo.dto.CommentDTO;
 import site.day.blog.pojo.vo.query.CommentQuery;
-import site.day.blog.pojo.vo.query.CommentReviewQuery;
+import site.day.blog.pojo.vo.query.CommentStatusQuery;
 import site.day.blog.service.CommentService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -137,7 +137,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public void updateCommentReview(CommentReviewQuery query) {
+    public void updateCommentStatus(CommentStatusQuery query) {
         List<Comment> commentList = query.getIdList().stream().map(id -> Comment.builder()
                         .id(id)
                         .isReview(query.getIsReview())
@@ -147,8 +147,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    public void deleteCommentByIds(CommentReviewQuery commentReviewQuery) {
-        removeBatchByIds(commentReviewQuery.getIdList());
+    public void deleteCommentByIds(CommentStatusQuery commentStatusQuery) {
+        removeBatchByIds(commentStatusQuery.getIdList());
     }
 
     /**

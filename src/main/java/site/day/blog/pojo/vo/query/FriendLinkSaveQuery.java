@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 
 /**
- * @Description
+ * @Description 添加友链
  * @ClassName FriendLinkSaveQuery
  * @Author 23DAY
  * @Date 2023/1/29 21:28
@@ -18,7 +18,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel("添加友链")
+@ApiModel(value = "FriendLinkSaveQuery", description = "添加友链")
 public class FriendLinkSaveQuery {
 
     /**

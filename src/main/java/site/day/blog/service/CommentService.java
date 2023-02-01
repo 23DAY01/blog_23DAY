@@ -4,7 +4,7 @@ import site.day.blog.pojo.domain.Comment;
 import com.baomidou.mybatisplus.extension.service.IService;
 import site.day.blog.pojo.dto.CommentDTO;
 import site.day.blog.pojo.vo.query.CommentQuery;
-import site.day.blog.pojo.vo.query.CommentReviewQuery;
+import site.day.blog.pojo.vo.query.CommentStatusQuery;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public interface CommentService extends IService<Comment> {
 
     void saveCommentLike(Integer id);
 
-    void updateCommentReview(CommentReviewQuery commentReviewQuery);
+    void updateCommentStatus(CommentStatusQuery commentStatusQuery);
 
-    void deleteCommentByIds(CommentReviewQuery commentReviewQuery);
+    void deleteCommentByIds(CommentStatusQuery commentStatusQuery);
 }

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 
 /**
- * @Description
+ * @Description 分类新增或修改
  * @ClassName CategorySaveQuery
  * @Author 23DAY
  * @Date 2023/1/29 19:48
@@ -18,7 +18,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel("分类新增或修改")
+@ApiModel(value = "CategorySaveQuery", description = "分类新增或修改")
 public class CategorySaveQuery {
 
     /**

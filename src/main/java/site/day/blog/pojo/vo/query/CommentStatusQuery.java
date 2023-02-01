@@ -10,8 +10,8 @@ import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 /**
- * @Description
- * @ClassName CommentReviewQuery
+ * @Description 评论请求
+ * @ClassName CommentStatusQuery
  * @Author 23DAY
  * @Date 2023/1/29 21:05
  * @Version 1.0
@@ -19,8 +19,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel("评论请求")
-public class CommentReviewQuery {
+@ApiModel(value = "CommentStatusQuery", description = "评论请求")
+public class CommentStatusQuery {
 
     /**
      * 主键

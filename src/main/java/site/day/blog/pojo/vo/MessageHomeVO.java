@@ -13,7 +13,7 @@ import lombok.experimental.Accessors;
 import javax.validation.constraints.NotNull;
 
 /**
- * @ClassName MessageVO
+ * @ClassName MessageHomeVO
  * @Author 23DAY
  * @Date 2023/01/18 20:48
  * @Version 1.0
@@ -23,8 +23,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@ApiModel(value = "MessageVO", description = "留言表")
-public class MessageVO implements Serializable {
+@ApiModel(value = "MessageHomeVO", description = "留言表")
+public class MessageHomeVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

@@ -6,15 +6,12 @@ import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import site.day.blog.pojo.domain.Menu;
-import site.day.blog.pojo.domain.Talk;
 import site.day.blog.pojo.dto.CommentDTO;
 import site.day.blog.pojo.dto.FriendLinkDTO;
+import site.day.blog.pojo.dto.MenuDTO;
+import site.day.blog.pojo.dto.MessageDTO;
 import site.day.blog.pojo.vo.*;
-import site.day.blog.pojo.vo.query.CommentQuery;
-import site.day.blog.pojo.vo.query.CommentReviewQuery;
-import site.day.blog.pojo.vo.query.FriendLinkSaveQuery;
-import site.day.blog.pojo.vo.query.PageQuery;
+import site.day.blog.pojo.vo.query.*;
 import site.day.blog.service.*;
 import site.day.blog.utils.MapStruct;
 import site.day.blog.utils.ResponseAPI;
@@ -53,25 +50,26 @@ public class AdminFunctionController {
     @Autowired
     private MessageService messageService;
 
+
     @ApiOperation("审核评论")
-    @PostMapping("/comments/review")
-    public ResponseAPI<?> updateCommentReview(
+    @PostMapping("/comments/status")
+    public ResponseAPI<?> updateCommentStatus(
             @ApiParam(name = "commentReviewQuery", value = "评论审核")
             @RequestBody
             @Valid
-                    CommentReviewQuery commentReviewQuery) {
-        commentService.updateCommentReview(commentReviewQuery);
+                    CommentStatusQuery commentStatusQuery) {
+        commentService.updateCommentStatus(commentStatusQuery);
         return ResponseAPI.success();
     }
 
     @ApiOperation("删除评论")
     @PostMapping("/comments/delete")
     public ResponseAPI<?> deleteComment(
-            @ApiParam(name = "commentReviewQuery", value = "评论审核")
+            @ApiParam(name = "commentReviewQuery", value = "删除评论")
             @RequestBody
             @Valid
-                    CommentReviewQuery commentReviewQuery) {
-        commentService.deleteCommentByIds(commentReviewQuery);
+                    CommentStatusQuery commentStatusQuery) {
+        commentService.deleteCommentByIds(commentStatusQuery);
         return ResponseAPI.success();
     }
 
@@ -80,7 +78,7 @@ public class AdminFunctionController {
     public ResponseAPI<?> getBackComments(
             @ApiParam(name = "commentQuery", value = "评论查询")
                     CommentQuery commentQuery,
-            @ApiParam(name = "pageQuery", value = "查询条件")
+            @ApiParam(name = "pageQuery", value = "分页条件")
             @Valid
             @RequestParam(required = false)
                     PageQuery pageQuery) {
@@ -118,5 +116,69 @@ public class AdminFunctionController {
         return ResponseAPI.success();
     }
 
+    @ApiOperation("查询菜单")
+    @GetMapping("/menus/list")
+    public ResponseAPI<?> getMenus() {
+        List<MenuDTO> menuDTOList = menuService.getMenus();
+        List<MenuVO> menuVOList = mapStruct.MenuDTOList2MenuVOList(menuDTOList);
+        return ResponseAPI.success(menuVOList);
+    }
+
+    @ApiOperation("添加菜单")
+    @PostMapping("/menus/save")
+    public ResponseAPI<?> saveOrUpdateMenu(
+            @ApiParam(name = "menuSaveQuery", value = "添加菜单")
+            @Valid
+            @RequestBody
+                    MenuSaveQuery menuSaveQuery) {
+        menuService.saveOrUpdateMenu(menuSaveQuery);
+        return ResponseAPI.success();
+    }
+
+    @ApiOperation("删除菜单")
+    @GetMapping("/menus/{id}/delete")
+    public ResponseAPI<?> deleteMenu(
+            @ApiParam(name = "id", value = "")
+            @PathVariable
+                    Integer id) {
+        menuService.deleteMenuById(id);
+        return ResponseAPI.success();
+    }
+
+
+    @ApiOperation("后台查看留言")
+    @GetMapping("/messages/list")
+    public ResponseAPI<?> getBackMessages(
+            @ApiParam(name = "isReview", value = "是否审核")
+                    Boolean isReview,
+            @ApiParam(name = "pageQuery", value = "分页条件")
+            @Valid
+            @RequestParam(required = false)
+                    PageQuery pageQuery) {
+        List<MessageDTO> messageDTOList = messageService.getBackMessages(isReview);
+        List<MessageBackVO> messageBackVOList = mapStruct.MessageDTOList2MessageBackVOList(messageDTOList);
+        return ResponseAPI.success(PageResult.build(messageBackVOList));
+    }
+
+    @ApiOperation("审核评论")
+    @PostMapping("/messages/status")
+    public ResponseAPI<?> updateMessagesStatus(
+            @ApiParam(name = "messageStatusQuery", value = "审核评论")
+            @Valid
+            @RequestBody
+                    MessageStatusQuery messageStatusQuery) {
+        messageService.updateMessagesStatus(messageStatusQuery);
+        return ResponseAPI.success();
+    }
+
+    @ApiOperation("删除留言")
+    @PostMapping("/messages/delete")
+    public ResponseAPI<?> deleteMessage(
+            @ApiParam(name = "messageIdList", value = "删除留言")
+            @RequestBody
+                    List<Integer> messageIdList) {
+        messageService.deleteMessageByIds(messageIdList);
+        return ResponseAPI.success();
+    }
 
 }

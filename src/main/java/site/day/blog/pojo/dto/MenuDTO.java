@@ -2,6 +2,7 @@ package site.day.blog.pojo.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.Data;
 import lombok.AllArgsConstructor;
@@ -53,19 +54,9 @@ public class MenuDTO implements Serializable {
     private Integer orderNum;
 
     /**
-     * 父菜单id
-     */
-    private Integer parentId;
-
-    /**
      * 是否隐藏  0否1是
      */
     private Boolean isHidden;
-
-    /**
-     * 逻辑删除 0否 NULL是
-     */
-    private Boolean deleted;
 
     /**
      * 创建时间
@@ -73,9 +64,9 @@ public class MenuDTO implements Serializable {
     private LocalDateTime createTime;
 
     /**
-     * 更新时间
+     * 子菜单
      */
-    private LocalDateTime updateTime;
+    private List<MenuDTO> childMenuList;
 
 
 }

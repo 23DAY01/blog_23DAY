@@ -1,9 +1,9 @@
 package site.day.blog.controller;
 
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.web.bind.annotation.*;
 import site.day.blog.pojo.dto.MessageDTO;
-import site.day.blog.pojo.vo.query.MessageQuery;
+import site.day.blog.pojo.vo.MessageHomeVO;
+import site.day.blog.pojo.vo.query.MessageSaveQuery;
 import site.day.blog.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import lombok.extern.slf4j.Slf4j;
@@ -63,8 +63,8 @@ public class MessageController {
             @ApiParam(name = "messageQuery", value = "留言", required = true)
             @Valid
             @RequestBody
-                    MessageQuery messageQuery) {
-        messageService.saveMessage(messageQuery);
+                    MessageSaveQuery messageSaveQuery) {
+        messageService.saveMessage(messageSaveQuery);
         return ResponseAPI.success();
     }
 
@@ -79,7 +79,8 @@ public class MessageController {
     @GetMapping("/list")
     public ResponseAPI<?> getMessages() {
         List<MessageDTO> messageDTOList = messageService.getMessages();
-        return ResponseAPI.success();
+        List<MessageHomeVO> messageHomeVOList = mapStruct.MessageDTOList2MessageHomeVOList(messageDTOList);
+        return ResponseAPI.success(messageHomeVOList);
     }
 
 }

@@ -1,16 +1,24 @@
 package site.day.blog.pojo.vo.query;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 /**
- * @Description
+ * @Description 网站配置请求
  * @ClassName WebsiteConfigQuery
  * @Author 23DAY
  * @Date 2023/1/29 19:27
  * @Version 1.0
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ApiModel(value = "WebsiteConfigQuery", description = "网站配置请求")
 public class WebsiteConfigQuery {
 
     /**

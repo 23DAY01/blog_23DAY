@@ -5,13 +5,11 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import site.day.blog.pojo.vo.MessageVO;
 
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
 
 /**
- * @Description
+ * @Description 添加留言
  * @ClassName MessageQuery
  * @Author 23DAY
  * @Date 2023/1/28 19:10
@@ -20,8 +18,8 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel("留言请求")
-public class MessageQuery {
+@ApiModel(value = "MenuSaveQuery", description = "添加留言")
+public class MessageSaveQuery {
 
     /**
      * 用户昵称

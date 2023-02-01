@@ -14,7 +14,7 @@ import static site.day.blog.constant.CommonConst.PAGE_DEFAULT_SIZE;
 
 
 /**
- * @Description
+ * @Description 分页
  * @ClassName PageQuery
  * @Author 23DAY
  * @Date 2023/1/25 19:26
@@ -23,7 +23,7 @@ import static site.day.blog.constant.CommonConst.PAGE_DEFAULT_SIZE;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel("分页")
+@ApiModel(value = "PageQuery", description = "分页")
 public class PageQuery {
 
     /**

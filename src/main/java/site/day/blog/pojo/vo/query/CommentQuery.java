@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @Description
+ * @Description 评论请求
  * @ClassName CommentQuery
  * @Author 23DAY
  * @Date 2023/1/28 11:42
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel("评论请求")
+@ApiModel(value = "CommentQuery", description = "评论请求")
 public class CommentQuery {
 
     /**
