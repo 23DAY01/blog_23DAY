@@ -7,17 +7,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import site.day.blog.pojo.dto.BlogInfoDTO;
-import site.day.blog.pojo.dto.OperationLogDTO;
-import site.day.blog.pojo.dto.WebsiteConfigDTO;
-import site.day.blog.pojo.vo.BlogBackInfoVO;
-import site.day.blog.pojo.vo.OperationLogVO;
-import site.day.blog.pojo.vo.PageResult;
-import site.day.blog.pojo.vo.WebsiteConfigVO;
+import site.day.blog.pojo.dto.*;
+import site.day.blog.pojo.vo.*;
+import site.day.blog.pojo.vo.query.MenuSaveQuery;
 import site.day.blog.pojo.vo.query.PageQuery;
+import site.day.blog.pojo.vo.query.PageSaveQuery;
 import site.day.blog.pojo.vo.query.WebsiteConfigQuery;
 import site.day.blog.service.BlogService;
+import site.day.blog.service.MenuService;
 import site.day.blog.service.OperationLogService;
+import site.day.blog.service.PageService;
 import site.day.blog.utils.MapStruct;
 import site.day.blog.utils.ResponseAPI;
 
@@ -43,6 +42,12 @@ public class AdminBlogController {
 
     @Autowired
     private MapStruct mapStruct;
+
+    @Autowired
+    private MenuService menuService;
+
+    @Autowired
+    private PageService pageService;
 
     @Autowired
     private OperationLogService operationLogService;
@@ -101,6 +106,64 @@ public class AdminBlogController {
             @RequestBody
                     List<Integer> logIdList) {
         operationLogService.deleteOperationLog(logIdList);
+        return ResponseAPI.success();
+    }
+
+    @ApiOperation("查询菜单")
+    @GetMapping("/menus/list")
+    public ResponseAPI<?> getMenus() {
+        List<MenuDTO> menuDTOList = menuService.getMenus();
+        List<MenuVO> menuVOList = mapStruct.MenuDTOList2MenuVOList(menuDTOList);
+        return ResponseAPI.success(menuVOList);
+    }
+
+    @ApiOperation("添加菜单")
+    @PostMapping("/menus/save")
+    public ResponseAPI<?> saveOrUpdateMenu(
+            @ApiParam(name = "menuSaveQuery", value = "添加菜单")
+            @Valid
+            @RequestBody
+                    MenuSaveQuery menuSaveQuery) {
+        menuService.saveOrUpdateMenu(menuSaveQuery);
+        return ResponseAPI.success();
+    }
+
+    @ApiOperation("删除菜单")
+    @GetMapping("/menus/{id}/delete")
+    public ResponseAPI<?> deleteMenu(
+            @ApiParam(name = "id", value = "菜单id")
+            @PathVariable
+                    Integer id) {
+        menuService.deleteMenuById(id);
+        return ResponseAPI.success();
+    }
+
+    @ApiOperation("获取页面")
+    @GetMapping("/pages/list")
+    public ResponseAPI<?> getPages() {
+        List<PageDTO> pageDTOList = pageService.getPages();
+        List<PageVO> pageVOList = mapStruct.PageDTOList2PageVOList(pageDTOList);
+        return ResponseAPI.success(pageVOList);
+    }
+
+    @ApiOperation("添加页面")
+    @PostMapping("/pages/save")
+    public ResponseAPI<?> saveOrUpdatePage(
+            @ApiParam(name = "pageSaveQuery", value = "添加页面")
+            @Valid
+            @RequestBody
+                    PageSaveQuery pageSaveQuery) {
+        pageService.saveOrUpdatePage(pageSaveQuery);
+        return ResponseAPI.success();
+    }
+
+    @ApiOperation("删除页面")
+    @GetMapping("/pages/{id}/delete")
+    public ResponseAPI<?> deletePage(
+            @ApiParam(name = "id", value = "页面id")
+            @PathVariable
+                    Integer id) {
+        pageService.deletePageById(id);
         return ResponseAPI.success();
     }
 

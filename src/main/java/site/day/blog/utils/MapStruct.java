@@ -182,6 +182,8 @@ public interface MapStruct {
 
     List<PageVO> PageDTOList2PageVOList(List<PageDTO> PageDTOS);
 
+    Page PageSaveQuery2Page(PageSaveQuery pageSaveQuery);
+
     /**
      * 资源
      */

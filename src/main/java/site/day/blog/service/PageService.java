@@ -2,6 +2,10 @@ package site.day.blog.service;
 
 import site.day.blog.pojo.domain.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import site.day.blog.pojo.dto.PageDTO;
+import site.day.blog.pojo.vo.query.PageSaveQuery;
+
+import java.util.List;
 
 /**
  * @Description Page服务类
@@ -12,4 +16,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface PageService extends IService<Page> {
 
+    List<PageDTO> getPages();
+
+    void saveOrUpdatePage(PageSaveQuery pageSaveQuery);
+
+    void deletePageById(Integer id);
 }

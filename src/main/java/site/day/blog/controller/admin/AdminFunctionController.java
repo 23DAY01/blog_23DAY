@@ -42,9 +42,6 @@ public class AdminFunctionController {
     private TalkService talkService;
 
     @Autowired
-    private MenuService menuService;
-
-    @Autowired
     private FriendLinkService friendLinkService;
 
     @Autowired
@@ -115,36 +112,6 @@ public class AdminFunctionController {
         friendLinkService.deleteFriendLink(linkIdList);
         return ResponseAPI.success();
     }
-
-    @ApiOperation("查询菜单")
-    @GetMapping("/menus/list")
-    public ResponseAPI<?> getMenus() {
-        List<MenuDTO> menuDTOList = menuService.getMenus();
-        List<MenuVO> menuVOList = mapStruct.MenuDTOList2MenuVOList(menuDTOList);
-        return ResponseAPI.success(menuVOList);
-    }
-
-    @ApiOperation("添加菜单")
-    @PostMapping("/menus/save")
-    public ResponseAPI<?> saveOrUpdateMenu(
-            @ApiParam(name = "menuSaveQuery", value = "添加菜单")
-            @Valid
-            @RequestBody
-                    MenuSaveQuery menuSaveQuery) {
-        menuService.saveOrUpdateMenu(menuSaveQuery);
-        return ResponseAPI.success();
-    }
-
-    @ApiOperation("删除菜单")
-    @GetMapping("/menus/{id}/delete")
-    public ResponseAPI<?> deleteMenu(
-            @ApiParam(name = "id", value = "")
-            @PathVariable
-                    Integer id) {
-        menuService.deleteMenuById(id);
-        return ResponseAPI.success();
-    }
-
 
     @ApiOperation("后台查看留言")
     @GetMapping("/messages/list")
