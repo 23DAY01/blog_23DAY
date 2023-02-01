@@ -62,14 +62,15 @@ public interface StatusMsgConst {
     //分类错误
     String CATEGORY_NAME_REPEAT = "分类已存在";
     String CATEGORY_MISSING = "分类不存在";
-    String CATEGORY_HAVE_ARTICLE="分类下存在文章";
+    String CATEGORY_HAVE_ARTICLE = "分类下存在文章";
 
     //标签错误
     String TAG_NAME_REPEAT = "标签已存在";
     String TAG_MISSING = "标签不存在";
+    String TAG_HAVE_ARTICLE = "标签下存在文章";
 
     //菜单错误
-    String MENU_ROLE_RELATION="菜单与角色关联";
+    String MENU_ROLE_RELATION = "菜单与角色关联";
 
 
     /**

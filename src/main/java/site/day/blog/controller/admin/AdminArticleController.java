@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import site.day.blog.pojo.dto.ArticleDTO;
 import site.day.blog.pojo.dto.CategoryDTO;
+import site.day.blog.pojo.dto.TagDTO;
 import site.day.blog.pojo.vo.ArticleBackVO;
 import site.day.blog.pojo.vo.CategoryBackVO;
 import site.day.blog.pojo.vo.PageResult;
+import site.day.blog.pojo.vo.TagBackVO;
 import site.day.blog.pojo.vo.query.*;
 import site.day.blog.service.ArticleService;
 import site.day.blog.service.CategoryService;
@@ -170,6 +172,40 @@ public class AdminArticleController {
             @NotBlank
                     List<Integer> idList) {
         categoryService.deleteCategoryByIds(idList);
+        return ResponseAPI.success();
+    }
+
+    @ApiOperation("获取后台标签")
+    @GetMapping("/tags/list")
+    public ResponseAPI<?> getBackTag(
+            @ApiParam(name = "pageQuery", value = "查询条件")
+            @Valid
+            @RequestParam(required = false)
+                    PageQuery pageQuery) {
+        List<TagDTO> tagDTOList = tagService.getBackTags();
+        List<TagBackVO> tagBackVOList = mapStruct.TagDTOList2TagBackVOList(tagDTOList);
+        return ResponseAPI.success(tagBackVOList);
+    }
+
+    @ApiOperation("添加标签")
+    @PostMapping("/tags/save")
+    public ResponseAPI<?> saveOrUpdateTag(
+            @ApiParam(name = "tagSaveQuery", value = "添加标签")
+            @Valid
+            @RequestBody
+                    TagSaveQuery tagSaveQuery) {
+        tagService.saveOrUpdateTag(tagSaveQuery);
+        return ResponseAPI.success();
+    }
+
+    @ApiOperation("删除标签")
+    @PostMapping("/tags/delete")
+    public ResponseAPI<?> deleteTag(
+            @ApiParam(name = "idList", value = "删除标签")
+            @RequestBody
+            @NotBlank
+                    List<Integer> idList) {
+        tagService.deleteTagByIds(idList);
         return ResponseAPI.success();
     }
 

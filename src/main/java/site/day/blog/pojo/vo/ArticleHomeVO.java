@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -39,7 +38,7 @@ public class ArticleHomeVO implements Serializable {
     private String categoryName;
 
     @ApiModelProperty(name = "tagDTOList", value = "文章标签列表", dataType = "List<TagDTO>")
-    private List<TagVO> tagList;
+    private List<TagHomeVO> tagList;
 
     @ApiModelProperty(name = "articleCover", value = "文章缩略图", dataType = "String")
     private String articleCover;

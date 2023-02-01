@@ -1,32 +1,23 @@
-package site.day.blog.pojo.vo;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
+package site.day.blog.pojo.vo.query;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
-
-import javax.validation.constraints.NotNull;
 
 /**
- * @ClassName TagVO
+ * @Description 添加标签
+ * @ClassName TagSaveQuery
  * @Author 23DAY
- * @Date 2023/01/18 20:48
+ * @Date 2023/2/1 20:04
  * @Version 1.0
  */
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
-@ApiModel(value = "TagVO", description = "标签表")
-public class TagVO implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@NoArgsConstructor
+@ApiModel(value = "TagSaveQuery", description = "添加标签")
+public class TagSaveQuery {
 
     /**
      * 主键
@@ -39,6 +30,5 @@ public class TagVO implements Serializable {
      */
     @ApiModelProperty(name = "tagName", value = "标签名称", dataType = "String")
     private String tagName;
-
 
 }

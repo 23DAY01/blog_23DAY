@@ -1,16 +1,12 @@
 package site.day.blog.pojo.vo;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import site.day.blog.pojo.dto.TagDTO;
 
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -63,7 +59,7 @@ public class ArticlePreviewVO implements Serializable {
      * 文章标签
      */
     @ApiModelProperty(name = "tagDTOList", value = "文章标签列表", dataType = "List<TagDTO>")
-    private List<TagVO> tagList;
+    private List<TagHomeVO> tagList;
 
     /**
      * 创建时间

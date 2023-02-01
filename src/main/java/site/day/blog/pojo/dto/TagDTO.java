@@ -32,5 +32,15 @@ public class TagDTO implements Serializable {
      */
     private String tagName;
 
+    /**
+     * 关联文章数量
+     */
+    private Integer articleCount;
+
+    /**
+     * 创建时间
+     */
+    private LocalDateTime createTime;
+
 
 }

@@ -1,10 +1,9 @@
 package site.day.blog.controller;
 
-import org.elasticsearch.common.util.Maps;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import site.day.blog.pojo.dto.TagDTO;
-import site.day.blog.pojo.vo.TagVO;
+import site.day.blog.pojo.vo.TagHomeVO;
 import site.day.blog.service.TagService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import site.day.blog.utils.MapStruct;
 import site.day.blog.utils.ResponseAPI;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Description Tag控制器
@@ -65,8 +63,8 @@ public class TagController {
     @GetMapping("/list")
     public ResponseAPI<?> getTags() {
         List<TagDTO> tagDTOList = tagService.getTags();
-        List<TagVO> tagVOList = mapStruct.tagDTOList2tagVOList(tagDTOList);
-        return ResponseAPI.success(tagVOList);
+        List<TagHomeVO> tagHomeVOList = mapStruct.TagDTOList2TagHomeVOList(tagDTOList);
+        return ResponseAPI.success(tagHomeVOList);
     }
 
 }

@@ -229,9 +229,15 @@ public interface MapStruct {
 
     List<TagDTO> tagList2tagDTOList(List<Tag> tags);
 
-    TagVO tagDTO2tagVO(TagDTO tagDTO);
+    TagHomeVO TagDTO2TagHomeVO(TagDTO tagDTO);
 
-    List<TagVO> tagDTOList2tagVOList(List<TagDTO> tagDTOList);
+    List<TagHomeVO> TagDTOList2TagHomeVOList(List<TagDTO> tagDTOList);
+
+    TagBackVO TagDTO2TagBackVO(TagDTO tagDTO);
+
+    List<TagBackVO> TagDTOList2TagBackVOList(List<TagDTO> tagDTOList);
+
+    Tag TagSaveQuery2Tag(TagSaveQuery tagSaveQuery);
 
     /**
      * 说说

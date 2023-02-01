@@ -53,7 +53,7 @@ public class BlogBackInfoVO implements Serializable {
      * 标签列表
      */
     @ApiModelProperty(name = "tagList", value = "标签列表", dataType = "List<TagVO>")
-    private List<TagVO> tagList;
+    private List<TagHomeVO> tagList;
 
     /**
      * 浏览量总数
