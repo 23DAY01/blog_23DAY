@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 import site.day.blog.enums.StatusCodeEnum;
 import site.day.blog.mapper.UserAuthMapper;
 import site.day.blog.mapper.UserInfoMapper;
+import site.day.blog.pojo.domain.Role;
 import site.day.blog.pojo.domain.UserAuth;
 import site.day.blog.pojo.domain.UserInfo;
+import site.day.blog.pojo.dto.RoleDTO;
 import site.day.blog.pojo.dto.UserAuthDTO;
 import site.day.blog.pojo.dto.UserDetail;
 import site.day.blog.pojo.dto.UserInfoDTO;
@@ -28,6 +30,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static site.day.blog.enums.ZoneEnum.SHANGHAI;
 
@@ -88,7 +91,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         // 查询账号信息
         UserInfo userInfo = userInfoMapper.selectById(user.getUserInfoId());
         // 查询账号角色
-        List<String> roleList = roleService.listRolesByUserInfoId(userInfo.getId());
+        List<String> roleList = roleService.listRolesByUserInfoId(userInfo.getId()).stream().map(RoleDTO::getRoleLabel).collect(Collectors.toList());
         // 获取设备信息
         String ipAddress = WebUtil.getIpAddress(request);
         String ipSource = WebUtil.getIpSource(ipAddress);

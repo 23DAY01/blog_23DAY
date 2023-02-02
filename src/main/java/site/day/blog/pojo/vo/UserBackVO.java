@@ -1,38 +1,35 @@
 package site.day.blog.pojo.vo;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import site.day.blog.pojo.dto.UserRoleDTO;
 
-import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
- * @ClassName UserAuthVO
+ * @Description 后台用户
+ * @ClassName UserBackVO
  * @Author 23DAY
- * @Date 2023/01/18 20:48
+ * @Date 2023/2/2 10:15
  * @Version 1.0
  */
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-@ApiModel(value = "UserAuthVO", description = "用户权限表")
-public class UserAuthVO implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@ApiModel(value = "UserBackVO", description = "后台用户")
+public class UserBackVO {
 
     /**
-     * 主键
+     * 用户认证id
      */
-    @ApiModelProperty(name = "id", value = "主键", dataType = "Integer")
-    private Integer id;
+    @ApiModelProperty(name = "userAuthid", value = "用户认证id", dataType = "Integer")
+    private Integer userAuthid;
 
     /**
      * 用户信息id
@@ -76,5 +73,33 @@ public class UserAuthVO implements Serializable {
     @ApiModelProperty(name = "createTime", value = "创建时间", dataType = "LocalDateTime")
     private LocalDateTime createTime;
 
+    /**
+     * 邮箱
+     */
+    @ApiModelProperty(name = "email", value = "邮箱", dataType = "String")
+    private String email;
+
+    /**
+     * 用户昵称
+     */
+    @ApiModelProperty(name = "nickname", value = "用户昵称", dataType = "String")
+    private String nickname;
+
+    /**
+     * 用户头像
+     */
+    @ApiModelProperty(name = "avatar", value = "用户头像", dataType = "String")
+    private String avatar;
+
+    /**
+     * 是否禁用 0否 1是
+     */
+    @ApiModelProperty(name = "isDisabled", value = "是否禁用 0否 1是", dataType = "Boolean")
+    private Boolean isDisabled;
+
+    /**
+     * 用户角色
+     */
+    private List<UserRoleVO> userRoleDTOList;
 
 }

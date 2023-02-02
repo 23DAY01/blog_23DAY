@@ -26,6 +26,7 @@ public final class RedisUtil {
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
+
     // =============================common============================
 
     /**
@@ -481,7 +482,6 @@ public final class RedisUtil {
     public Double zScore(String key, Object value) {
         return redisTemplate.opsForZSet().score(key, value);
     }
-
 
 
     // ===============================list=================================

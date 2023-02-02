@@ -1,10 +1,11 @@
-package site.day.blog.strategy.impl;
+package site.day.blog.strategy.service.impl;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import site.day.blog.config.property.OssConfigProperties;
+import site.day.blog.strategy.service.AbstractUploadStrategy;
 
 import java.io.InputStream;
 
@@ -15,7 +16,7 @@ import java.io.InputStream;
  * @date 2021/07/28
  */
 @Service("ossUploadStrategyImpl")
-public class OssUploadStrategyImpl extends AbstractUploadStrategyImpl {
+public class OssUploadStrategy extends AbstractUploadStrategy {
     @Autowired
     private OssConfigProperties ossConfigProperties;
 

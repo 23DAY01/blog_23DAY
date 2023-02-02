@@ -1,32 +1,26 @@
-package site.day.blog.pojo.vo;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.List;
+package site.day.blog.pojo.vo.query;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
- * @ClassName RoleVO
+ * @Description 添加角色
+ * @ClassName RoleSaveQuery
  * @Author 23DAY
- * @Date 2023/01/18 20:48
+ * @Date 2023/2/1 22:09
  * @Version 1.0
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
-@ApiModel(value = "RoleVO", description = "角色表")
-public class RoleVO implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@NoArgsConstructor
+@ApiModel(value = "RoleSaveQuery", description = "添加角色")
+public class RoleSaveQuery {
 
     /**
      * 主键id
@@ -47,18 +41,6 @@ public class RoleVO implements Serializable {
     private String roleLabel;
 
     /**
-     * 是否禁用 0否 1是
-     */
-    @ApiModelProperty(name = "isDisable", value = "是否禁用 0否 1是", dataType = "Boolean")
-    private Boolean isDisable;
-
-    /**
-     * 创建时间
-     */
-    @ApiModelProperty(name = "createTime", value = "创建时间", dataType = "LocalDateTime")
-    private LocalDateTime createTime;
-
-    /**
      * 资源id列表
      */
     @ApiModelProperty(name = "resourceIdList", value = "资源id列表", dataType = "List<Integer>")
@@ -69,6 +51,5 @@ public class RoleVO implements Serializable {
      */
     @ApiModelProperty(name = "menuIdList", value = "菜单id列表", dataType = "List<Integer>")
     private List<Integer> menuIdList;
-
 
 }

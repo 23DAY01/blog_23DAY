@@ -1,37 +1,37 @@
 package site.day.blog.pojo.dto;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import java.io.Serializable;
+
 /**
- * @ClassName UserRoleDTO
+ * @Description 用户地域
+ * @ClassName UserAreaDTO
  * @Author 23DAY
- * @Date 2023/01/18 20:44
+ * @Date 2023/2/1 22:43
  * @Version 1.0
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Accessors(chain = true)
-public class UserRoleDTO implements Serializable {
+public class UserAreaDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 角色id
+     * 地域名称
      */
-    private Integer id;
+    private String areaName;
 
     /**
-     * 角色名称
+     * 数量
      */
-    private String roleName;
-
+    private Integer count;
 
 }

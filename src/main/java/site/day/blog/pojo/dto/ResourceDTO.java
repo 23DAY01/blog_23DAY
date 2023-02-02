@@ -2,6 +2,7 @@ package site.day.blog.pojo.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.Data;
 import lombok.AllArgsConstructor;
@@ -53,19 +54,14 @@ public class ResourceDTO implements Serializable {
     private Boolean isAnonymous;
 
     /**
-     * 逻辑删除 0否 NULL是
-     */
-    private Boolean deleted;
-
-    /**
      * 创建时间
      */
     private LocalDateTime createTime;
 
     /**
-     * 更新时间
+     * 子资源列表
      */
-    private LocalDateTime updateTime;
+    private List<ResourceDTO> childResourceList;
 
 
 }

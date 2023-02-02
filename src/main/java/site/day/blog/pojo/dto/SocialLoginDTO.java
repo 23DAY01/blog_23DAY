@@ -1,37 +1,43 @@
 package site.day.blog.pojo.dto;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
+
 /**
- * @ClassName UserRoleDTO
+ * @Description
+ * @ClassName SocialLoginTokenDTO
  * @Author 23DAY
- * @Date 2023/01/18 20:44
+ * @Date 2023/2/2 14:10
  * @Version 1.0
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class UserRoleDTO implements Serializable {
+public class SocialLoginDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 角色id
+     * openId
      */
-    private Integer id;
+    private String openId;
+
 
     /**
-     * 角色名称
+     * accessToken
      */
-    private String roleName;
+    private String accessToken;
 
+    /**
+     * 登录类型
+     */
+    private Integer loginType;
 
 }

@@ -2,6 +2,7 @@ package site.day.blog.handler.securityHandler;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
@@ -37,7 +38,7 @@ public class FilterInvocationSecurityMetadataSourceImpl implements FilterInvocat
      */
 //    @PostConstruct
     private void loadRoleReSource() {
-        roleResourceDTOs =roleResourceService.listRoleResourceDTOs();
+        roleResourceDTOs = roleResourceService.listRoleResourceDTOs();
     }
 
     /**

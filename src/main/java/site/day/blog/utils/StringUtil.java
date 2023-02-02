@@ -105,4 +105,16 @@ public class StringUtil {
         return StrUtil.subBefore(str, separator, false);
     }
 
+    /**
+     * @Description  获取括号内的内容
+     * @Author 23DAY
+     * @Date 2023/2/2 15:35
+     * @Param [java.lang.String]
+     * @Return java.lang.String
+     **/
+    public static String getBracketsContent(String str) {
+        return str.substring(str.indexOf("(") + 1, str.indexOf(")"));
+    }
+
+
 }

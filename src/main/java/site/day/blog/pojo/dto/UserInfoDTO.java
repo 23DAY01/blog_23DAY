@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import lombok.Builder;
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ import lombok.experimental.Accessors;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Accessors(chain = true)
 public class UserInfoDTO implements Serializable {
 

@@ -1,10 +1,11 @@
-package site.day.blog.strategy.impl;
+package site.day.blog.strategy.service.impl;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import site.day.blog.enums.FileExtEnum;
 import site.day.blog.enums.StatusCodeEnum;
 import site.day.blog.exception.BusinessException;
+import site.day.blog.strategy.service.AbstractUploadStrategy;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -17,7 +18,7 @@ import java.util.Objects;
  * @date 2021/07/28
  */
 @Service("localUploadStrategyImpl")
-public class LocalUploadStrategyImpl extends AbstractUploadStrategyImpl {
+public class LocalUploadStrategy extends AbstractUploadStrategy {
 
     /**
      * 本地路径

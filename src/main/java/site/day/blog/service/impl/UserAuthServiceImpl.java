@@ -2,11 +2,15 @@ package site.day.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.SneakyThrows;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import site.day.blog.enums.LoginTypeEnum;
 import site.day.blog.enums.RoleEnum;
 import site.day.blog.enums.StatusCodeEnum;
+import site.day.blog.enums.UserAreaTypeEnum;
 import site.day.blog.exception.BusinessException;
 import site.day.blog.mapper.UserInfoMapper;
 import site.day.blog.mapper.UserRoleMapper;
@@ -15,17 +19,23 @@ import site.day.blog.pojo.domain.UserAuth;
 import site.day.blog.mapper.UserAuthMapper;
 import site.day.blog.pojo.domain.UserInfo;
 import site.day.blog.pojo.domain.UserRole;
-import site.day.blog.pojo.dto.EmailDTO;
+import site.day.blog.pojo.dto.*;
 import site.day.blog.pojo.vo.query.UserAuthQuery;
+import site.day.blog.pojo.vo.query.UserPasswordQuery;
+import site.day.blog.pojo.vo.query.UserSocialLoginQuery;
+import site.day.blog.service.RoleService;
 import site.day.blog.service.UserAuthService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
-import site.day.blog.utils.CommonUtil;
-import site.day.blog.utils.MapStruct;
-import site.day.blog.utils.RedisUtil;
+import site.day.blog.strategy.context.SocialLoginStrategyContext;
+import site.day.blog.utils.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static site.day.blog.constant.CommonConst.DEFAULT_NICKNAME;
 import static site.day.blog.constant.CommonConst.DEFAULT_WEBSITE_CONFIG_ID;
@@ -45,6 +55,9 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
     private MapStruct mapStruct;
 
     @Autowired
+    private SocialLoginStrategyContext socialLoginStrategyContext;
+
+    @Autowired
     private RedisUtil redisUtil;
 
     @Autowired
@@ -61,6 +74,9 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
 
     @Autowired
     private UserRoleMapper userRoleMapper;
+
+    @Autowired
+    private RoleService roleService;
 
     /**
      * @Description 邮箱验证码
@@ -131,6 +147,71 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
         userAuthMapper.update(new UserAuth(), Wrappers.lambdaUpdate(UserAuth.class)
                 .set(UserAuth::getPassword, passwordEncoder.encode(user.getPassword()))
                 .eq(UserAuth::getUsername, user.getUsername()));
+    }
+
+    @SneakyThrows
+    @Override
+    public List<UserAreaDTO> getUserArea(Integer type) {
+        ArrayList<UserAreaDTO> userAreaDTOList = new ArrayList<>();
+        if (Objects.equals(type, UserAreaTypeEnum.USER.getType())) {
+            Object userArea = redisUtil.get(USER_AREA);
+            if (Objects.nonNull(userArea)) {
+                userAreaDTOList = (ArrayList<UserAreaDTO>) userArea;
+            }
+            return userAreaDTOList;
+        } else if (Objects.equals(type, UserAreaTypeEnum.VISITOR.getType())) {
+            Map<String, Object> visitArea = (Map<String, Object>) (Object) redisUtil.hGetAll(VISITOR_AREA);
+            if (Objects.nonNull(visitArea)) {
+                userAreaDTOList = (ArrayList<UserAreaDTO>) visitArea.entrySet().stream()
+                        .map(area -> UserAreaDTO.builder()
+                                .areaName(area.getKey())
+                                .count(Integer.valueOf(area.getValue().toString()))
+                                .build())
+                        .collect(Collectors.toList());
+            }
+            return userAreaDTOList;
+        }
+        return userAreaDTOList;
+    }
+
+    @Override
+    public List<UserDTO> getBackUser(Integer type) {
+        //获取userAuth
+        Page<UserAuth> userAuthPage = new Page<>(PageUtil.getCurrent(), PageUtil.getSize());
+        List<UserAuth> userAuthList = userAuthMapper.selectPage(userAuthPage, Wrappers.lambdaQuery(UserAuth.class)
+                .eq(Objects.nonNull(type), UserAuth::getLoginType, type)
+                .orderByDesc(UserAuth::getLastLoginTime)).getRecords();
+        PageUtil.setTotal(userAuthPage.getTotal());
+        //获取userInfo
+        List<Integer> userInfoIdList = userAuthList.stream().map(UserAuth::getUserInfoId).collect(Collectors.toList());
+        Map<Integer, UserInfo> userInfoId2UserInfoMap = userInfoMapper.selectList(Wrappers.lambdaQuery(UserInfo.class)
+                        .in(CollectionUtils.isNotEmpty(userInfoIdList), UserInfo::getId, userInfoIdList))
+                .stream()
+                .collect(Collectors.toMap(UserInfo::getId, e -> e));
+        //封装为userDTO
+        ArrayList<UserDTO> userDTOList = new ArrayList<>();
+        userAuthList.forEach(userAuth -> userDTOList.add(mapStruct.UserInfo4UserAuth2UserDTO(userInfoId2UserInfoMap.get(userAuth.getUserInfoId()), userAuth)));
+        userDTOList.forEach(userDTO -> userDTO.setUserRoleDTOList(mapStruct.RoleDTOList2UserRoleDTOList(roleService.listRolesByUserInfoId(userDTO.getUserInfoId()))));
+        return userDTOList;
+    }
+
+    @Override
+    public void updateUserPassword(UserPasswordQuery userPasswordQuery) {
+        UserAuth userAuth = userAuthMapper.selectOne(Wrappers.lambdaQuery(UserAuth.class)
+                .eq(UserAuth::getId, AuthUtil.getLoginUser().getUserAuth().getId()));
+        if (Objects.nonNull(userAuth) && passwordEncoder.matches(userPasswordQuery.getOldPassword(), userAuth.getPassword())) {
+            userAuth.setPassword(passwordEncoder.encode(userPasswordQuery.getNewPassword()));
+            userAuthMapper.updateById(userAuth);
+        } else {
+            throw BusinessException.withErrorCodeEnum(StatusCodeEnum.AUTH_PASSWORD_ERROR);
+        }
+    }
+
+    @Override
+    public UserInfoDTO loginByQQ(UserSocialLoginQuery userSocialLoginQuery) {
+        SocialLoginDTO socialLoginDTO = mapStruct.UserSocialLoginQuery2SocialLoginDTO(userSocialLoginQuery);
+        socialLoginDTO.setLoginType(LoginTypeEnum.QQ.getType());
+        return socialLoginStrategyContext.executeLoginStrategy(socialLoginDTO, LoginTypeEnum.QQ);
     }
 
     /**

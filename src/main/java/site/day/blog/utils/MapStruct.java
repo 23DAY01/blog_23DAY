@@ -4,6 +4,7 @@ package site.day.blog.utils;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.springframework.stereotype.Component;
 import site.day.blog.pojo.domain.*;
 import site.day.blog.pojo.dto.*;
@@ -195,6 +196,8 @@ public interface MapStruct {
 
     List<ResourceVO> ResourceDTOList2ResourceVOList(List<ResourceDTO> ResourceDTOS);
 
+    Resource ResourceSaveQuery2Resource(ResourceSaveQuery resourceSaveQuery);
+
     /**
      * 权限
      */
@@ -268,6 +271,25 @@ public interface MapStruct {
 
     List<UserAuthVO> UserAuthDTOList2UserAuthVOList(List<UserAuthDTO> UserAuthDTOS);
 
+    UserAreaVO UserAreaDTO2UserAreaVO(UserAreaDTO userAreaDTO);
+
+    List<UserAreaVO> UserAreaDTOList2UserAreaVOList(List<UserAreaDTO> userAreaDTOList);
+
+    @Mappings({
+            @Mapping(source = "userInfo.id", target = "userInfoId"),
+            @Mapping(source = "userAuth.id", target = "userAuthId"),
+            @Mapping(source = "userInfo.createTime", target = "createTime")
+    })
+    UserDTO UserInfo4UserAuth2UserDTO(UserInfo userInfo, UserAuth userAuth);
+
+    UserBackVO UserDTO2UserBackVO(UserDTO userDTO);
+
+    List<UserBackVO> UserDTOList2UserBackVOList(List<UserDTO> userDTOList);
+
+    UserRoleDTO RoleDTO2UserRoleDTO(RoleDTO roleDTO);
+
+    List<UserRoleDTO> RoleDTOList2UserRoleDTOList(List<RoleDTO> roleDTOList);
+
 
     /**
      * 用户信息
@@ -280,6 +302,10 @@ public interface MapStruct {
     UserInfoVO UserInfoDTO2UserInfoVO(UserInfoDTO UserInfoDTO);
 
     List<UserInfoVO> UserInfoDTOList2UserInfoVOList(List<UserInfoDTO> UserInfoDTOS);
+
+    UserInfo UserInfoDTO2UserInfo(UserInfoDTO userInfoDTO);
+
+    SocialLoginDTO UserSocialLoginQuery2SocialLoginDTO(UserSocialLoginQuery userSocialLoginQuery);
 
     /**
      * 用户权限关系

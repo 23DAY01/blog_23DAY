@@ -1,34 +1,23 @@
-package site.day.blog.pojo.vo;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.List;
+package site.day.blog.pojo.vo.query;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
-import site.day.blog.pojo.dto.ResourceDTO;
-
-import javax.validation.constraints.NotNull;
 
 /**
- * @ClassName ResourceVO
+ * @Description 添加资源
+ * @ClassName ResourceSaveQuery
  * @Author 23DAY
- * @Date 2023/01/18 20:48
+ * @Date 2023/2/1 21:12
  * @Version 1.0
  */
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
-@ApiModel(value = "ResourceVO", description = "资源表")
-public class ResourceVO implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+@NoArgsConstructor
+@ApiModel(value = "ResourceSaveQuery", description = "添加资源")
+public class ResourceSaveQuery {
 
     /**
      * 主键
@@ -65,17 +54,5 @@ public class ResourceVO implements Serializable {
      */
     @ApiModelProperty(name = "isAnonymous", value = "是否可以匿名访问 0否 1是", dataType = "Boolean")
     private Boolean isAnonymous;
-
-    /**
-     * 创建时间
-     */
-    @ApiModelProperty(name = "createTime", value = "创建时间", dataType = "LocalDateTime")
-    private LocalDateTime createTime;
-
-    /**
-     * 子资源列表
-     */
-    @ApiModelProperty(name = "childResourceList", value = "子资源列表", dataType = "List<ResourceDTO>")
-    private List<ResourceDTO> childResourceList;
 
 }

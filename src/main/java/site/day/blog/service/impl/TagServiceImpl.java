@@ -85,7 +85,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
                 .in(ArticleTag::getTagId, idList));
         //标签下存在文章不可删除
         if (count > 0) {
-            throw BusinessException.withErrorCodeEnum(StatusCodeEnum.TAG_HAVE_ARTICLE);
+            throw BusinessException.withErrorCodeEnum(StatusCodeEnum.TAG_ARTICLE_RELATION);
         }
         tagMapper.deleteBatchIds(idList);
     }

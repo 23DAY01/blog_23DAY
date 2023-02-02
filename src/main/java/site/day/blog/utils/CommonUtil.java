@@ -11,6 +11,13 @@ import java.util.*;
  */
 public class CommonUtil {
 
+    /**
+     * @Description 获取6位随机数
+     * @Author 23DAY
+     * @Date 2023/2/2 15:34
+     * @Param []
+     * @Return java.lang.String
+     **/
     public static String getRandomCode() {
         StringBuilder str = new StringBuilder();
         Random random = new Random();
@@ -19,6 +26,8 @@ public class CommonUtil {
         }
         return str.toString();
     }
+
+
 
 
 }

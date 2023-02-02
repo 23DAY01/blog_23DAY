@@ -2,6 +2,8 @@ package site.day.blog.service;
 
 import site.day.blog.pojo.domain.Role;
 import com.baomidou.mybatisplus.extension.service.IService;
+import site.day.blog.pojo.dto.RoleDTO;
+import site.day.blog.pojo.vo.query.RoleSaveQuery;
 
 import java.util.List;
 
@@ -14,6 +16,9 @@ import java.util.List;
  */
 public interface RoleService extends IService<Role> {
 
-    public List<String> listRolesByUserInfoId(Integer userInfoId);
+    public List<RoleDTO> listRolesByUserInfoId(Integer userInfoId);
 
+    List<RoleDTO> listRoles();
+
+    void saveOrUpdateRole(RoleSaveQuery roleSaveQuery);
 }

@@ -2,13 +2,17 @@ package site.day.blog.controller;
 
 import org.springframework.web.bind.annotation.*;
 import site.day.blog.annotation.AccessLimit;
+import site.day.blog.pojo.dto.UserInfoDTO;
+import site.day.blog.pojo.vo.UserInfoVO;
 import site.day.blog.pojo.vo.query.UserAuthQuery;
+import site.day.blog.pojo.vo.query.UserSocialLoginQuery;
 import site.day.blog.service.UserAuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import lombok.extern.slf4j.Slf4j;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import site.day.blog.utils.MapStruct;
 import site.day.blog.utils.ResponseAPI;
 
 import javax.validation.Valid;
@@ -28,7 +32,10 @@ import javax.validation.constraints.Email;
 public class UserAuthController {
 
     @Autowired
-    public UserAuthService userAuthService;
+    private UserAuthService userAuthService;
+
+    @Autowired
+    private MapStruct mapStruct;
 
     /**
      * @Description 根据id查询
@@ -88,11 +95,22 @@ public class UserAuthController {
             @ApiParam(name = "userAuthQuery", value = "用户认证请求")
             @Valid
             @RequestBody
-                    UserAuthQuery userAuthQuery){
+                    UserAuthQuery userAuthQuery) {
         userAuthService.updatePassword(userAuthQuery);
         return ResponseAPI.success();
     }
 
+    @ApiOperation("qq登录")
+    @PostMapping("/users/oauth/qq")
+    public ResponseAPI<?> loginByQQ(
+            @ApiParam(name = "userQQAuthQuery", value = "qq登录")
+            @Valid
+            @RequestBody
+                    UserSocialLoginQuery userSocialLoginQuery) {
+        UserInfoDTO userInfoDTO = userAuthService.loginByQQ(userSocialLoginQuery);
+        UserInfoVO userInfoVO = mapStruct.UserInfoDTO2UserInfoVO(userInfoDTO);
+        return ResponseAPI.success(userInfoVO);
+    }
 
 
 }

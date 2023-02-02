@@ -184,7 +184,7 @@ public class AdminArticleController {
                     PageQuery pageQuery) {
         List<TagDTO> tagDTOList = tagService.getBackTags();
         List<TagBackVO> tagBackVOList = mapStruct.TagDTOList2TagBackVOList(tagDTOList);
-        return ResponseAPI.success(tagBackVOList);
+        return ResponseAPI.success(PageResult.build(tagBackVOList));
     }
 
     @ApiOperation("添加标签")
