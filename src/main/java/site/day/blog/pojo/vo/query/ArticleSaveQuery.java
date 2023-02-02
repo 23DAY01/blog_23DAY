@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -53,21 +55,21 @@ public class ArticleSaveQuery {
     /**
      * 标签名称列表
      */
-    @NotBlank(message = "标签不能为空")
+    @NotEmpty(message = "标签不能为空")
     @ApiModelProperty(name = "tagNameList", value = "标签名称列表", dataType = "List<String>")
     private List<String> tagNameList;
 
     /**
      * 状态
      */
-    @NotBlank(message = "状态不能为空")
+    @NotNull(message = "状态不能为空")
     @ApiModelProperty(name = "status", value = "状态", dataType = "Integer")
     private Integer status;
 
     /**
      * 文章类型
      */
-    @NotBlank(message = "文章类型不能为空")
+    @NotNull(message = "文章类型不能为空")
     @ApiModelProperty(name = "type", value = "文章类型", dataType = "Integer")
     private Integer type;
 
@@ -80,7 +82,7 @@ public class ArticleSaveQuery {
     /**
      * 是否置顶
      */
-    @NotBlank(message = "置顶状态不能为空")
+    @NotNull(message = "置顶状态不能为空")
     @ApiModelProperty(name = "isTop", value = "是否置顶", dataType = "Integer")
     private Boolean isTop;
 

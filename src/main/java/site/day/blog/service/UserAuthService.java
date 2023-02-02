@@ -8,6 +8,7 @@ import site.day.blog.pojo.dto.UserInfoDTO;
 import site.day.blog.pojo.vo.query.UserAuthQuery;
 import site.day.blog.pojo.vo.query.UserPasswordQuery;
 import site.day.blog.pojo.vo.query.UserSocialLoginQuery;
+import site.day.blog.pojo.vo.query.UserStatusQuery;
 
 import java.util.List;
 
@@ -33,4 +34,6 @@ public interface UserAuthService extends IService<UserAuth> {
     void updateUserPassword(UserPasswordQuery userPasswordQuery);
 
     UserInfoDTO loginByQQ(UserSocialLoginQuery userSocialLoginQuery);
+
+    void updateUserStatus(UserStatusQuery userStatusQuery);
 }

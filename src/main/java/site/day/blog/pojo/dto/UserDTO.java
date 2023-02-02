@@ -87,4 +87,14 @@ public class UserDTO {
      */
     private List<UserRoleDTO> userRoleDTOList;
 
+    /**
+     * 浏览器
+     */
+    private String browser;
+
+    /**
+     * 操作系统
+     */
+    private String os;
+
 }

@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * @Description 文章状态修改
@@ -25,7 +26,7 @@ public class ArticleStatusQuery {
      * 文章id
      */
     @ApiModelProperty(name = "id", value = "文章id", dataType = "Integer")
-    @NotBlank(message = "文章id不能为空")
+    @NotNull(message = "文章id不能为空")
     private Integer id;
 
     /**

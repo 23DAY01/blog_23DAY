@@ -23,6 +23,7 @@ import site.day.blog.pojo.dto.*;
 import site.day.blog.pojo.vo.query.UserAuthQuery;
 import site.day.blog.pojo.vo.query.UserPasswordQuery;
 import site.day.blog.pojo.vo.query.UserSocialLoginQuery;
+import site.day.blog.pojo.vo.query.UserStatusQuery;
 import site.day.blog.service.RoleService;
 import site.day.blog.service.UserAuthService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -214,6 +215,17 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
         return socialLoginStrategyContext.executeLoginStrategy(socialLoginDTO, LoginTypeEnum.QQ);
     }
 
+    @Override
+    public void updateUserStatus(UserStatusQuery query) {
+        List<UserAuth> userAuthList = query.getIdList().stream()
+                .map(id -> UserAuth.builder()
+                        .id(id)
+                        .isDisabled(query.getIsDisabled())
+                        .build())
+                .collect(Collectors.toList());
+        updateBatchById(userAuthList);
+    }
+
     /**
      * @Description 检验用户名和校验码的合法性
      * @Author 23DAY
@@ -244,8 +256,6 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
             throw BusinessException.withErrorCodeEnum(StatusCodeEnum.AUTH_USERNAME_NOT_FOUND);
         }
     }
-
-    //TODO oauth2登录
 
 
 }

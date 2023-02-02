@@ -18,7 +18,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "UserSocialAuthQuery", description = "社交软件登录")
+@ApiModel(value = "UserSocialAuthQuery", description = "第三方登录")
 public class UserSocialLoginQuery {
 
     /**

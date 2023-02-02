@@ -100,6 +100,19 @@ public class UserBackVO {
     /**
      * 用户角色
      */
+    @ApiModelProperty(name = "userRoleDTOList",value = "用户角色",dataType = "List<UserRoleVO>")
     private List<UserRoleVO> userRoleDTOList;
+
+    /**
+     * 浏览器
+     */
+    @ApiModelProperty(name = "browser", value = "浏览器", dataType = "String")
+    private String browser;
+
+    /**
+     * 操作系统
+     */
+    @ApiModelProperty(name = "os", value = "操作系统", dataType = "String")
+    private String os;
 
 }

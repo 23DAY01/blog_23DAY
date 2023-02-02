@@ -282,6 +282,8 @@ public interface MapStruct {
     })
     UserDTO UserInfo4UserAuth2UserDTO(UserInfo userInfo, UserAuth userAuth);
 
+    UserDTO UserInfoDTO4UserAuthDTO2UserDTO(UserInfoDTO userInfoDTO, UserAuthDTO userAuthDTO);
+
     UserBackVO UserDTO2UserBackVO(UserDTO userDTO);
 
     List<UserBackVO> UserDTOList2UserBackVOList(List<UserDTO> userDTOList);

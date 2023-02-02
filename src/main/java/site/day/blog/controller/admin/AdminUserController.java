@@ -6,8 +6,6 @@ import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import site.day.blog.pojo.domain.Resource;
-import site.day.blog.pojo.domain.UserAuth;
 import site.day.blog.pojo.dto.*;
 import site.day.blog.pojo.vo.*;
 import site.day.blog.pojo.vo.query.*;
@@ -86,6 +84,28 @@ public class AdminUserController {
         return ResponseAPI.success();
     }
 
+    @ApiOperation("修改用户角色")
+    @PostMapping("/users/role")
+    public ResponseAPI<?> updateUserRole(
+            @ApiParam(name = "userRoleQuery", value = "修改用户角色")
+            @Valid
+            @RequestBody
+                    UserRoleQuery userRoleQuery) {
+        userInfoService.updateUserRole(userRoleQuery);
+        return ResponseAPI.success();
+    }
+
+    @ApiOperation("修改用户状态")
+    @GetMapping("users/status")
+    public ResponseAPI<?> updateUserStatus(
+            @ApiParam(name = "userStatusQuery", value = "修改用户状态")
+            @Valid
+            @RequestBody
+                    UserStatusQuery userStatusQuery) {
+        userAuthService.updateUserStatus(userStatusQuery);
+        return ResponseAPI.success();
+    }
+
 
     @ApiOperation("获取全部资源")
     @GetMapping("/resources/list")
@@ -133,6 +153,18 @@ public class AdminUserController {
                     RoleSaveQuery roleSaveQuery) {
         roleService.saveOrUpdateRole(roleSaveQuery);
         return ResponseAPI.success();
+    }
+
+    @ApiOperation("查看在线用户")
+    @GetMapping("/users/online")
+    public ResponseAPI<?> getOnlineUsers(
+            @ApiParam(name = "pageQuery", value = "查询条件")
+            @Valid
+            @RequestParam(required = false)
+                    PageQuery pageQuery) {
+        List<UserDTO> userDTOList = userInfoService.getOnlineUsers();
+        List<UserBackVO> userBackVOList = mapStruct.UserDTOList2UserBackVOList(userDTOList);
+        return ResponseAPI.success(PageResult.build(userBackVOList));
     }
 
 

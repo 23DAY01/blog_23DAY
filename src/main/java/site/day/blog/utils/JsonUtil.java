@@ -34,7 +34,7 @@ public class JsonUtil {
     }
 
     /**
-     * @Description Object -> String
+     * @Description class -> json
      * @Author 23DAY
      * @Date 2022/9/15 11:40
      * @Param [java.lang.Object]
@@ -46,7 +46,7 @@ public class JsonUtil {
     }
 
     /**
-     * @Description String -> Object
+     * @Description json -> class
      * @Author 23DAY
      * @Date 2022/9/15 11:40
      * @Param [java.lang.String, java.lang.Class<?>]

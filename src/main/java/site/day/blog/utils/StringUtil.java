@@ -47,6 +47,28 @@ public class StringUtil {
     }
 
     /**
+     * @Description 字符串为空
+     * @Author 23DAY
+     * @Date 2023/2/2 19:04
+     * @Param [java.lang.String]
+     * @Return java.lang.Boolean
+     **/
+    public static Boolean isBlank(String str) {
+        return StrUtil.isBlank(str);
+    }
+
+    /**
+     * @Description 字符串不为空
+     * @Author 23DAY
+     * @Date 2023/2/2 19:04
+     * @Param [java.lang.String]
+     * @Return java.lang.Boolean
+     **/
+    public static Boolean isNotBlank(String str) {
+        return StrUtil.isNotBlank(str);
+    }
+
+    /**
      * @return java.lang.String
      * @Description 获取uuid
      * @Author 23DAY
@@ -106,7 +128,7 @@ public class StringUtil {
     }
 
     /**
-     * @Description  获取括号内的内容
+     * @Description 获取括号内的内容
      * @Author 23DAY
      * @Date 2023/2/2 15:35
      * @Param [java.lang.String]

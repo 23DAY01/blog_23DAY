@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -26,8 +27,8 @@ public class MessageStatusQuery {
     /**
      * 留言id
      */
-    @ApiModelProperty(name = "isList",value = "留言id",dataType = "List<Integer>")
-    @NotNull
+    @ApiModelProperty(name = "idList",value = "留言id",dataType = "List<Integer>")
+    @NotEmpty
     private List<Integer> idList;
 
     /**

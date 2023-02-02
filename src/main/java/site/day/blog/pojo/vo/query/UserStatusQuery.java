@@ -12,30 +12,31 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
- * @Description 评论请求
- * @ClassName CommentStatusQuery
+ * @Description 修改用户状态
+ * @ClassName UserStatusQuery
  * @Author 23DAY
- * @Date 2023/1/29 21:05
+ * @Date 2023/2/2 18:25
  * @Version 1.0
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(value = "CommentStatusQuery", description = "评论请求")
-public class CommentStatusQuery {
+@ApiModel(value = "UserStatusQuery", description = "修改用户状态")
+public class UserStatusQuery {
 
     /**
-     * 主键
+     * 用户信息id
      */
-    @ApiModelProperty(name = "idList", value = "评论id", dataType = "List<Integer>")
+    @ApiModelProperty(name = "idList",value = "用户信息id",dataType = "List<Integer>")
     @NotEmpty
     private List<Integer> idList;
 
     /**
-     * 是否审核
+     * 禁用状态
      */
-    @ApiModelProperty(name = "isReview", value = "是否审核", dataType = "Boolean")
+    @ApiModelProperty(name = "isDisabled",value = "禁用状态",dataType = "Boolean")
     @NotNull
-    private Boolean isReview;
+    private Boolean isDisabled;
+
 
 }
