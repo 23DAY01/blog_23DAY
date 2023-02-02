@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import site.day.blog.enums.FileExtEnum;
 import site.day.blog.enums.FilePathEnum;
@@ -240,6 +241,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * @Param [site.day.blog.pojo.vo.query.ArticleSaveQuery]
      * @Return void
      **/
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveOrUpdateArticle(ArticleSaveQuery articleSaveQuery) {
         Article article = mapStruct.ArticleSaveQuery2Article(articleSaveQuery);
@@ -259,6 +261,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         articleMapper.updateById(article);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteArticle(Integer id) {
         articleTagMapper.delete(Wrappers.lambdaQuery(ArticleTag.class).eq(ArticleTag::getArticleId, id));
@@ -292,8 +295,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     public String uploadArticleImage(MultipartFile file) {
-        String url = uploadStrategyContext.executeUploadStrategy(file, FilePathEnum.ARTICLE.getPath());
-        return url;
+        return uploadStrategyContext.executeUploadStrategy(file, FilePathEnum.ARTICLE.getPath());
     }
 
 

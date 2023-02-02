@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import site.day.blog.mapper.RoleMenuMapper;
 import site.day.blog.mapper.RoleResourceMapper;
 import site.day.blog.mapper.UserRoleMapper;
@@ -81,6 +82,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         return roleDTOList;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveOrUpdateRole(RoleSaveQuery roleSaveQuery) {
 

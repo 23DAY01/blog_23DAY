@@ -3,6 +3,7 @@ package site.day.blog.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.sun.xml.internal.ws.api.model.MEP;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import site.day.blog.enums.StatusCodeEnum;
 import site.day.blog.exception.BusinessException;
 import site.day.blog.mapper.RoleMenuMapper;
@@ -65,12 +66,14 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         return menuDTOList;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveOrUpdateMenu(MenuSaveQuery menuSaveQuery) {
         Menu menu = mapStruct.MenuSaveQuery2Menu(menuSaveQuery);
         saveOrUpdate(menu);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteMenuById(Integer id) {
         //菜单不可以与角色相关联

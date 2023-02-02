@@ -2,6 +2,7 @@ package site.day.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import site.day.blog.pojo.domain.FriendLink;
 import site.day.blog.mapper.FriendLinkMapper;
 import site.day.blog.pojo.dto.FriendLinkDTO;
@@ -35,6 +36,7 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
         return mapStruct.FriendLinkList2FriendLinkDTOList(friendLinkList);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveOrUpdateFriendLink(FriendLinkSaveQuery friendLinkSaveQuery) {
         FriendLink friendLink = mapStruct.FriendLinkSaveQuery2Friend(friendLinkSaveQuery);

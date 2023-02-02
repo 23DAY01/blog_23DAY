@@ -3,6 +3,7 @@ package site.day.blog.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import site.day.blog.pojo.domain.Message;
 import site.day.blog.mapper.MessageMapper;
 import site.day.blog.pojo.dto.MessageDTO;
@@ -47,6 +48,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
      * @Param [site.day.blog.pojo.vo.query.MessageQuery]
      * @Return void
      **/
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveMessage(MessageSaveQuery messageSaveQuery) {
         String ipAddress = WebUtil.getIpAddress(request);
@@ -98,6 +100,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
         updateBatchById(messageList);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteMessageByIds(List<Integer> messageIdList) {
         removeBatchByIds(messageIdList);

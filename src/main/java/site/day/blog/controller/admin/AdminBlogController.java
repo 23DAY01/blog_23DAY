@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import site.day.blog.annotation.OptLog;
 import site.day.blog.pojo.dto.*;
 import site.day.blog.pojo.vo.*;
 import site.day.blog.pojo.vo.query.MenuSaveQuery;
@@ -23,6 +24,8 @@ import site.day.blog.utils.ResponseAPI;
 import javax.naming.spi.ResolveResult;
 import javax.validation.Valid;
 import java.util.List;
+
+import static site.day.blog.constant.OptTypeConst.*;
 
 /**
  * @Description
@@ -60,6 +63,7 @@ public class AdminBlogController {
         return ResponseAPI.success(blogBackInfoVO);
     }
 
+    @OptLog(optType = UPLOAD)
     @ApiOperation("上传博客配置图片")
     @PostMapping("/upload/image")
     public ResponseAPI<?> saveArticleImage(
@@ -69,6 +73,7 @@ public class AdminBlogController {
         return ResponseAPI.success(url);
     }
 
+    @OptLog(optType = SAVE_OR_UPDATE)
     @ApiOperation("更新网站配置")
     @PostMapping("/config/update")
     public ResponseAPI<?> updateWebsiteConfig(
@@ -99,6 +104,7 @@ public class AdminBlogController {
         return ResponseAPI.success(PageResult.build(operationLogVOList));
     }
 
+    @OptLog(optType = REMOVE)
     @ApiOperation("删除操作日志")
     @PostMapping("/logs/delete")
     public ResponseAPI<?> deleteOperationLog(
@@ -117,6 +123,7 @@ public class AdminBlogController {
         return ResponseAPI.success(menuVOList);
     }
 
+    @OptLog(optType = SAVE_OR_UPDATE)
     @ApiOperation("添加菜单")
     @PostMapping("/menus/save")
     public ResponseAPI<?> saveOrUpdateMenu(
@@ -128,6 +135,7 @@ public class AdminBlogController {
         return ResponseAPI.success();
     }
 
+    @OptLog(optType = REMOVE)
     @ApiOperation("删除菜单")
     @GetMapping("/menus/{id}/delete")
     public ResponseAPI<?> deleteMenu(
@@ -146,6 +154,7 @@ public class AdminBlogController {
         return ResponseAPI.success(pageVOList);
     }
 
+    @OptLog(optType = SAVE_OR_UPDATE)
     @ApiOperation("添加页面")
     @PostMapping("/pages/save")
     public ResponseAPI<?> saveOrUpdatePage(
@@ -157,6 +166,7 @@ public class AdminBlogController {
         return ResponseAPI.success();
     }
 
+    @OptLog(optType = REMOVE)
     @ApiOperation("删除页面")
     @GetMapping("/pages/{id}/delete")
     public ResponseAPI<?> deletePage(

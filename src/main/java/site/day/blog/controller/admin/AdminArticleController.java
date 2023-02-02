@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import site.day.blog.annotation.OptLog;
 import site.day.blog.pojo.dto.ArticleDTO;
 import site.day.blog.pojo.dto.CategoryDTO;
 import site.day.blog.pojo.dto.TagDTO;
@@ -25,6 +26,8 @@ import site.day.blog.utils.ResponseAPI;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
+
+import static site.day.blog.constant.OptTypeConst.*;
 
 /**
  * @Description
@@ -76,6 +79,7 @@ public class AdminArticleController {
         return ResponseAPI.success(PageResult.build(articleBackVOList));
     }
 
+    @OptLog(optType = SAVE_OR_UPDATE)
     @ApiOperation("新增或修改文章")
     @PostMapping("/articles/save")
     public ResponseAPI<?> saveArticle(
@@ -87,6 +91,7 @@ public class AdminArticleController {
         return ResponseAPI.success();
     }
 
+    @OptLog(optType = UPDATE)
     @ApiOperation("修改文章状态")
     @PostMapping("/articles/status")
     public ResponseAPI<?> updateArticleStatus(
@@ -98,6 +103,7 @@ public class AdminArticleController {
         return ResponseAPI.success();
     }
 
+    @OptLog(optType = UPLOAD)
     @ApiOperation("上传图片")
     @PostMapping("/articles/upload/image")
     public ResponseAPI<?> uploadArticleImage(
@@ -107,6 +113,7 @@ public class AdminArticleController {
         return ResponseAPI.success(url);
     }
 
+    @OptLog(optType = REMOVE)
     @ApiOperation("删除文章")
     @GetMapping("/articles/{id}/delete")
     public ResponseAPI<?> deleteArticle(
@@ -153,6 +160,7 @@ public class AdminArticleController {
         return ResponseAPI.success(PageResult.build(categoryBackVOList));
     }
 
+    @OptLog(optType = SAVE_OR_UPDATE)
     @ApiOperation("添加或修改分类")
     @PostMapping("/categories/save")
     public ResponseAPI<?> saveOrUpdateCategory(
@@ -164,6 +172,7 @@ public class AdminArticleController {
         return ResponseAPI.success();
     }
 
+    @OptLog(optType = REMOVE)
     @ApiOperation("删除分类")
     @PostMapping("/categories/delete")
     public ResponseAPI<?> deleteCategory(
@@ -187,6 +196,7 @@ public class AdminArticleController {
         return ResponseAPI.success(PageResult.build(tagBackVOList));
     }
 
+    @OptLog(optType = SAVE_OR_UPDATE)
     @ApiOperation("添加标签")
     @PostMapping("/tags/save")
     public ResponseAPI<?> saveOrUpdateTag(
@@ -198,6 +208,7 @@ public class AdminArticleController {
         return ResponseAPI.success();
     }
 
+    @OptLog(optType = REMOVE)
     @ApiOperation("删除标签")
     @PostMapping("/tags/delete")
     public ResponseAPI<?> deleteTag(

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import site.day.blog.enums.StatusCodeEnum;
 import site.day.blog.exception.BusinessException;
 import site.day.blog.mapper.ArticleTagMapper;
@@ -67,6 +68,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
         return tagDTOList;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveOrUpdateTag(TagSaveQuery query) {
         Integer tagId = tagMapper.selectOne(Wrappers.lambdaQuery(Tag.class)
@@ -79,6 +81,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
         saveOrUpdate(tag);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteTagByIds(List<Integer> idList) {
         long count = articleTagMapper.selectCount(Wrappers.lambdaQuery(ArticleTag.class)

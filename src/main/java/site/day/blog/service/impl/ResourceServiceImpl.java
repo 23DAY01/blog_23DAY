@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.transaction.annotation.Transactional;
 import site.day.blog.enums.StatusCodeEnum;
 import site.day.blog.exception.BusinessException;
 import site.day.blog.handler.securityHandler.FilterInvocationSecurityMetadataSourceImpl;
@@ -83,6 +84,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
 
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteResourceById(Integer id) {
         Long count = roleResourceMapper.selectCount(Wrappers.lambdaQuery(RoleResource.class)
@@ -99,6 +101,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
         resourceMapper.deleteBatchIds(resourceIdList);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveOrUpdateResource(ResourceSaveQuery resourceSaveQuery) {
         Resource resource = mapStruct.ResourceSaveQuery2Resource(resourceSaveQuery);

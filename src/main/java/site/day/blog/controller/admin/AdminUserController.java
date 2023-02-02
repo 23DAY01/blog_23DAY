@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import site.day.blog.annotation.OptLog;
 import site.day.blog.pojo.dto.*;
 import site.day.blog.pojo.vo.*;
 import site.day.blog.pojo.vo.query.*;
@@ -19,6 +20,8 @@ import site.day.blog.utils.ResponseAPI;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
+
+import static site.day.blog.constant.OptTypeConst.*;
 
 /**
  * @Description
@@ -73,6 +76,7 @@ public class AdminUserController {
         return ResponseAPI.success(PageResult.build(userBackVOList));
     }
 
+    @OptLog(optType = UPDATE)
     @ApiOperation("修改密码")
     @PostMapping("/users/password")
     public ResponseAPI<?> updateUserPassword(
@@ -84,6 +88,7 @@ public class AdminUserController {
         return ResponseAPI.success();
     }
 
+    @OptLog(optType = SAVE_OR_UPDATE)
     @ApiOperation("修改用户角色")
     @PostMapping("/users/role")
     public ResponseAPI<?> updateUserRole(
@@ -95,6 +100,7 @@ public class AdminUserController {
         return ResponseAPI.success();
     }
 
+    @OptLog(optType = UPDATE)
     @ApiOperation("修改用户状态")
     @GetMapping("users/status")
     public ResponseAPI<?> updateUserStatus(
@@ -115,6 +121,7 @@ public class AdminUserController {
         return ResponseAPI.success(resourceVOList);
     }
 
+    @OptLog(optType = REMOVE)
     @ApiOperation("删除资源")
     @GetMapping("/resources/{id}/delete")
     public ResponseAPI<?> deleteResource(
@@ -125,6 +132,7 @@ public class AdminUserController {
         return ResponseAPI.success();
     }
 
+    @OptLog(optType = SAVE_OR_UPDATE)
     @ApiOperation("添加资源")
     @PostMapping("/resources/save")
     public ResponseAPI<?> saveOrUpdateResource(
@@ -144,6 +152,7 @@ public class AdminUserController {
         return ResponseAPI.success(roleVOList);
     }
 
+    @OptLog(optType = SAVE_OR_UPDATE)
     @ApiOperation("添加角色")
     @PostMapping("/roles/save")
     public ResponseAPI<?> saveOrUpdateRole(

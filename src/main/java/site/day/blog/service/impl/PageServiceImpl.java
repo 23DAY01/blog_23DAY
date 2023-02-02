@@ -2,6 +2,7 @@ package site.day.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import site.day.blog.pojo.domain.Page;
 import site.day.blog.mapper.PageMapper;
 import site.day.blog.pojo.dto.PageDTO;
@@ -36,12 +37,14 @@ public class PageServiceImpl extends ServiceImpl<PageMapper, Page> implements Pa
         return mapStruct.PageList2PageDTOList(pageList);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveOrUpdatePage(PageSaveQuery pageSaveQuery) {
         Page page = mapStruct.PageSaveQuery2Page(pageSaveQuery);
         saveOrUpdate(page);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void deletePageById(Integer id) {
         pageMapper.deleteById(id);

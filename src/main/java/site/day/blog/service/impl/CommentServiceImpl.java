@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import site.day.blog.mapper.UserInfoMapper;
 import site.day.blog.pojo.domain.Comment;
 import site.day.blog.mapper.CommentMapper;
@@ -85,6 +86,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
      * @Param [site.day.blog.pojo.vo.query.CommentQuery]
      * @Return void
      **/
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveComment(CommentQuery commentQuery) {
         Comment comment = Comment.builder()

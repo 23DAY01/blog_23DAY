@@ -7,6 +7,7 @@ import lombok.SneakyThrows;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import site.day.blog.enums.LoginTypeEnum;
 import site.day.blog.enums.RoleEnum;
 import site.day.blog.enums.StatusCodeEnum;
@@ -105,6 +106,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
      * @Param [site.day.blog.pojo.vo.query.UserAuthQuery]
      * @Return void
      **/
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void register(UserAuthQuery user) {
         //检验合法性
@@ -139,6 +141,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
      * @Param [site.day.blog.pojo.vo.query.UserAuthQuery]
      * @Return void
      **/
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void updatePassword(UserAuthQuery user) {
         //检验合法性
@@ -196,6 +199,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
         return userDTOList;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateUserPassword(UserPasswordQuery userPasswordQuery) {
         UserAuth userAuth = userAuthMapper.selectOne(Wrappers.lambdaQuery(UserAuth.class)

@@ -3,6 +3,7 @@ package site.day.blog.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import site.day.blog.pojo.domain.OperationLog;
 import site.day.blog.mapper.OperationLogMapper;
 import site.day.blog.pojo.dto.OperationLogDTO;
@@ -40,6 +41,7 @@ public class OperationLogServiceImpl extends ServiceImpl<OperationLogMapper, Ope
         return mapStruct.OperationLogList2OperationLogDTOList(operationLogList);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteOperationLog(List<Integer> logIdList) {
         removeByIds(logIdList);

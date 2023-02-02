@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import site.day.blog.annotation.OptLog;
+import site.day.blog.constant.OptTypeConst;
 import site.day.blog.pojo.dto.CommentDTO;
 import site.day.blog.pojo.dto.FriendLinkDTO;
 import site.day.blog.pojo.dto.MenuDTO;
@@ -18,6 +20,8 @@ import site.day.blog.utils.ResponseAPI;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static site.day.blog.constant.OptTypeConst.*;
 
 /**
  * @Description
@@ -47,7 +51,7 @@ public class AdminFunctionController {
     @Autowired
     private MessageService messageService;
 
-
+    @OptLog(optType = UPDATE)
     @ApiOperation("审核评论")
     @PostMapping("/comments/status")
     public ResponseAPI<?> updateCommentStatus(
@@ -59,6 +63,7 @@ public class AdminFunctionController {
         return ResponseAPI.success();
     }
 
+    @OptLog(optType = REMOVE)
     @ApiOperation("删除评论")
     @PostMapping("/comments/delete")
     public ResponseAPI<?> deleteComment(
@@ -92,6 +97,7 @@ public class AdminFunctionController {
         return ResponseAPI.success(friendLinkBackVOList);
     }
 
+    @OptLog(optType = SAVE_OR_UPDATE)
     @ApiOperation("添加友链")
     @PostMapping("/links/save")
     public ResponseAPI<?> saveOrUpdateFriendLink(
@@ -103,6 +109,7 @@ public class AdminFunctionController {
         return ResponseAPI.success();
     }
 
+    @OptLog(optType = REMOVE)
     @ApiOperation("删除友链")
     @PostMapping("/links/delete")
     public ResponseAPI<?> deleteFriendLink(
@@ -127,6 +134,7 @@ public class AdminFunctionController {
         return ResponseAPI.success(PageResult.build(messageBackVOList));
     }
 
+    @OptLog(optType = UPDATE)
     @ApiOperation("审核评论")
     @PostMapping("/messages/status")
     public ResponseAPI<?> updateMessagesStatus(
@@ -138,6 +146,7 @@ public class AdminFunctionController {
         return ResponseAPI.success();
     }
 
+    @OptLog(optType = REMOVE)
     @ApiOperation("删除留言")
     @PostMapping("/messages/delete")
     public ResponseAPI<?> deleteMessage(

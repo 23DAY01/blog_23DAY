@@ -3,6 +3,7 @@ package site.day.blog.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import site.day.blog.enums.StatusCodeEnum;
 import site.day.blog.exception.BusinessException;
 import site.day.blog.mapper.ArticleMapper;
@@ -55,6 +56,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         return categoryDTOList;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveOrUpdateCategory(CategorySaveQuery query) {
         Integer categoryId = categoryMapper.selectOne(Wrappers.lambdaQuery(Category.class)
@@ -67,6 +69,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         saveOrUpdate(category);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteCategoryByIds(List<Integer> idList) {
         long count = articleMapper.selectCount(Wrappers.lambdaQuery(Article.class)
