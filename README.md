@@ -18,6 +18,7 @@
       <img src="https://img.shields.io/badge/springsecurity-2.7.4-green"/>
    </a>
 </p>
+
 ## 写在前面
 
 笔记：https://www.blog.23day.site/articles/82
@@ -43,8 +44,9 @@
 
 ## TODO
 
-- [ ] 考虑采用`MQ延时队列`实现动态的控制定时任务
+- [ ] 采用`MQ延时队列`实现动态的控制定时任务
 - [x] 对请求数据进行注入检测
+- [x] 服务器性能检测
 - [ ] 利用工具对系统进行渗透测试
 - [ ] 优化文章导入策略
 - [ ] 完善业务逻辑
