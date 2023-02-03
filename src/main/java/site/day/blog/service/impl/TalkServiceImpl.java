@@ -105,7 +105,9 @@ public class TalkServiceImpl extends ServiceImpl<TalkMapper, Talk> implements Ta
     @Cacheable(cacheNames = "talk",sync = true)
     @Override
     public TalkDTO getTalkById(Integer id) {
-        Talk talk = talkMapper.selectOne(Wrappers.lambdaQuery(Talk.class).eq(Talk::getStatus, true));
+        Talk talk = talkMapper.selectOne(Wrappers.lambdaQuery(Talk.class)
+                .eq(Talk::getStatus, true)
+                .orderByDesc(Talk::getCreateTime));
         if (Objects.isNull(talk)) throw BusinessException.withErrorCodeEnum(StatusCodeEnum.TALK_MISSING);
         TalkDTO talkDTO = mapStruct.Talk2TalkDTO(talk);
         talkDTO.setLikeCount((Integer) redisUtil.hGet(TALK_LIKE_COUNT, id.toString()));

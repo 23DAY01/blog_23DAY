@@ -50,7 +50,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     @Override
     public List<CategoryDTO> getCategories() {
         Page<Category> categoryPage = new Page<>(PageUtil.getCurrent(), PageUtil.getSize());
-        List<Category> categoryList = categoryMapper.selectPage(categoryPage, Wrappers.emptyWrapper()).getRecords();
+        List<Category> categoryList = categoryMapper.selectPage(categoryPage, Wrappers.lambdaQuery(Category.class)
+                .orderByDesc(Category::getCreateTime)).getRecords();
         //设置分页参数
         PageUtil.setTotal(categoryPage.getTotal());
         //类型转换
@@ -74,7 +75,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         saveOrUpdate(category);
     }
 
-    @CacheEvict(cacheNames = "category",allEntries = true)
+    @CacheEvict(cacheNames = "category", allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteCategoryByIds(List<Integer> idList) {

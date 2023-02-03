@@ -100,7 +100,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                         .eq(Objects.nonNull(query.getType()), Article::getType, query.getType())
                         .eq(Objects.nonNull(query.getStatus()), Article::getStatus, query.getStatus())
                         .ge(Objects.nonNull(query.getStartTime()), Article::getCreateTime, query.getStartTime())
-                        .le(Objects.nonNull(query.getEndTime()), Article::getCreateTime, query.getEndTime()))
+                        .le(Objects.nonNull(query.getEndTime()), Article::getCreateTime, query.getEndTime())
+                        .orderByDesc(Article::getCreateTime))
                 .stream().map(Article::getId).collect(Collectors.toList());
         //获取category下的articleId
         List<Integer> articleIdList2 = articleMapper.selectList(Wrappers.lambdaQuery(Article.class)
@@ -136,7 +137,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         //分页
         Page<Article> articlePage = new Page<>(PageUtil.getCurrent(), PageUtil.getSize());
         List<Article> articleList = articleMapper.selectPage(articlePage, Wrappers.lambdaQuery(Article.class)
-                .orderByDesc(Article::getIsTop)).getRecords();
+                .orderByDesc(Article::getIsTop)
+                .orderByDesc(Article::getCreateTime)).getRecords();
         //设置分页参数
         PageUtil.setTotal(articlePage.getTotal());
         //类型转换
@@ -218,7 +220,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                         .eq(Objects.nonNull(query.getStatus()), Article::getStatus, query.getStatus())
                         .eq(Objects.nonNull(query.getDeleted()), Article::getDeleted, query.getDeleted())
                         .ge(Objects.nonNull(query.getStartTime()), Article::getCreateTime, query.getStartTime())
-                        .le(Objects.nonNull(query.getEndTime()), Article::getCreateTime, query.getEndTime()))
+                        .le(Objects.nonNull(query.getEndTime()), Article::getCreateTime, query.getEndTime())
+                        .orderByDesc(Article::getCreateTime))
                 .stream().map(Article::getId).collect(Collectors.toList());
         //获取category下的articleId
         List<Integer> articleIdList2 = articleMapper.selectList(Wrappers.lambdaQuery(Article.class)
@@ -459,7 +462,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         //获取文章id后查询文章
         List<Integer> articleIdList = articleId2viewCountMap.keySet().stream().map(key -> (Integer) key).collect(Collectors.toList());
         List<Article> articleList = articleMapper.selectList(Wrappers.lambdaQuery(Article.class)
-                .in(CollectionUtils.isNotEmpty(articleIdList), Article::getId, articleIdList));
+                .in(CollectionUtils.isNotEmpty(articleIdList), Article::getId, articleIdList)
+                .orderByDesc(Article::getCreateTime));
         List<ArticleDTO> articleDTOList = mapStruct.ArticleList2ArticleDTOList(articleList);
         //为dto封装viewCount并基于viewCount排序
         articleDTOList.forEach(articleDTO -> articleDTO.setViewCount(articleId2viewCountMap.get(articleDTO.getId()).intValue()));

@@ -51,7 +51,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Autowired
     private UserInfoMapper userInfoMapper;
 
-    @Cacheable(cacheNames = "comment",sync = true)
+    @Cacheable(cacheNames = "comment", sync = true)
     @Override
     public List<CommentDTO> getComments(CommentQuery commentQuery) {
         //通过query分页查询出顶级comment
@@ -60,7 +60,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 .eq(Objects.nonNull(commentQuery.getAffiliationId()), Comment::getAffiliationId, commentQuery.getAffiliationId())
                 .eq(Objects.nonNull(commentQuery.getType()), Comment::getType, commentQuery.getType())
                 .isNull(Comment::getParentId)
-                .eq(Comment::getIsReview, true)).getRecords();
+                .eq(Comment::getIsReview, true)
+                .orderByDesc(Comment::getCreateTime)).getRecords();
         //设置分页total
         PageUtil.setTotal(commentPage.getTotal());
         //如果文章没有评论直接返回
@@ -116,12 +117,13 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         commentMapper.insert(comment);
     }
 
-    @Cacheable(cacheNames = "comment",sync = true)
+    @Cacheable(cacheNames = "comment", sync = true)
     @Override
     public List<CommentDTO> getRepliesById(Integer id) {
         Page<Comment> commentPage = new Page<>(PageUtil.getCurrent(), PageUtil.getSize());
         List<Comment> commentList = commentMapper.selectPage(commentPage, Wrappers.lambdaQuery(Comment.class)
-                .eq(Comment::getTopId, id)).getRecords();
+                .eq(Comment::getTopId, id)
+                .orderByDesc(Comment::getCreateTime)).getRecords();
         PageUtil.setTotal(commentPage.getTotal());
         List<CommentDTO> commentDTOList = mapStruct.CommentList2CommentDTOList(commentList);
         addLikeCount(commentDTOList);
@@ -155,7 +157,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         updateBatchById(commentList);
     }
 
-    @CacheEvict(cacheNames = "comment",allEntries = true)
+    @CacheEvict(cacheNames = "comment", allEntries = true)
     @Override
     public void deleteCommentByIds(CommentStatusQuery commentStatusQuery) {
         removeBatchByIds(commentStatusQuery.getIdList());
