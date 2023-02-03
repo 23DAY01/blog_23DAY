@@ -15,7 +15,7 @@ spring:
       #基本属性
       username: root
       password: 123456
-      url: jdbc:mysql://day_mysql:3306/day_template?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      url: jdbc:mysql://day_mysql:3306/day_blog?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&allowPublicKeyRetrieval=true
       driver-class-name: com.mysql.cj.jdbc.Driver
       #配置初始化大小/最小/最大
       initial-size: 1
