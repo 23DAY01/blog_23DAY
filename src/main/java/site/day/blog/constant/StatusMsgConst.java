@@ -55,6 +55,9 @@ public interface StatusMsgConst {
     String API_REPEAT_SUBMIT = "重复提交";
     String API_ACCESS_METHOD_ERROR = "接口访问方法错误";
 
+    //安全过滤
+    String SECURITY_CHECK_XSSorSQL = "检测到xss或sql注入";
+
     // 文章错误
     String ARTICLE_MISSING = "文章不存在";
 

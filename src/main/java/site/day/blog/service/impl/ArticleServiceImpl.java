@@ -82,13 +82,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Autowired
     private UploadStrategyContext uploadStrategyContext;
 
-    /**
-     * @Description 通过条件获取文章
-     * @Author 23DAY
-     * @Date 2023/1/25 14:01
-     * @Param [site.day.blog.pojo.vo.query.ArticleConditionQuery]
-     * @Return java.util.List<site.day.blog.pojo.dto.ArticleDTO>
-     **/
     @Cacheable(cacheNames = "article", sync = true)
     @Override
     public List<ArticleDTO> getArticlesByCondition(ArticleConditionQuery query) {
@@ -124,13 +117,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return articleDTOList;
     }
 
-    /**
-     * @Description 获取文章归档
-     * @Author 23DAY
-     * @Date 2023/1/26 1:45
-     * @Param [site.day.blog.pojo.vo.query.PageQuery]
-     * @Return java.util.List<site.day.blog.pojo.dto.ArticleDTO>
-     **/
     @Cacheable(cacheNames = "article", sync = true)
     @Override
     public List<ArticleDTO> getArticles() {
@@ -200,13 +186,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return articleDTOList.get(0);
     }
 
-    /**
-     * @Description 查看后台文章
-     * @Author 23DAY
-     * @Date 2023/1/29 15:20
-     * @Param [site.day.blog.pojo.vo.query.ArticleConditionQuery]
-     * @Return java.util.List<site.day.blog.pojo.dto.ArticleDTO>
-     **/
     @Cacheable(cacheNames = "article", sync = true)
     @Override
     public List<ArticleDTO> getBackArticles(ArticleConditionQuery query) {
@@ -244,13 +223,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return articleDTOList;
     }
 
-    /**
-     * @Description 添加或修改文章
-     * @Author 23DAY
-     * @Date 2023/1/29 18:03
-     * @Param [site.day.blog.pojo.vo.query.ArticleSaveQuery]
-     * @Return void
-     **/
     @CachePut(cacheNames = "article")
     @Transactional(rollbackFor = Exception.class)
     @Override

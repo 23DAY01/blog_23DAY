@@ -107,7 +107,6 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 
     @Override
     public void updateUserRole(UserRoleQuery query) {
-        UserInfo userInfo = UserInfo.builder().id(query.getUserInfoId()).build();
         //删除旧关系
         userRoleMapper.delete(Wrappers.lambdaQuery(UserRole.class)
                 .eq(UserRole::getUserId, query.getUserInfoId()));

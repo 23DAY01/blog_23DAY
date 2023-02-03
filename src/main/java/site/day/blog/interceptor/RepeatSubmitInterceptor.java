@@ -7,7 +7,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import site.day.blog.annotation.RepeatSubmit;
 import site.day.blog.constant.RedisConst;
 import site.day.blog.enums.StatusCodeEnum;
-import site.day.blog.filter.BodyReaderRequestWrapper;
+import site.day.blog.filter.wrapper.BodyReaderRequestWrapper;
 import site.day.blog.utils.*;
 
 import javax.servlet.http.HttpServletRequest;

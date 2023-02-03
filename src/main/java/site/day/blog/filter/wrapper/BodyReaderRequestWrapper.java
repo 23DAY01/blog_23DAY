@@ -1,4 +1,4 @@
-package site.day.blog.filter;
+package site.day.blog.filter.wrapper;
 
 import site.day.blog.constant.WebConst;
 import site.day.blog.utils.WebUtil;

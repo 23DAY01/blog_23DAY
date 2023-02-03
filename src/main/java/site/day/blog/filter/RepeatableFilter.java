@@ -4,6 +4,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import site.day.blog.constant.WebConst;
+import site.day.blog.filter.wrapper.BodyReaderRequestWrapper;
 import site.day.blog.utils.StringUtil;
 
 import javax.servlet.FilterChain;

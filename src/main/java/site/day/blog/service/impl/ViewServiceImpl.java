@@ -36,7 +36,8 @@ public class ViewServiceImpl extends ServiceImpl<ViewMapper, View> implements Vi
         Date endTime = DateUtil.endOfDay(DateUtil.getNow());
         List<View> viewList = viewMapper.selectList(Wrappers.lambdaQuery(View.class)
                 .ge(View::getCreateTime, startTime)
-                .le(View::getCreateTime, endTime));
+                .le(View::getCreateTime, endTime)
+                .orderByDesc(View::getCreateTime));
         return mapStruct.ViewList2ViewDTOList(viewList);
     }
 }
