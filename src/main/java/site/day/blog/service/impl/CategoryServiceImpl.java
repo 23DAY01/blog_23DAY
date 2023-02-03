@@ -3,6 +3,9 @@ package site.day.blog.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 import site.day.blog.enums.StatusCodeEnum;
 import site.day.blog.exception.BusinessException;
@@ -43,6 +46,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     private ArticleMapper articleMapper;
 
 
+    @Cacheable(cacheNames = "category", sync = true)
     @Override
     public List<CategoryDTO> getCategories() {
         Page<Category> categoryPage = new Page<>(PageUtil.getCurrent(), PageUtil.getSize());
@@ -56,6 +60,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         return categoryDTOList;
     }
 
+    @CachePut(cacheNames = "category")
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveOrUpdateCategory(CategorySaveQuery query) {
@@ -69,6 +74,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         saveOrUpdate(category);
     }
 
+    @CacheEvict(cacheNames = "category",allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteCategoryByIds(List<Integer> idList) {
@@ -106,6 +112,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
      * @Param [java.lang.String]
      * @Return site.day.blog.pojo.domain.Category
      **/
+    @CachePut(cacheNames = "category")
     public Integer saveArticleCategory(String categoryName) {
         Category category = categoryMapper.selectOne(Wrappers.lambdaQuery(Category.class)
                 .eq(Category::getCategoryName, categoryName));

@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 import site.day.blog.mapper.UserInfoMapper;
 import site.day.blog.pojo.domain.Comment;
@@ -48,6 +51,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Autowired
     private UserInfoMapper userInfoMapper;
 
+    @Cacheable(cacheNames = "comment",sync = true)
     @Override
     public List<CommentDTO> getComments(CommentQuery commentQuery) {
         //通过query分页查询出顶级comment
@@ -86,6 +90,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
      * @Param [site.day.blog.pojo.vo.query.CommentQuery]
      * @Return void
      **/
+    @CachePut(cacheNames = "comment")
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveComment(CommentQuery commentQuery) {
@@ -111,6 +116,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         commentMapper.insert(comment);
     }
 
+    @Cacheable(cacheNames = "comment",sync = true)
     @Override
     public List<CommentDTO> getRepliesById(Integer id) {
         Page<Comment> commentPage = new Page<>(PageUtil.getCurrent(), PageUtil.getSize());
@@ -138,6 +144,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         }
     }
 
+    @CachePut(cacheNames = "comment")
     @Override
     public void updateCommentStatus(CommentStatusQuery query) {
         List<Comment> commentList = query.getIdList().stream().map(id -> Comment.builder()
@@ -148,6 +155,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         updateBatchById(commentList);
     }
 
+    @CacheEvict(cacheNames = "comment",allEntries = true)
     @Override
     public void deleteCommentByIds(CommentStatusQuery commentStatusQuery) {
         removeBatchByIds(commentStatusQuery.getIdList());

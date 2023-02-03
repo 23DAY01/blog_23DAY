@@ -2,6 +2,9 @@ package site.day.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 import site.day.blog.pojo.domain.FriendLink;
 import site.day.blog.mapper.FriendLinkMapper;
@@ -30,12 +33,14 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
     @Autowired
     private MapStruct mapStruct;
 
+    @Cacheable(cacheNames = "friendLink",sync = true)
     @Override
     public List<FriendLinkDTO> getFriendLinks() {
         List<FriendLink> friendLinkList = friendLinkMapper.selectList(Wrappers.emptyWrapper());
         return mapStruct.FriendLinkList2FriendLinkDTOList(friendLinkList);
     }
 
+    @CachePut(cacheNames = "friendLink")
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveOrUpdateFriendLink(FriendLinkSaveQuery friendLinkSaveQuery) {
@@ -43,6 +48,7 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, FriendL
         saveOrUpdate(friendLink);
     }
 
+    @CacheEvict(cacheNames = "friendLink",allEntries = true)
     @Override
     public void deleteFriendLink(List<Integer> linkIdList) {
         removeByIds(linkIdList);

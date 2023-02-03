@@ -2,6 +2,9 @@ package site.day.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 import site.day.blog.pojo.domain.Page;
 import site.day.blog.mapper.PageMapper;
@@ -31,12 +34,14 @@ public class PageServiceImpl extends ServiceImpl<PageMapper, Page> implements Pa
     @Autowired
     private MapStruct mapStruct;
 
+    @Cacheable(cacheNames = "page",sync = true)
     @Override
     public List<PageDTO> getPages() {
         List<Page> pageList = pageMapper.selectList(Wrappers.emptyWrapper());
         return mapStruct.PageList2PageDTOList(pageList);
     }
 
+    @CachePut(cacheNames = "page")
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveOrUpdatePage(PageSaveQuery pageSaveQuery) {
@@ -44,6 +49,7 @@ public class PageServiceImpl extends ServiceImpl<PageMapper, Page> implements Pa
         saveOrUpdate(page);
     }
 
+    @CacheEvict(cacheNames = "page",allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void deletePageById(Integer id) {

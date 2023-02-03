@@ -3,6 +3,7 @@ package site.day.blog.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import site.day.blog.enums.StatusCodeEnum;
 import site.day.blog.exception.BusinessException;
 import site.day.blog.mapper.UserInfoMapper;
@@ -52,6 +53,7 @@ public class TalkServiceImpl extends ServiceImpl<TalkMapper, Talk> implements Ta
      * @Param []
      * @Return java.util.List<site.day.blog.pojo.dto.TalkDTO>
      **/
+    @Cacheable(cacheNames = "talk",sync = true)
     @Override
     public List<TalkDTO> getTalks() {
         Page<Talk> talkPage = new Page<>(PageUtil.getCurrent(), PageUtil.getSize());
@@ -81,6 +83,7 @@ public class TalkServiceImpl extends ServiceImpl<TalkMapper, Talk> implements Ta
      * @Param []
      * @Return java.util.List<java.lang.String>
      **/
+    @Cacheable(cacheNames = "talk",sync = true)
     @Override
     public List<String> getHomeTalkContent() {
         return talkMapper.selectList(Wrappers.lambdaQuery(Talk.class)
@@ -99,6 +102,7 @@ public class TalkServiceImpl extends ServiceImpl<TalkMapper, Talk> implements Ta
      * @Param [java.lang.Integer]
      * @Return site.day.blog.pojo.dto.TalkDTO
      **/
+    @Cacheable(cacheNames = "talk",sync = true)
     @Override
     public TalkDTO getTalkById(Integer id) {
         Talk talk = talkMapper.selectOne(Wrappers.lambdaQuery(Talk.class).eq(Talk::getStatus, true));

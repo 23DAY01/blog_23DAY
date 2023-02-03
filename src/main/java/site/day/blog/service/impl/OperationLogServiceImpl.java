@@ -3,6 +3,8 @@ package site.day.blog.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 import site.day.blog.pojo.domain.OperationLog;
 import site.day.blog.mapper.OperationLogMapper;
@@ -32,6 +34,14 @@ public class OperationLogServiceImpl extends ServiceImpl<OperationLogMapper, Ope
     @Autowired
     private MapStruct mapStruct;
 
+    /**
+     * @Description 获取操作日志
+     * @Author 23DAY
+     * @Date 2023/2/3 10:21
+     * @Param []
+     * @Return java.util.List<site.day.blog.pojo.dto.OperationLogDTO>
+     **/
+    @Cacheable(cacheNames = "operationLog", sync = true)
     @Override
     public List<OperationLogDTO> getOperationLogs() {
         Page<OperationLog> operationLogPage = new Page<>(PageUtil.getCurrent(), PageUtil.getSize());
@@ -41,6 +51,14 @@ public class OperationLogServiceImpl extends ServiceImpl<OperationLogMapper, Ope
         return mapStruct.OperationLogList2OperationLogDTOList(operationLogList);
     }
 
+    /**
+     * @Description 删除操作日志
+     * @Author 23DAY
+     * @Date 2023/2/3 10:29
+     * @Param [java.util.List<java.lang.Integer>]
+     * @Return void
+     **/
+    @CacheEvict(cacheNames = "operationLog", allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteOperationLog(List<Integer> logIdList) {

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.SneakyThrows;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import site.day.blog.enums.LoginTypeEnum;
@@ -178,6 +179,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthMapper, UserAuth> i
         return userAreaDTOList;
     }
 
+    @Cacheable(cacheNames = "user")
     @Override
     public List<UserDTO> getBackUser(Integer type) {
         //获取userAuth

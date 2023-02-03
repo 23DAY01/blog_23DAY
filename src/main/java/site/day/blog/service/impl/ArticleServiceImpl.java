@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import site.day.blog.enums.FileExtEnum;
@@ -86,6 +89,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * @Param [site.day.blog.pojo.vo.query.ArticleConditionQuery]
      * @Return java.util.List<site.day.blog.pojo.dto.ArticleDTO>
      **/
+    @Cacheable(cacheNames = "article", sync = true)
     @Override
     public List<ArticleDTO> getArticlesByCondition(ArticleConditionQuery query) {
         //分页
@@ -126,6 +130,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * @Param [site.day.blog.pojo.vo.query.PageQuery]
      * @Return java.util.List<site.day.blog.pojo.dto.ArticleDTO>
      **/
+    @Cacheable(cacheNames = "article", sync = true)
     @Override
     public List<ArticleDTO> getArticles() {
         //分页
@@ -155,6 +160,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         }
     }
 
+    @Cacheable(cacheNames = "article", sync = true)
     @Override
     public ArticleDTO getArticleById(Integer id) {
         //异步查询推荐文章
@@ -199,6 +205,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * @Param [site.day.blog.pojo.vo.query.ArticleConditionQuery]
      * @Return java.util.List<site.day.blog.pojo.dto.ArticleDTO>
      **/
+    @Cacheable(cacheNames = "article", sync = true)
     @Override
     public List<ArticleDTO> getBackArticles(ArticleConditionQuery query) {
         //分页
@@ -241,6 +248,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * @Param [site.day.blog.pojo.vo.query.ArticleSaveQuery]
      * @Return void
      **/
+    @CachePut(cacheNames = "article")
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveOrUpdateArticle(ArticleSaveQuery articleSaveQuery) {
@@ -255,12 +263,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         tagService.saveArticleTag(article.getId(), articleSaveQuery.getTagNameList());
     }
 
+    @CachePut(cacheNames = "article")
     @Override
     public void updateArticleStatus(ArticleStatusQuery articleStatusQuery) {
         Article article = mapStruct.ArticleStatusQuery2Article(articleStatusQuery);
         articleMapper.updateById(article);
     }
 
+    @CacheEvict(cacheNames = "article", allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteArticle(Integer id) {
@@ -268,6 +278,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         articleMapper.deleteById(id);
     }
 
+    @Cacheable(cacheNames = "article", sync = true)
     @Override
     public ArticleDTO getBackArticleById(Integer id) {
         Article article = articleMapper.selectById(id);
@@ -323,6 +334,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * @Param [java.lang.Integer]
      * @Return java.util.List<site.day.blog.pojo.dto.ArticleDTO>
      **/
+    @Cacheable(cacheNames = "article", sync = true)
     public List<ArticleDTO> getRecommendArticles(Integer id) {
         //获取该文章的所有标签id 获取标签下的所有文章
         List<Integer> tagIdList = articleTagMapper.selectList(Wrappers.lambdaQuery(ArticleTag.class).eq(ArticleTag::getArticleId, id))
@@ -347,6 +359,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * @Param []
      * @Return java.util.List<site.day.blog.pojo.dto.ArticleDTO>
      **/
+    @Cacheable(cacheNames = "article", sync = true)
     public List<ArticleDTO> getNewestArticles() {
         List<Article> articleList = articleMapper.selectList(Wrappers.lambdaQuery(Article.class)
                 .eq(Article::getStatus, STATUS_PUBLIC)
@@ -439,6 +452,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
      * @Param [java.lang.Integer]
      * @Return java.util.List<site.day.blog.pojo.dto.ArticleDTO>
      **/
+    @Cacheable(cacheNames = "article", sync = true)
     public List<ArticleDTO> getArticleRank(Integer rankCount) {
         //redis中获取前rankCount的的文章
         Map<Object, Double> articleId2viewCountMap = redisUtil.zReverseRangeWithScore(ARTICLE_VIEW_COUNT, 0, rankCount - 1);

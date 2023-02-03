@@ -3,6 +3,9 @@ package site.day.blog.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.sun.xml.internal.ws.api.model.MEP;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 import site.day.blog.enums.StatusCodeEnum;
 import site.day.blog.exception.BusinessException;
@@ -43,6 +46,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
     @Autowired
     private RoleMenuMapper roleMenuMapper;
 
+    @Cacheable(cacheNames = "menu", sync = true)
     @Override
     public List<MenuDTO> getMenus() {
         //查询所有菜单
@@ -66,6 +70,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         return menuDTOList;
     }
 
+    @CachePut(cacheNames = "menu")
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveOrUpdateMenu(MenuSaveQuery menuSaveQuery) {
@@ -73,6 +78,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements Me
         saveOrUpdate(menu);
     }
 
+    @CacheEvict(cacheNames = "menu",allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteMenuById(Integer id) {

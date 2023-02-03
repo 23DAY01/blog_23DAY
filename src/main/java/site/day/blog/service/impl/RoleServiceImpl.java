@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 import site.day.blog.mapper.RoleMenuMapper;
 import site.day.blog.mapper.RoleResourceMapper;
@@ -65,6 +67,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         return mapStruct.RoleList2RoleDTOList(roleList);
     }
 
+    @Cacheable(cacheNames = "role",sync = true)
     @Override
     public List<RoleDTO> listRoles() {
         List<Role> roleList = roleMapper.selectList(Wrappers.emptyWrapper());
@@ -82,6 +85,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         return roleDTOList;
     }
 
+    @CachePut(cacheNames = "role")
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveOrUpdateRole(RoleSaveQuery roleSaveQuery) {

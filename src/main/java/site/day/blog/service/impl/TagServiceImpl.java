@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.day.blog.enums.StatusCodeEnum;
@@ -48,6 +51,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     private ArticleTagServiceImpl articleTagService;
 
 
+    @Cacheable(cacheNames = "tag", sync = true)
     @Override
     public List<TagDTO> getTags() {
         List<Tag> tagList = tagMapper.selectList(Wrappers.lambdaQuery(Tag.class)
@@ -55,6 +59,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
         return mapStruct.tagList2tagDTOList(tagList);
     }
 
+    @Cacheable(cacheNames = "tag", sync = true)
     @Override
     public List<TagDTO> getBackTags() {
         Page<Tag> tagPage = new Page<>(PageUtil.getCurrent(), PageUtil.getSize());
@@ -68,6 +73,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
         return tagDTOList;
     }
 
+    @CachePut(cacheNames = "tag")
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveOrUpdateTag(TagSaveQuery query) {
@@ -81,6 +87,7 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
         saveOrUpdate(tag);
     }
 
+    @CacheEvict(cacheNames = "tag", allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteTagByIds(List<Integer> idList) {

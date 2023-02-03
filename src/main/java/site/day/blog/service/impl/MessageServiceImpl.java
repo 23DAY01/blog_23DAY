@@ -3,6 +3,9 @@ package site.day.blog.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 import site.day.blog.pojo.domain.Message;
 import site.day.blog.mapper.MessageMapper;
@@ -48,6 +51,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
      * @Param [site.day.blog.pojo.vo.query.MessageQuery]
      * @Return void
      **/
+    @CachePut(cacheNames = "message")
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveMessage(MessageSaveQuery messageSaveQuery) {
@@ -72,6 +76,7 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
      * @Param []
      * @Return java.util.List<site.day.blog.pojo.dto.MessageDTO>
      **/
+    @Cacheable(cacheNames = "message", sync = true)
     @Override
     public List<MessageDTO> getMessages() {
         List<Message> messageList = messageMapper.selectList(Wrappers.lambdaQuery(Message.class)
@@ -80,6 +85,14 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
         return mapStruct.MessageList2MessageDTOList(messageList);
     }
 
+    /**
+     * @Description 获取后台留言
+     * @Author 23DAY
+     * @Date 2023/2/3 10:17
+     * @Param [java.lang.Boolean]
+     * @Return java.util.List<site.day.blog.pojo.dto.MessageDTO>
+     **/
+    @Cacheable(cacheNames = "message", sync = true)
     @Override
     public List<MessageDTO> getBackMessages(Boolean isReview) {
         Page<Message> messagePage = new Page<>(PageUtil.getCurrent(), PageUtil.getSize());
@@ -90,6 +103,14 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
         return mapStruct.MessageList2MessageDTOList(messageList);
     }
 
+    /**
+     * @Description 更新留言信息-审核
+     * @Author 23DAY
+     * @Date 2023/2/3 10:17
+     * @Param [site.day.blog.pojo.vo.query.MessageStatusQuery]
+     * @Return void
+     **/
+    @CachePut(cacheNames = "message")
     @Override
     public void updateMessagesStatus(MessageStatusQuery query) {
         List<Message> messageList = query.getIdList().stream().map(id -> Message.builder()
@@ -100,6 +121,14 @@ public class MessageServiceImpl extends ServiceImpl<MessageMapper, Message> impl
         updateBatchById(messageList);
     }
 
+    /**
+     * @Description 根据id删除留言
+     * @Author 23DAY
+     * @Date 2023/2/3 10:20
+     * @Param [java.util.List<java.lang.Integer>]
+     * @Return void
+     **/
+    @CacheEvict(cacheNames = "message", allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteMessageByIds(List<Integer> messageIdList) {

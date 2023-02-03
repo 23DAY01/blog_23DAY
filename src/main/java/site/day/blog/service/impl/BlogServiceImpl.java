@@ -5,6 +5,8 @@ import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.OperatingSystem;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import site.day.blog.enums.FilePathEnum;
@@ -75,6 +77,7 @@ public class BlogServiceImpl implements BlogService {
     @Autowired
     private UploadStrategyContext uploadStrategyContext;
 
+    @Cacheable(cacheNames = "blogInfo", sync = true)
     @Override
     public BlogInfoDTO getBlogInfo() {
         //查询文章数量
@@ -147,6 +150,7 @@ public class BlogServiceImpl implements BlogService {
         return uploadStrategyContext.executeUploadStrategy(file, FilePathEnum.BLOG.getPath());
     }
 
+    @CachePut(cacheNames = "blogInfo")
     @Override
     public void updateWebsiteConfig(WebsiteConfigQuery websiteConfigQuery) {
         WebsiteConfig websiteConfig = mapStruct.WebsiteConfigQuery2WebsiteConfig(websiteConfigQuery);
@@ -154,6 +158,7 @@ public class BlogServiceImpl implements BlogService {
         websiteConfigMapper.updateById(websiteConfig);
     }
 
+    @Cacheable(cacheNames = "blogInfo", sync = true)
     @Override
     public WebsiteConfigDTO getWebsiteConfig() {
         WebsiteConfig websiteConfig = websiteConfigMapper.selectById(DEFAULT_WEBSITE_CONFIG_ID);

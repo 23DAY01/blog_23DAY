@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.transaction.annotation.Transactional;
 import site.day.blog.enums.StatusCodeEnum;
@@ -59,6 +62,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
         return list(wrapper);
     }
 
+    @Cacheable(cacheNames = "resource", sync = true)
     @Override
     public List<ResourceDTO> getResources() {
         List<Resource> resourceList = resourceMapper.selectList(Wrappers.lambdaQuery(Resource.class)
@@ -84,6 +88,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
 
     }
 
+    @CacheEvict(cacheNames = "resource", allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteResourceById(Integer id) {
@@ -101,6 +106,7 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> i
         resourceMapper.deleteBatchIds(resourceIdList);
     }
 
+    @CachePut(cacheNames = "resource")
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void saveOrUpdateResource(ResourceSaveQuery resourceSaveQuery) {
