@@ -51,6 +51,7 @@
 - [ ] 优化文章导入策略
 - [ ] 完善业务逻辑
 - [ ] 加入Elasticsearch
+- [ ] 容灾备份
 
 ## 目录结构
 
@@ -65,11 +66,11 @@ site.day.template
 ├── enums         			    --  枚举模块
 ├── exception     			    --  自定义异常模块
 ├── filter     			            --  过滤器模块
-│       └── wrapper                         -- 增强器
+│       └── wrapper                         --  增强器
 ├── handler       			    --  处理器模块
 │       └── securityHandler                 --  springSecurity拓展处理器
 ├── intercept       			    --  拦截器模块
-├── listener                                -- 监听器
+├── listener                                --  监听器
 ├── mapper       			    --  数据库操作模块
 ├── pojo       			            --  实体类模块
 │       └── domain                 
