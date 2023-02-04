@@ -29,6 +29,10 @@
 
 本篇中对于springSecurity的拓展有点繁琐，建议大家读一下springSecurity的源码或者自己debug一下它的处理流程再尝试自己拓展，否则会出现各种bug。
 
+笔记概览：
+
+<img src="https://blog-23day.oss-cn-hangzhou.aliyuncs.com/articles/1b2f324c90037413515d5b8b2d9622f0.png" alt="image.png" style="zoom: 67%;" />
+
 ## 技术栈
 - springBoot
 - docker-compose
