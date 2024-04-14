@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
@@ -273,6 +274,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 //                session配置
                 .sessionManagement()
+                //springsecurity创建session的策略
+                //SessionCreationPolicy.ALWAYS：Spring Security将总是确保至少创建一个会话。
+                //SessionCreationPolicy.IF_REQUIRED：仅在需要时创建会话（默认）。
+                //SessionCreationPolicy.NEVER：Spring Security将不主动创建会话，但如果已经存在会话，则会使用它。
+                //SessionCreationPolicy.STATELESS：Spring Security将绝对不会创建会话。
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 //none: 该策略对会话不做任何变动，登录之后会沿用旧的session;
                 //newSession: 用户登录后会创建一个新的session；
                 //migrateSession: 默认策略，用户登录后创建一个新的session，并将旧session中的数据复制过来；

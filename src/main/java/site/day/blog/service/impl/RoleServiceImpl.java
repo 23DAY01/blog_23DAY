@@ -24,6 +24,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import site.day.blog.utils.MapStruct;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -62,8 +63,12 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
                 .stream().map(UserRole::getRoleId).collect(Collectors.toSet());
 
 //        根据roleId查询role 提取roleLabel
-        List<Role> roleList = list(Wrappers.lambdaQuery(Role.class)
-                .in(CollectionUtils.isNotEmpty(roleIds), Role::getId, roleIds));
+        List<Role> roleList;
+        if (CollectionUtils.isNotEmpty(roleIds)) {
+            roleList = list(Wrappers.lambdaQuery(Role.class).in(Role::getId, roleIds));
+        } else {
+            roleList = Collections.emptyList();
+        }
         return mapStruct.RoleList2RoleDTOList(roleList);
     }
 
